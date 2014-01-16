@@ -3,8 +3,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	_baseCamp: [],
 	_itemPopCount: 0,
 	_twigPopCount: 0,
-
-	
 	init: function() {
 		var that = this;
 		var size = cc.Director.getInstance().getWinSize();
@@ -21,30 +19,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
             , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
             , b2World = Box2D.Dynamics.b2World
             , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
-            
-            
-            
-            
-            //ContactFilter.b2ContactFilter = function () {};
-            
-            var ContactFilter = new Box2D.Dynamics.b2ContactFilter;
-    		ContactFilter.ShouldCollide = function(fixtureA, fixtureB) {
-		        var filter1 = fixtureA.GetFilterData();
-		        var filter2 = fixtureB.GetFilterData();
-		        if (filter1.groupIndex == filter2.groupIndex && filter1.groupIndex != 0) {
-		            return filter1.groupIndex > 0;
-		        }
-		        var collide = (filter1.maskBits & filter2.categoryBits) != 0 && (filter1.categoryBits & filter2.maskBits) != 0;
-		        if((filter1.maskBits & filter2.categoryBits) != 0 
-		        && (filter1.categoryBits & filter2.maskBits) != 0)
-		        {
-		        	console.log("hello");
-		        	
-		        }
-		        
-		        //return collide;
-		        console.log("hello");
-		    };
 
         //ContactListener
         var contactListener = new Box2D.Dynamics.b2ContactListener;
@@ -58,7 +32,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	        			var beaver = contact.GetFixtureA().GetBody().GetUserData();
 	        			var baseCamp = contact.GetFixtureB().GetBody().GetUserData();
 	        			
-	        			console.log("Base camp " + baseCamp._id + " is crashed !" );
+	        			console.log("Base camp " + baseCamp._BaseCampID + " is crashed !" );
 	        		}
 	        		else(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
 	        		{
@@ -88,7 +62,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			       	}
 		       	}
 			}
-			
 	    };
 	    contactListener.EndContact = function(contact) {};
 	    contactListener.PostSolve = function(contact, impulse) {};

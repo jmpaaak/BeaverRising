@@ -57,11 +57,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.friction = 0;
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
-        
-        
-        var filter = new b2FilterData();
 
-        
+        var filter = new b2FilterData();
         
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);

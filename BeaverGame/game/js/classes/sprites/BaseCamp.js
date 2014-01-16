@@ -1,10 +1,9 @@
 classes.sprites.BaseCamp = cc.Sprite.extend({
 	name : "Home",
 	_id : 0,
-	 _vector: new Box2D.Common.Math.b2Vec2(),
+	_vector: new Box2D.Common.Math.b2Vec2(),
 	_body : null,
 	_categoryPlayer : null,
-	
 	ctor: function (layer, p, id) {
         this._super();
         this._id = id;
@@ -14,8 +13,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.addBaseCampWithType(layer.world, p);
         layer.addChild(this, 0); //z: 0
     },
-	
-	addBaseCampWithType : function (world, p){
+	addBaseCampWithType : function (world, p) {
 		var tex = this;
         tex.setPosition(p.x, p.y);
 
@@ -35,7 +33,6 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 
         // Define another box shape for our dynamic body.
         var dynamicCircle = new b2CircleShape(4);
-        dynamicCircle.SetLocalPosition(this._vector);
 
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();
@@ -44,20 +41,16 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         fixtureDef.friction = 0;
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
-        
-        
+                
         var filter = new b2FilterData();
-        
-        
+
         body.CreateFixture(fixtureDef);
         
         this._body = body;
 	},
-	
 	filterGroup: function(){
     	_categoryPlayer = Math.pow(2, this._id);
     	console.log("the category is " + this._id + "-" + _categoryPlayer);
     	console.log("the ~ category is " + this._id + "-" + (~(_categoryPlayer)));
     }
-    
 });

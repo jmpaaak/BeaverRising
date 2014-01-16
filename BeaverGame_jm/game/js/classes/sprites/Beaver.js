@@ -13,6 +13,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _twigs:[],
     _showTwigsLock: false,
     _curLayer: null,
+    _savedPos: {x:0, y:0},
+    _oldPos: {x:0, y:0},
+    
+    //count
+    count: {
+    	posSetCount: 0,
+    },
     ctor: function (layer, p, id) {
         this._super();
         this._id = id;
@@ -62,7 +69,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.friction = 0;
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
-        
+
         this._body = body;
     },
     slow: function () {
@@ -75,9 +82,27 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		}, this)
     	));
     },
+    saveCurPos: function (p) {
+    	this._savedPos = p;
+    },
+    getSavedPos: function () {
+    	return this._savedPos;
+    },
+    setOldPos: function (p) {
+    	this._oldPos = p;
+    },
+    getOldPos: function () {
+    	return this._oldPos;
+    },
     update: function () {
     	if(this._startFlag)
-        	this._move(), this._showTwigs();
+    	{
+    		for (var i in this._twigs) 
+				this._twigs[i].update();
+			
+        	this._move();
+        	this._showTwigs();
+        }
         else this._body.SetActive(false);
         
         if (this._leftKeyDown || this._rightKeyDown)
@@ -89,6 +114,22 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this._turn();
         }
+        
+        //counter proc
+        if(this.count.posSetCount == 1)
+        {
+        	//this.saveCurPos(this._body.GetPosition()); // GetPosition is tracing!! always updating!!!!
+        	this.saveCurPos(cc.p(this._body.GetPosition().x, this._body.GetPosition().y));
+        }
+        if(this.count.posSetCount == 10)
+        {
+        	this.setOldPos(this.getSavedPos());
+        	this.count.posSetCount = 0;
+        }
+        	
+        //count
+        for(var prop in this.count)
+        	this.count[prop]++;
     },
     handleKeyDown: function (e) {
         if (!this._leftKeyDown || !this._rightKeyDown) {
@@ -120,61 +161,25 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body.SetActive(true);
         //this._body.SetAwake(true);
     },
-    _showTwigs: function () {
-    	
-    	// var joint_def = new Box2D.Dynamics.Joints.b2DistanceJointDef();
-		    // joint_def.frequencyHz = 0;
-//     	
-    	// if(this._twigs.length === 1)
-    	// {
-			// joint_def.bodyA = this._body;
-			// joint_def.localAnchorA = new Box2D.Common.Math.b2Vec2(0, 0); 
-    	// }
-    	// else
-    	// {
-    		// joint_def.bodyA = this._twigs[this._twigs.length-2].getBody();
-		    // joint_def.localAnchorA = new Box2D.Common.Math.b2Vec2(0, 0);
-    	// }
-//     	
-    	// var x = joint_def.bodyA.GetPosition().x * PTM_RATIO;        
-		// var y = joint_def.bodyA.GetPosition().y * PTM_RATIO;
-		// var newTwig = new classes.sprites.Twig(this._curLayer, cc.p(x, y), this._twigs[this._twigs.length-1].getType());
-// 		
-		// joint_def.bodyB = newTwig.getBody();
-		// joint_def.localAnchorB = new Box2D.Common.Math.b2Vec2(0, 0);
-		// this._twigs[this._twigs.length-1] = newTwig;
-// 		
-		// this._curLayer.world.CreateJoint(joint_def);
-		// this._twigs[this._twigs.length-1].setIsStuck(true);
-		// this._curLayer.addChild(this._twigs[this._twigs.length-1]);
-		
+    _showTwigs: function () {	
 		for (var i in this._twigs) {
+			
+			if (i == 0)
+				var twigOrThis = this;
+			else
+				var twigOrThis = this._twigs[i - 1];
+			
 			if (!this._twigs[i].getIsStuck()) {
 				this._twigs[i].setIsStuck(true);
-				console.log(i);
-				var joint_def = new Box2D.Dynamics.Joints.b2DistanceJointDef();
-				joint_def.frequencyHz = 0;
-
-				if (i == 0) {
-					joint_def.bodyA = this._body;
-					joint_def.localAnchorA = new Box2D.Common.Math.b2Vec2(0, 0);
-				} else {
-					joint_def.bodyA = this._twigs[i - 1].getBody();
-					joint_def.localAnchorA = new Box2D.Common.Math.b2Vec2(0, 0);
-				}
-
-				var x = joint_def.bodyA.GetPosition().x * PTM_RATIO;
-				var y = joint_def.bodyA.GetPosition().y * PTM_RATIO;
-				var newTwig = new classes.sprites.Twig(this._curLayer, cc.p(x, y), this._twigs[i].getType());
-				newTwig.setIsStuck(true);
+				var newTwig = new classes.sprites.Twig(this._curLayer, cc.p( twigOrThis.getOldPos() ), this._twigs[i].getType(), true);
 				this._twigs[i] = newTwig;
-				joint_def.bodyB = this._twigs[i].getBody();
-				joint_def.localAnchorB = new Box2D.Common.Math.b2Vec2(0, 0);
-
-				this._curLayer.world.CreateJoint(joint_def);
+				console.log("new twig!! :"+i);
+			}
+			else
+			{
+				this._twigs[i].getBody().SetPosition( twigOrThis.getOldPos() );
 			}
 		}
-		
     }
 });
 
