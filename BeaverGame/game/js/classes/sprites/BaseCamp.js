@@ -45,6 +45,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
         
+        
         var filter = new b2FilterData();
         
         
