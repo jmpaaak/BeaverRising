@@ -1,7 +1,10 @@
 classes.layers.DuelGameLayer = cc.Layer.extend({
 	_beavers: [],
+	_baseCamp: [],
 	_itemPopCount: 0,
 	_twigPopCount: 0,
+
+	
 	init: function() {
 		var that = this;
 		var size = cc.Director.getInstance().getWinSize();
@@ -18,7 +21,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
             , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
             , b2World = Box2D.Dynamics.b2World
             , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
-        
+
         //ContactListener
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact) {
@@ -28,7 +31,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	        	{
 	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Home")
 	        		{
+	        			var beaver = contact.GetFixtureA().GetBody().GetUserData();
+	        			var baseCamp = contact.GetFixtureB().GetBody().GetUserData();
 	        			
+	        			console.log("Base camp " + baseCamp._BaseCampID + " is crashed !" );
 	        		}
 	        		else(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
 	        		{
@@ -102,8 +108,14 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         
         //Adding Beavers
         for(var i=0; i<4; i++)
-	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
+	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i+1);
 
+
+	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(0,size.height), BG.BASECAMP.HOME1);
+	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width,size.height), BG.BASECAMP.HOME2);
+	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(0,0), BG.BASECAMP.HOME3);
+	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width,0), BG.BASECAMP.HOME4);
+	    
 		this.scheduleUpdate(); //update 60fps in Layer
 		
 		return true;
@@ -124,8 +136,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 	},
 	
-	
-	popTwig: function() {
+	//_twigPopCount
+		popTwig: function() {
 		if(Math.random() <= 0.5)
 		{
 			var size = cc.Director.getInstance().getWinSize();

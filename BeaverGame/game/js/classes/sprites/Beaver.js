@@ -9,11 +9,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _currentAngle: 0,
     _curVelocity: 5,
     _body: null,
+    _categoryPlayer : null,
+    
+    
     _itemList: [],
     ctor: function (layer, p, id) {
         this._super();
         this._id = id;
         this.initWithFile(s_Beaver);
+        this.filterGroup();
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(layer.world, p);
         layer.addChild(this, 0); //z: 0
@@ -33,8 +37,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
         var b2BodyDef = Box2D.Dynamics.b2BodyDef,
             b2Body = Box2D.Dynamics.b2Body,
             b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
-            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
-
+            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+			b2FilterData = Box2D.Dynamics.b2FilterData;
+			
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody;
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
@@ -50,6 +55,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
+        fixtureDef.filter.categoryBits = _categoryPlayer;
+        fixtureDef.filter.maskBits = ~(_categoryPlayer);
+        
+        
+        var filter = new b2FilterData();
+
+        
+        
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
         
@@ -94,7 +107,17 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _move: function () {
         this._body.SetLinearVelocity(this._vector);
         this._body.SetAwake(true);
+    },
+    
+    
+	
+	filterGroup: function(){
+    	_categoryPlayer = Math.pow(2, this._id);
+    	console.log("the category is " + this._id + "-" + _categoryPlayer);
+    	console.log("the ~ category is " + this._id + "-" + (~(_categoryPlayer)));
     }
+    
+    
 });
 
 

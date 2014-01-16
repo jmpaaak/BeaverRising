@@ -59,7 +59,8 @@
         	'game/js/classes/sprites/sprites.js', //namespace
         	'game/js/classes/sprites/Beaver.js',
         	'game/js/classes/sprites/Item.js',
-        	'game/js/classes/sprites/Twig.js'
+        	'game/js/classes/sprites/Twig.js',
+        	'game/js/classes/sprites/BaseCamp.js'
         	
         ]
     };

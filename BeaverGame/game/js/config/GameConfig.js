@@ -35,6 +35,14 @@ BG.ITEM_TYPE = {
     //TODO
 };
 
+BG.CATEGORY = {
+	PLAYER1:0,
+	PLAYER2:1,
+	PLAYER3:2,
+	PLAYER4:3
+};
+
+
 BG.OBSTACLE_TYPE = {
 	//TODO
 };
@@ -44,7 +52,13 @@ BG.TWIG_TYPE = {
     NORMAL:1,
     STRONG:2
 };
-
+//Beaver's home (basecamp)
+BG.BASECAMP = {
+    HOME1:1,
+    HOME2:2,
+    HOME3:3,
+    HOME4:4
+};
 //play state
 BG.PLAY_STATE = {
     NORMAL:1,

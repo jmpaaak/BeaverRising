@@ -13,6 +13,12 @@ var s_Item_Speed = "Item_Speed.png";
 
 var s_Twig_Normal = "Twig_Normal.png";
 
+
+var s_BaseCamp1 = "BaseCamp1.png";
+//var s_BaseCamp2 = "BaseCamp2.png";
+//var s_BaseCamp3 = "BaseCamp3.png";
+//var s_BaseCamp4 = "BaseCamp4.png";
+
 var g_resources = [
     //image
     {src:s_HelloWorld},
@@ -26,9 +32,9 @@ var g_resources = [
 	{src:s_Item_Speed},
 	//{src:s_Item_Shield}	
 	
-	{src:s_Twig_Normal}
+	{src:s_Twig_Normal},
 	
-
+	{src:s_BaseCamp1}
 	
     //plist
 
