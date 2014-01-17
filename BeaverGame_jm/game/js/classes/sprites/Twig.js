@@ -3,12 +3,10 @@ classes.sprites.Twig = cc.Sprite.extend({
 	_type: 0,
     _body: null,
     _isStuck: false,
-    _savedPos: {x:0, y:0},
-    _oldPos: {x:0, y:0},
+    _tailIndex: 0,
     
      //count
     count: {
-    	posSetCount: 0,
     },
     ctor: function (layer, p, type, isStuck) {
         this._super();
@@ -94,20 +92,11 @@ classes.sprites.Twig = cc.Sprite.extend({
         
         this._body = body;
     },
-    saveCurPos: function (p) {
-    	this._savedPos = p;
-    },
-    setOldPos: function (p) {
-    	this._oldPos = p;
+    setTailIndex: function (index) {
+    	this._tailIndex = index;
     },
     setIsStuck: function (bool) {
     	this._isStuck = bool;
-    },
-    getSavedPos: function () {
-    	return this._savedPos;
-    },
-    getOldPos: function () {
-    	return this._oldPos;
     },
     getType: function () {
     	return this._type;
@@ -118,21 +107,11 @@ classes.sprites.Twig = cc.Sprite.extend({
     getIsStuck: function () {
     	return this._isStuck;
     },
+    getTailIndex: function () {
+    	return this._thailIndex
+    },
     update: function () {
-    	 //counter proc
-        if(this.count.posSetCount == 1)
-        {
-        	this.saveCurPos(cc.p(this._body.GetPosition().x, this._body.GetPosition().y));
-        	//console.log("@twig save pos!");
-        }
-        if(this.count.posSetCount == 11)
-        {
-        	this.setOldPos(this.getSavedPos());
-        	this.count.posSetCount = 0;
-        	//console.log("@twig set old pos! "+this.getSavedPos().x+" "+this.getSavedPos().y);
-        	
-        }
-        
+    	
         //count
         for(var prop in this.count)
         	this.count[prop]++;
