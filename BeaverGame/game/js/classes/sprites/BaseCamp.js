@@ -1,7 +1,6 @@
 classes.sprites.BaseCamp = cc.Sprite.extend({
 	name : "Home",
 	_id : 0,
-	 _vector: new Box2D.Common.Math.b2Vec2(),
 	_body : null,
 	_categoryPlayer : null,
 	
@@ -12,6 +11,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
+        this._addWelcomeHome(layer.world, p);
         layer.addChild(this, 0); //z: 0
     },
 	
@@ -35,7 +35,6 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 
         // Define another box shape for our dynamic body.
         var dynamicCircle = new b2CircleShape(4);
-        dynamicCircle.SetLocalPosition(this._vector);
 
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();
@@ -44,15 +43,40 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         fixtureDef.friction = 0;
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
-        
-        
-        var filter = new b2FilterData();
-        
-        
+    
         body.CreateFixture(fixtureDef);
         
         this._body = body;
 	},
+	
+	_addWelcomeHome : function (world, p){
+        // Define the body.
+        var b2BodyDef = Box2D.Dynamics.b2BodyDef,
+            b2Body = Box2D.Dynamics.b2Body,
+            b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+            b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+			
+        var bodyDef = new b2BodyDef();
+        bodyDef.type = b2Body.b2_staticBody; //type
+        bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
+        var body = world.CreateBody(bodyDef);
+
+        // Define another box shape for our dynamic body.
+        var dynamicCircle = new b2CircleShape(3.5);
+        //dynamicCircle.SetLocalPosition(this._vector);
+
+        // Define the dynamic body fixture.
+        var fixtureDef = new b2FixtureDef();
+        fixtureDef.shape = dynamicCircle;
+        fixtureDef.density = 0;
+        fixtureDef.friction = 0;
+        fixtureDef.isSensor = true;
+
+        body.CreateFixture(fixtureDef);
+        
+        this._body = body;
+	},	
 	
 	filterGroup: function(){
     	_categoryPlayer = Math.pow(2, this._id);

@@ -95,7 +95,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	    contactListener.PreSolve = function(contact, oldManifold) {};
         
        	// Construct a world object, which will hold and simulate the rigid bodies.
-        this.world = new b2World(new b2Vec2(0.1, 0.1), true); //no gravity
+        this.world = new b2World(new b2Vec2(0, 0), true); //no gravity
         this.world.SetContinuousPhysics(true);
 		this.world.SetContactListener(contactListener);
 		

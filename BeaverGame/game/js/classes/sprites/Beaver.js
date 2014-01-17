@@ -10,9 +10,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _curVelocity: 5,
     _body: null,
     _categoryPlayer : null,
-    
-    
     _itemList: [],
+    
     ctor: function (layer, p, id) {
         this._super();
         this._id = id;
@@ -20,6 +19,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this.filterGroup();
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(layer.world, p);
+        this._getPos();
         layer.addChild(this, 0); //z: 0
     },
     getID: function() {
@@ -58,11 +58,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
         
-        
-        var filter = new b2FilterData();
-
-        
-        
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
         
@@ -77,7 +72,32 @@ classes.sprites.Beaver = cc.Sprite.extend({
         		this._startFlag = true;
         	this._turn();
         }
+        //case of getting out of screen
+        if((this._getPos().y * PTM_RATIO) > 720)
+        {
+			this._body.SetPosition(cc.p(this._getPos().x,0));
+			console.log(this._getPos().x + " /// "+this._getPos().y);
+        }
+        else if((this._getPos().y * PTM_RATIO) < 0)
+        {
+        	this._body.SetPosition(cc.p(this._getPos().x,720 / PTM_RATIO));
+        	console.log(this._getPos().x + " /// "+this._getPos().y);
+        }        
+        else if((this._getPos().x * PTM_RATIO) > 1280)
+        {
+        	this._body.SetPosition(cc.p(0,this._getPos().y));
+        }        
+        else if((this._getPos().x * PTM_RATIO) < 0)
+        {
+        	this._body.SetPosition(cc.p(1280 / PTM_RATIO,this._getPos().y));
+        }
     },
+    
+    _getPos : function()
+    {
+    	return this._body.GetPosition();
+    },    
+    
     handleKeyDown: function (e) {
         if (!this._leftKeyDown || !this._rightKeyDown) {
             if (e === cc.KEY.left) this._leftKeyDown = true;
@@ -107,6 +127,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _move: function () {
         this._body.SetLinearVelocity(this._vector);
         this._body.SetAwake(true);
+
     },
     
     
