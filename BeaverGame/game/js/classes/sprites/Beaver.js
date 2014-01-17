@@ -76,12 +76,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
         if((this._getPos().y * PTM_RATIO) > 720)
         {
 			this._body.SetPosition(cc.p(this._getPos().x,0));
-			console.log(this._getPos().x + " /// "+this._getPos().y);
         }
         else if((this._getPos().y * PTM_RATIO) < 0)
         {
         	this._body.SetPosition(cc.p(this._getPos().x,720 / PTM_RATIO));
-        	console.log(this._getPos().x + " /// "+this._getPos().y);
         }        
         else if((this._getPos().x * PTM_RATIO) > 1280)
         {

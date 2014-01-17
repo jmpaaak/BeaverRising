@@ -60,7 +60,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	        			
 	        			console.log("Base camp " + baseCamp._id + " is crashed !" );
 	        		}
-	        		else(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
+	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
 	        		{
 	        			
 	        		}
@@ -99,32 +99,53 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         this.world.SetContinuousPhysics(true);
 		this.world.SetContactListener(contactListener);
 		
-		// var fixDef = new b2FixtureDef;
-        // fixDef.density = 0;
-        // fixDef.friction = 0;
-        // fixDef.restitution = 0;
-// 
-        // var bodyDef = new b2BodyDef;
-// 
-        // //create ground //w:40, h:22.5
-        // bodyDef.type = b2Body.b2_staticBody;
-        // fixDef.shape = new b2PolygonShape;
-        // fixDef.shape.SetAsBox(40, 2);
-        // // upper
-        // bodyDef.position.Set(20, 22.5 + 1);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        // // bottom
-        // bodyDef.position.Set(40, -1);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-//         
-        // fixDef.shape.SetAsBox(2, 22.5);
-        // // left
-        // bodyDef.position.Set(-1, 11.25);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        // // right
-        // bodyDef.position.Set(41, 11.25);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-// 		
+		var fixDef = new b2FixtureDef;
+        fixDef.density = 0;
+        fixDef.friction = 0;
+        fixDef.restitution = 0;
+
+        var bodyDef = new b2BodyDef;
+
+        //create ground //w:40, h:22.5
+        bodyDef.type = b2Body.b2_staticBody;
+        var wallObject = {name:"wall"};
+        
+        bodyDef.userData = wallObject;
+        
+        fixDef.shape = new b2PolygonShape;
+        
+        
+        //Creating the wall
+        //Vertical Box 
+        fixDef.shape.SetAsBox(1, 4.5);
+        //Home1
+        bodyDef.position.Set(-1, 22.5);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        //Home2
+        bodyDef.position.Set(41, 22.5);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        //Home3
+        bodyDef.position.Set(-1, 0);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+        //Home4
+        bodyDef.position.Set(41, 0);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        
+        //Vertical Box 
+        fixDef.shape.SetAsBox(4.5, 1);
+        //Home1
+        bodyDef.position.Set(0, 23.5);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        //Home2
+        bodyDef.position.Set(40, 23.5);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        //Home3
+        bodyDef.position.Set(0, -1);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+        //Home4
+        bodyDef.position.Set(40, -1);
+        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+	
 		//TESTING TITLE 
 		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
         this.addChild(label, 1); //z === 1 : UI
@@ -206,7 +227,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
 		//Iterate over the bodies in the physics world
 		for (var b = this.world.GetBodyList(); b; b = b.GetNext()) {
-			if (b.GetUserData() != null) {
+			if (b.GetUserData() != null && b.GetUserData().name != "wall") {
 				//Synchronize the AtlasSprites position and rotation with the corresponding body
 				var myActor = b.GetUserData();
 				myActor.setPosition(b.GetPosition().x * PTM_RATIO, b.GetPosition().y * PTM_RATIO);

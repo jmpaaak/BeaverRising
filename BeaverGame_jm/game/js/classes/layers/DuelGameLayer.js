@@ -26,7 +26,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         	if(contact.GetFixtureA().GetBody().GetUserData().name === "Beaver")
         	{
         		var beaver = contact.GetFixtureA().GetBody().GetUserData();
-	        	if(!contact.IsSensor()) 
+	        	if(!contact.IsSensor()) //is sensor
 	        	{
 	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Home")
 	        		{
@@ -43,8 +43,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	        			contact.GetFixtureB().GetBody().GetUserData().slow();
 	        		}
 	        	}
-	        	else
-			        contact.GetFixtureA().GetBody().GetUserData().addItem(contact.GetFixtureB().GetBody().GetUserData());
+	        	else //is NOT sensor
+	        	{
+	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Item")
+			        	contact.GetFixtureA().GetBody().GetUserData().addItem(contact.GetFixtureB().GetBody().GetUserData());
+			        else return; //TODO: tail twigs
+			    }
 			}
 	    };
 	    contactListener.EndContact = function(contact) {};
@@ -55,34 +59,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         this.world = new b2World(new b2Vec2(0.1, 0.1), true);
         this.world.SetContinuousPhysics(true);
 		this.world.SetContactListener(contactListener);
-        
-		
-		// var fixDef = new b2FixtureDef;
-        // fixDef.density = 0;
-        // fixDef.friction = 0;
-        // fixDef.restitution = 0;
-// 
-        // var bodyDef = new b2BodyDef;
-// 
-        // //create ground //w:40, h:22.5
-        // bodyDef.type = b2Body.b2_staticBody;
-        // fixDef.shape = new b2PolygonShape;
-        // fixDef.shape.SetAsBox(40, 2);
-        // // upper
-        // bodyDef.position.Set(20, 22.5 + 1);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        // // bottom
-        // bodyDef.position.Set(40, -1);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-//         
-        // fixDef.shape.SetAsBox(2, 22.5);
-        // // left
-        // bodyDef.position.Set(-1, 11.25);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        // // right
-        // bodyDef.position.Set(41, 11.25);
-        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-// 		
+        	
 		//TESTING TITLE 
 		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
         this.addChild(label, 1); //z === 1 : UI
@@ -124,7 +101,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					 
 			var x = randX*size.width, y = randY*size.height;
 			
-			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL);
+			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
 		}
 	},
 	update: function(dt) {
