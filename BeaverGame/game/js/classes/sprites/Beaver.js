@@ -9,12 +9,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _currentAngle: 0,
     _curVelocity: 5,
     _body: null,
-    _categoryPlayer : null,
     _itemList: [],
+    _twigs: [],
+    _positions: [],
+    _showTwigsLock: false,
+    _curLayer: null,
+    _categoryPlayer : null,
     
+    
+    count: {
+    	savePosCount: 0
+    },
     ctor: function (layer, p, id) {
         this._super();
         this._id = id;
+        this._curLayer = layer;
         this.initWithFile(s_Beaver);
         this.filterGroup();
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
@@ -25,8 +34,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getID: function() {
     	return this._id;
     },
-    addItem: function(item) {
-    	this._itemList[this._itemList.length-1] = item;
+    addTwig: function(twig) {
+	    this._twigs[this._twigs.length] = twig;
+	    this._curLayer.removeChild(twig, true);
+    	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
+    },
+    addItem: function(item) { //TODO
+    	this._itemList[this._itemList.length] = item;
+    	this._curLayer.removeChild(item, true);
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     },
     addBeaverWithCoords: function (world, p) {
@@ -57,19 +72,46 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.friction = 0;
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
+        console.log("the category beaver is " + this._id + "-  " + fixtureDef.filter.categoryBits);
+		console.log("the ~ mask beaver is " + this._id + "-  " + fixtureDef.filter.maskBits);
+
         
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
         
         this._body = body;
     },
+    slow: function () {
+    	/*
+    	var tempVelocity = this._curVelocity;
+    	this._curVelocity = 1;
+    	
+    	console.log("slow 2s beaver: "+this._id);
+    	this.runAction(cc.Sequence.create(
+    		cc.Blink.create(2, 5),
+    		cc.CallFunc.create(function () {
+    			this._curVelocity = tempVelocity;
+    		}, this)
+    		
+    		
+    	));
+    	*/
+    },
     update: function () {
     	if(this._startFlag)
+    	{
         	this._move();
+        	this._showTwigs();
+        }
+        else this._body.SetAwake(false);
+        
         if (this._leftKeyDown || this._rightKeyDown)
         {
-        	if(!this._startFlag) 
+        	if(!this._startFlag)
+        	{
+        		this.slow();
         		this._startFlag = true;
+        	}
         	this._turn();
         }
         //case of getting out of screen
@@ -125,17 +167,40 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _move: function () {
         this._body.SetLinearVelocity(this._vector);
         this._body.SetAwake(true);
+        
+                
+        if(this.count.savePosCount >= 2)
+        {
+        	var x = this._body.GetPosition().x,
+        		y = this._body.GetPosition().y;
+        	this._positions.unshift(cc.p(x,y)); 
+        	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
+        	this.count.savePosCount = 0;
+        }
 
     },
-    
+    _showTwigs: function () {
+    	for(var i in this._twigs) {
+    		if (!this._twigs[i].getIsStuck()) {
+				this._twigs[i].setIsStuck(true);
+				
+				var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true);
+				newTwig.setTailIndex(i);
+				this._twigs[i] = newTwig;
+			}
+			this._twigs[i].getBody().SetPosition(this._positions[(i*5)+4]);
+    	}
+    },
     
 	
 	filterGroup: function(){
     	_categoryPlayer = Math.pow(2, this._id);
-    	console.log("the category is " + this._id + "-" + _categoryPlayer);
-    	console.log("the ~ category is " + this._id + "-" + (~(_categoryPlayer)));
-    }
-    
+   },
+   
+    twigBecomeScore : function() {
+		console.log("beaver got home. now twigs following beaver are changed to score.");
+
+	}
     
 });
 

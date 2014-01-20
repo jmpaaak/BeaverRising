@@ -7,18 +7,17 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _rightKeyDown: false,
     _vector: new Box2D.Common.Math.b2Vec2(),
     _currentAngle: 0,
-    _curVelocity: 5,
+    _curVelocity: 6.7,
     _body: null,
     _itemList: [],
-    _twigs:[],
+    _twigs: [],
+    _positions: [],
     _showTwigsLock: false,
     _curLayer: null,
-    _savedPos: {x:0, y:0},
-    _oldPos: {x:0, y:0},
-    
+
     //count
     count: {
-    	posSetCount: 0,
+    	savePosCount: 0
     },
     ctor: function (layer, p, id) {
         this._super();
@@ -73,33 +72,25 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body = body;
     },
     slow: function () {
+    	var tempVelocity = this._curVelocity;
     	this._curVelocity = 1;
     	console.log("slow 2s beaver: "+this._id);
     	this.runAction(cc.Sequence.create(
     		cc.Blink.create(2, 5),
     		cc.CallFunc.create(function () {
-    			this._curVelocity = 5;
+    			this._curVelocity = tempVelocity;
     		}, this)
     	));
     },
-    saveCurPos: function (p) {
-    	this._savedPos = p;
-    },
-    getSavedPos: function () {
-    	return this._savedPos;
-    },
-    setOldPos: function (p) {
-    	this._oldPos = p;
-    },
-    getOldPos: function () {
-    	return this._oldPos;
+    removeTailAtIndex: function (index) {
+    	for(var at = index; at==this._twigs.length; at++)
+    		this._layer.removeChild(this._twigs[at], true);
+    		
+    	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
     	if(this._startFlag)
-    	{
-    		for (var i in this._twigs) 
-				this._twigs[i].update();
-			
+    	{	
         	this._move();
         	this._showTwigs();
         }
@@ -114,19 +105,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this._turn();
         }
-        
-        //counter proc
-        if(this.count.posSetCount == 1)
-        {
-        	//this.saveCurPos(this._body.GetPosition()); // GetPosition is tracing!! always updating!!!!
-        	this.saveCurPos(cc.p(this._body.GetPosition().x, this._body.GetPosition().y));
-        }
-        if(this.count.posSetCount == 5)
-        {
-        	this.setOldPos(this.getSavedPos());
-        	this.count.posSetCount = 0;
-        }
-        	
+
         //count
         for(var prop in this.count)
         	this.count[prop]++;
@@ -158,27 +137,28 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     _move: function () {
         this._body.SetLinearVelocity(this._vector);
-        this._body.SetActive(true);   
+        this._body.SetActive(true);
+        
+        if(this.count.savePosCount >= 2)
+        {
+        	var x = this._body.GetPosition().x,
+        		y = this._body.GetPosition().y;
+        	this._positions.unshift(cc.p(x,y)); 
+        	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
+        	this.count.savePosCount = 0;
+        }
+
     },
-    _showTwigs: function () {	
-		for (var i in this._twigs) {
-			
-			if (i == 0)
-				var twigOrThis = this;
-			else
-				var twigOrThis = this._twigs[i - 1];
-			
-			if (!this._twigs[i].getIsStuck()) {
+    _showTwigs: function () {
+    	for(var i in this._twigs) {
+    		if (!this._twigs[i].getIsStuck()) {
 				this._twigs[i].setIsStuck(true);
-				var newTwig = new classes.sprites.Twig(this._curLayer, cc.p( twigOrThis.getOldPos() ), this._twigs[i].getType(), true);
+				var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true);
+				newTwig.setTailIndex(i);
 				this._twigs[i] = newTwig;
-				console.log("new twig!! :"+i);
 			}
-			else
-			{
-				this._twigs[i].getBody().SetPosition( twigOrThis.getOldPos() );
-			}
-		}
+			this._twigs[i].getBody().SetPosition(this._positions[(i*5)+4]);
+    	}
     }
 });
 

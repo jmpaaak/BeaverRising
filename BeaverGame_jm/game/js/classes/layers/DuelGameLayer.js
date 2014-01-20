@@ -26,7 +26,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         	if(contact.GetFixtureA().GetBody().GetUserData().name === "Beaver")
         	{
         		var beaver = contact.GetFixtureA().GetBody().GetUserData();
-	        	if(!contact.IsSensor()) //is sensor
+	        	if(!contact.IsSensor()) //is NOT sensor
 	        	{
 	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Home")
 	        		{
@@ -43,11 +43,18 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	        			contact.GetFixtureB().GetBody().GetUserData().slow();
 	        		}
 	        	}
-	        	else //is NOT sensor
+	        	else //is sensor
 	        	{
 	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Item")
+	        		{
 			        	contact.GetFixtureA().GetBody().GetUserData().addItem(contact.GetFixtureB().GetBody().GetUserData());
-			        else return; //TODO: tail twigs
+			        }
+			        else if(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
+			        {
+			        	var twig = contact.GetFixtureB().GetBody().GetUserData();
+			        	beaver.removeTailAtIndex(twig.getTailIndex());
+			        }
+			        	
 			    }
 			}
 	    };

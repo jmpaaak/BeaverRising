@@ -51,41 +51,43 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         contactListener.BeginContact = function(contact) {
         	if(contact.GetFixtureA().GetBody().GetUserData().name === "Beaver")
         	{
+        		var beaver = contact.GetFixtureA().GetBody().GetUserData();
 	        	if(!contact.IsSensor()) 
 	        	{
 	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Home")
 	        		{
-	        			var beaver = contact.GetFixtureA().GetBody().GetUserData();
 	        			var baseCamp = contact.GetFixtureB().GetBody().GetUserData();
-	        			
 	        			console.log("Base camp " + baseCamp._id + " is crashed !" );
 	        		}
 	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
 	        		{
-	        			
+	        			if(!contact.GetFixtureB().GetBody().GetUserData().getIsStuck())
+		        			beaver.addTwig(contact.GetFixtureB().GetBody().GetUserData());
+	        		}
+	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Beaver")
+	        		{
+	        			beaver.slow();
+	        			contact.GetFixtureB().GetBody().GetUserData().slow();
+	        			console.log("hello other beaver!");
 	        		}
 	        	}
 	        	else
 	        	{
-		        	var beaver = contact.GetFixtureA().GetBody().GetUserData();
-		        	var item = contact.GetFixtureB().GetBody().GetUserData();
 		        	
-		        	if(!item) 
+		        	var other = contact.GetFixtureB().GetBody().GetUserData();
+
+		        	if(other.name === "Home") 
 		        	{
-		        		console.log("todo: return!");
-		        		return;
+		        		beaver.twigBecomeScore();
 		        	}
-		        	
-			        switch(item.getType())
+	        		else if(other.name === "Item")
+	        		{
+			        	beaver.addItem(other);
+			        }
+			        else if(other.name === "Twig")
 			        {
-			        	case BG.ITEM_TYPE.SPEED:
-			        		beaver.addItem(item);
-			        		that.removeChild(item, true);
-			        		break;
-			        	case BG.ITEM_TYPE.SHIELD:
-			       			break;
-						//TODO
-			       	}
+			        	beaver.addTwig(other);
+			        }
 		       	}
 			}
 			
@@ -195,7 +197,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					 
 			var x = randX*size.width, y = randY*size.height;
 			
-			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL);
+			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
 		}
 	},
 	
