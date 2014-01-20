@@ -35,12 +35,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     addTwig: function(twig) {
 	    this._twigs[this._twigs.length] = twig;
-	    this._curLayer.removeChild(twig, true);
+	    this._curLayer.removeChild(twig);
+	    this._curLayer.destroyList.push(twig.getBody());
     	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
     },
     addItem: function(item) { //TODO
     	this._itemList[this._itemList.length] = item;
-    	this._curLayer.removeChild(item, true);
+    	this._curLayer.removeChild(item);
+    	this._curLayer.destroyList.push(item.getBody());
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     },
     addBeaverWithCoords: function (world, p) {
@@ -56,6 +58,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody;
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
+        bodyDef.linearDamping = 0;
         bodyDef.userData = tex;
         var body = world.CreateBody(bodyDef);
 
@@ -74,21 +77,22 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body = body;
     },
     slow: function () {
-    	var tempVelocity = this._curVelocity;
     	this._curVelocity = 1;
     	console.log("slow 2s beaver: "+this._id);
     	this.runAction(cc.Sequence.create(
-    		cc.Blink.create(2, 5),
+    		cc.Blink.create(1.5, 5),
     		cc.CallFunc.create(function () {
-    			this._curVelocity = tempVelocity;
+    			this._curVelocity = 6.7;
+    			this._turn();
     		}, this)
     	));
     },
     removeTailAtIndex: function (index) {
-    	for(var at = index; at<=this._twigs.length; at++)
+    	for(var at = index; at<this._twigs.length; at++)
     	{
     		console.log("remove: "+at);
-    		this._curLayer.removeChild(this._twigs[at], true);
+    		this._curLayer.removeChild(this._twigs[at]);
+    		this._curLayer.destroyList.push(this._twigs[at].getBody());
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
@@ -104,8 +108,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
         {
         	if(!this._startFlag)
         	{
-        		this.slow();
         		this._startFlag = true;
+        		this.slow();
         	}
         	this._turn();
         }
@@ -143,7 +147,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body.SetLinearVelocity(this._vector);
         this._body.SetActive(true);
         
-        if(this.count.savePosCount >= 2)
+        if(this.count.savePosCount >= 4)
         {
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
         	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 

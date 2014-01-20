@@ -2,6 +2,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	_beavers: [],
 	_itemPopCount: 0,
 	_twigPopCount: 0,
+	destroyList: [],
 	init: function() {
 		var that = this;
 		var size = cc.Director.getInstance().getWinSize();
@@ -20,42 +21,55 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
             , b2World = Box2D.Dynamics.b2World
             , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
         
-        
         //ContactListener
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact) {
-        	if(contact.GetFixtureA().GetBody().GetUserData().name === "Beaver")
+        	
+        	var dataA = contact.GetFixtureA().GetBody().GetUserData(),
+        		dataB = contact.GetFixtureB().GetBody().GetUserData();
+        		
+        	if(dataA.name === "Beaver" || dataB.name === "Beaver")
         	{
-        		var beaver = contact.GetFixtureA().GetBody().GetUserData();
-	        	if(!contact.IsSensor()) //is NOT sensor
-	        	{
-	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Home")
-	        		{
-	        			
-	        		}
-	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
-	        		{
-	        			if(!contact.GetFixtureB().GetBody().GetUserData().getIsStuck())
-		        			beaver.addTwig(contact.GetFixtureB().GetBody().GetUserData());
-	        		}
-	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Beaver")
-	        		{
-	        			beaver.slow();
-	        			contact.GetFixtureB().GetBody().GetUserData().slow();
-	        		}
-	        	}
-	        	else //is sensor
-	        	{
-	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Item")
-	        		{
-			        	contact.GetFixtureA().GetBody().GetUserData().addItem(contact.GetFixtureB().GetBody().GetUserData());
-			        }
-			        else if(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
-			        {
-			        	var twig = contact.GetFixtureB().GetBody().GetUserData();
-			        	beaver.removeTailAtIndex(twig.getTailIndex());
-			     	}	
-			    }
+        		if(dataA.name === "Beaver")
+        		{
+        			var beaver = contact.GetFixtureA().GetBody().GetUserData(),
+        				target = contact.GetFixtureB().GetBody().GetUserData();
+        		}
+        		else if(dataB.name === "Beaver")
+        		{
+        			var beaver = contact.GetFixtureB().GetBody().GetUserData(),
+        				target = contact.GetFixtureA().GetBody().GetUserData();
+        		}
+        			
+				if(!contact.IsSensor()) //is NOT sensor
+				{
+					switch(target.name) {
+						case "Home":
+							break;
+						case "Twig":
+							beaver.addTwig(target);
+							break;
+						case "Beaver":
+							beaver.slow();
+							target.slow();
+							break;
+					}
+				} 
+				else //is sensor
+				{
+					switch(target.name) {
+						case "Item":
+							beaver.addItem(target);
+							break;
+						case "Twig":
+							beaver.removeTailAtIndex(target.getTailIndex());
+							break;
+						case "Beaver":
+							beaver.slow();
+							target.slow();
+							break;
+					}
+				}
 			}
 	    };
 	    contactListener.EndContact = function(contact) {};
@@ -96,7 +110,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 	},
 	popTwig: function() {
-		if(Math.random() <= 0.99) //TODO
+		if(Math.random() <= 0.5) //TODO
 		{
 			var size = cc.Director.getInstance().getWinSize();
 			do {
@@ -111,15 +125,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 	},
 	update: function(dt) {
-
-		
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
 		//You need to make an informed choice, the following URL is useful
 		//http://gafferongames.com/game-physics/fix-your-timestep/
 
-		var velocityIterations = 8;
-		var positionIterations = 3;
+		var velocityIterations = 6;
+		var positionIterations = 2;
 
 		// Instruct the world to perform a single step of simulation. It is
 		// generally best to keep the time step and iterations fixed.
@@ -135,6 +147,14 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				myActor.setRotation(cc.RADIANS_TO_DEGREES(b.GetAngle()));
 			}
 		}
+		
+		//Destroy Body
+		for (var i in this.destroyList) {
+			this.world.DestroyBody(this.destroyList[i]);
+		}
+		// Reset the array
+		this.destroyList.length = 0; 
+
 	
 		//for(var i=0; i<4; i++) //TODO
 			this._beavers[0].update();
@@ -143,7 +163,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			this._itemPopCount = 0, this.popItem();
 		this._itemPopCount++;
 		
-		if(this._twigPopCount === 60) //every 2s (p=0.5) 
+		if(this._twigPopCount === 120) //every 2s (p=0.5) 
 			this._twigPopCount = 0, this.popTwig();
 		this._twigPopCount++;
 		

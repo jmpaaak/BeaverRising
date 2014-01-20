@@ -57,7 +57,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
-        fixtureDef.restitution = 1;
+        fixtureDef.restitution = 0;
         body.CreateFixture(fixtureDef);
         
         this._body = body;

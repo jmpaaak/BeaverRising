@@ -50,8 +50,11 @@ classes.sprites.Item = cc.Sprite.extend({
         
         this._body = body;
     },
-    getType: function() {
+    getType: function () {
     	return this._type;
+    },
+    getBody: function () {
+    	return this._body;
     },
     update: function () {
     }
