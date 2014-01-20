@@ -59,7 +59,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 
         // Define another box shape for our dynamic body.
         var dynamicBox = new b2PolygonShape();
-        dynamicBox.SetAsBox(tex.getTextureRect().width / (PTM_RATIO*2), tex.getTextureRect().height / (PTM_RATIO*2));
+        dynamicBox.SetAsBox(tex.getTextureRect().width / (PTM_RATIO*2) -0.1, tex.getTextureRect().height / (PTM_RATIO*2) -0.1);
 
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();
@@ -83,9 +83,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	));
     },
     removeTailAtIndex: function (index) {
-    	for(var at = index; at==this._twigs.length; at++)
+    	for(var at = index; at<=this._twigs.length; at++)
+    	{
+    		console.log("remove: "+at);
     		this._layer.removeChild(this._twigs[at], true);
-    		
+    	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {

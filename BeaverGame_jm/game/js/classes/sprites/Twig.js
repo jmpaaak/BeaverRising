@@ -108,7 +108,7 @@ classes.sprites.Twig = cc.Sprite.extend({
     	return this._isStuck;
     },
     getTailIndex: function () {
-    	return this._thailIndex
+    	return this._tailIndex;
     },
     update: function () {
     	

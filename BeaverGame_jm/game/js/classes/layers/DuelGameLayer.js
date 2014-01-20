@@ -9,6 +9,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
+		this.scheduleUpdate(); //update 60fps in Layer
 		
 		//box2d  (32px === 1m !!)
 		var PTM_RATIO = 32;
@@ -53,8 +54,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			        {
 			        	var twig = contact.GetFixtureB().GetBody().GetUserData();
 			        	beaver.removeTailAtIndex(twig.getTailIndex());
-			        }
-			        	
+			     	}	
 			    }
 			}
 	    };
@@ -77,7 +77,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         for(var i=0; i<4; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 
-		this.scheduleUpdate(); //update 60fps in Layer
 		
 		return true;
 	},
