@@ -8,6 +8,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _vector: new Box2D.Common.Math.b2Vec2(),
     _currentAngle: 0,
     _curVelocity: 6.7,
+    _curPos:{x:0,y:0},
     _body: null,
     _itemList: [],
     _twigs: [],
@@ -26,6 +27,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this.initWithFile(s_Beaver);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
+        this._curPos = this._body.GetPosition();
         layer.addChild(this, 0); //z: 0
     },
     getID: function() {
@@ -86,7 +88,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	for(var at = index; at<=this._twigs.length; at++)
     	{
     		console.log("remove: "+at);
-    		this._layer.removeChild(this._twigs[at], true);
+    		this._curLayer.removeChild(this._twigs[at], true);
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
@@ -143,13 +145,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
         
         if(this.count.savePosCount >= 2)
         {
-        	var x = this._body.GetPosition().x,
-        		y = this._body.GetPosition().y;
-        	this._positions.unshift(cc.p(x,y)); 
+        	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
         	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
         	this.count.savePosCount = 0;
         }
-
     },
     _showTwigs: function () {
     	for(var i in this._twigs) {

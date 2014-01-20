@@ -44,8 +44,8 @@ classes.sprites.Twig = cc.Sprite.extend({
         bodyDef.type = b2Body.b2_dynamicBody; //type
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
         bodyDef.userData = tex;
-        bodyDef.linearDamping = 2;
-        bodyDef.angularDamping = 1;
+        bodyDef.linearDamping = 0;
+        bodyDef.angularDamping = 0;
         var body = world.CreateBody(bodyDef);
 
         // Define another box shape for our dynamic body.
