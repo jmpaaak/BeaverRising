@@ -107,7 +107,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this._turn();
         }
-        	
+
         //count
         for(var prop in this.count)
         	this.count[prop]++;
@@ -140,14 +140,16 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _move: function () {
         this._body.SetLinearVelocity(this._vector);
         this._body.SetActive(true);
+        
         if(this.count.savePosCount >= 2)
         {
         	var x = this._body.GetPosition().x,
         		y = this._body.GetPosition().y;
-        	this._positions.unshift(cc.p(x,y));
-        	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop();
+        	this._positions.unshift(cc.p(x,y)); 
+        	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
         	this.count.savePosCount = 0;
         }
+
     },
     _showTwigs: function () {
     	for(var i in this._twigs) {

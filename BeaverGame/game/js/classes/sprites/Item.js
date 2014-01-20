@@ -1,4 +1,5 @@
 classes.sprites.Item = cc.Sprite.extend({
+	name : "Item",
 	_type: 0,
     _body: null,
     ctor: function (layer, p, type) {

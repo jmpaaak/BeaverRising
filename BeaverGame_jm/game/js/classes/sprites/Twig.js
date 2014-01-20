@@ -111,9 +111,8 @@ classes.sprites.Twig = cc.Sprite.extend({
     	return this._tailIndex;
     },
     update: function () {
-    	
-        //count
-        for(var prop in this.count)
-        	this.count[prop]++;
+
+    	 //counter proc
+ 
     }
 });
