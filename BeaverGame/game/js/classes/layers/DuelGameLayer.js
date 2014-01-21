@@ -3,7 +3,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	_baseCamp: [],
 	_itemPopCount: 0,
 	_twigPopCount: 0,
-
+	destroyList: [],
 	
 	init: function() {
 		var that = this;
@@ -12,6 +12,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
+		this.scheduleUpdate(); //update 60fps in Layer
 		
 		//box2d  (32px === 1m !!)
 		var PTM_RATIO = 32;
@@ -22,75 +23,56 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
             , b2World = Box2D.Dynamics.b2World
             , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
             
-            
-            
-            
-            //ContactFilter.b2ContactFilter = function () {};
-            
-            var ContactFilter = new Box2D.Dynamics.b2ContactFilter;
-    		ContactFilter.ShouldCollide = function(fixtureA, fixtureB) {
-		        var filter1 = fixtureA.GetFilterData();
-		        var filter2 = fixtureB.GetFilterData();
-		        if (filter1.groupIndex == filter2.groupIndex && filter1.groupIndex != 0) {
-		            return filter1.groupIndex > 0;
-		        }
-		        var collide = (filter1.maskBits & filter2.categoryBits) != 0 && (filter1.categoryBits & filter2.maskBits) != 0;
-		        if((filter1.maskBits & filter2.categoryBits) != 0 
-		        && (filter1.categoryBits & filter2.maskBits) != 0)
-		        {
-		        	console.log("hello");
-		        	
-		        }
-		        
-		        //return collide;
-		        console.log("hello");
-		    };
-
         //ContactListener
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact) {
-        	if(contact.GetFixtureA().GetBody().GetUserData().name === "Beaver")
+          	
+        	var dataA = contact.GetFixtureA().GetBody().GetUserData(),
+        		dataB = contact.GetFixtureB().GetBody().GetUserData();
+        		
+        	if(dataA.name === "Beaver" || dataB.name === "Beaver")
         	{
-        		var beaver = contact.GetFixtureA().GetBody().GetUserData();
-	        	if(!contact.IsSensor()) 
-	        	{
-	        		if(contact.GetFixtureB().GetBody().GetUserData().name === "Home")
-	        		{
-	        			var baseCamp = contact.GetFixtureB().GetBody().GetUserData();
-	        			console.log("Base camp " + baseCamp._id + " is crashed !" );
-	        		}
-	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Twig")
-	        		{
-	        			if(!contact.GetFixtureB().GetBody().GetUserData().getIsStuck())
-		        			beaver.addTwig(contact.GetFixtureB().GetBody().GetUserData());
-	        		}
-	        		else if(contact.GetFixtureB().GetBody().GetUserData().name === "Beaver")
-	        		{
-	        			beaver.slow();
-	        			contact.GetFixtureB().GetBody().GetUserData().slow();
-	        			console.log("hello other beaver!");
-	        		}
-	        	}
-	        	else
-	        	{
-		        	
-		        	var other = contact.GetFixtureB().GetBody().GetUserData();
-
-		        	if(other.name === "Home") 
-		        	{
-		        		beaver.twigBecomeScore();
-		        	}
-	        		else if(other.name === "Item")
-	        		{
-			        	beaver.addItem(other);
-			        }
-			        else if(other.name === "Twig")
-			        {
-			        	beaver.addTwig(other);
-			        }
-		       	}
+        		if(dataA.name === "Beaver")
+        		{
+        			var beaver = contact.GetFixtureA().GetBody().GetUserData(),
+        				target = contact.GetFixtureB().GetBody().GetUserData();
+        		}
+        		else if(dataB.name === "Beaver")
+        		{
+        			var beaver = contact.GetFixtureB().GetBody().GetUserData(),
+        				target = contact.GetFixtureA().GetBody().GetUserData();
+        		}
+        			
+				if(!contact.IsSensor()) //is NOT sensor
+				{
+					switch(target.name) {
+						case "Home":
+							console.log("Base camp " + target._id + " is crashed !" );
+							break;
+						case "Twig":
+							beaver.addTwig(target);
+							break;
+						case "Beaver":
+							beaver.slow();
+							target.slow();
+							break;
+					}
+				} 
+				else //is sensor
+				{
+					switch(target.name) {
+						case "Item":
+							beaver.addItem(target);
+							break;
+						case "Twig":
+							beaver.removeTailAtIndex(target.getTailIndex());
+							break;
+						case "Home":
+							target.twigBecomeScore(beaver);
+							break;
+					}
+				}
 			}
-			
 	    };
 	    contactListener.EndContact = function(contact) {};
 	    contactListener.PostSolve = function(contact, impulse) {};
@@ -133,7 +115,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         bodyDef.position.Set(41, 0);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
         
-        //Vertical Box 
+        //horizontal Box 
         fixDef.shape.SetAsBox(4.5, 1);
         //Home1
         bodyDef.position.Set(0, 23.5);
@@ -163,9 +145,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width,size.height), BG.BASECAMP.HOME2);
 	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(0,0), BG.BASECAMP.HOME3);
 	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width,0), BG.BASECAMP.HOME4);
-	    
-		this.scheduleUpdate(); //update 60fps in Layer
-		
+
 		return true;
 	},
 	popItem: function() {
@@ -236,6 +216,26 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				myActor.setRotation(cc.RADIANS_TO_DEGREES(b.GetAngle()));
 			}
 		}
+		
+		//Destroy Body
+		for (var i in this.destroyList) {
+			this.world.DestroyBody(this.destroyList[i]);
+		}
+		// Reset the array
+		this.destroyList.length = 0; 
+
+	
+		//for(var i=0; i<4; i++) //TODO
+			this._beavers[0].update();
+		
+		if(this._itemPopCount === 300) //every 2s (p=0.5) 
+			this._itemPopCount = 0, this.popItem();
+		this._itemPopCount++;
+		
+		if(this._twigPopCount === 120) //every 2s (p=0.5) 
+			this._twigPopCount = 0, this.popTwig();
+		this._twigPopCount++;
+		
 	},
 	onKeyUp: function() {
  		this._beavers[0].handleKeyUp();

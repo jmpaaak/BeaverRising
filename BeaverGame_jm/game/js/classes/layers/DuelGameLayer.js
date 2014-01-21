@@ -45,6 +45,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				{
 					switch(target.name) {
 						case "Home":
+							console.log("Base camp " + baseCamp._id + " is crashed !" );
 							break;
 						case "Twig":
 							beaver.addTwig(target);
@@ -64,9 +65,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 						case "Twig":
 							beaver.removeTailAtIndex(target.getTailIndex());
 							break;
-						case "Beaver":
-							beaver.slow();
-							target.slow();
+						case "Home":
+							target.twigBecomeScore(beaver);
 							break;
 					}
 				}

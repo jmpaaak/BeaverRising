@@ -4,6 +4,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_bodyBCamp: null,
 	_bodyHome: null,
 	_categoryPlayer : null,
+	_scoreManager : null,
 	
 	ctor: function (layer, p, id) {
         this._super();
@@ -14,7 +15,9 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.getId();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
+        this._scoreManager = new classes.sprites.ScoreBoard(layer);
         layer.addChild(this, 0); //z: 0
+        
     },
 	
 	addBaseCampWithType : function (world, p){
@@ -91,6 +94,21 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     
     getId : function(){
     	return this._id;
-    }
+    },
+    
+    twigBecomeScore : function(beaver) {
+    	for(var i = 0; i < beaver._twigs.length; i++)
+    	{
+    		console.log("remove: "+i);
+    		beaver._curLayer.removeChild(beaver._twigs[i]);
+    		beaver._curLayer.destroyList.push(beaver._twigs[i].getBody());
+    	}
+    	beaver._twigs.splice(0, beaver._twigs.length);
+    	
+		console.log("beaver got home. now twigs following beaver are changed to score.");
+		
+	}
+		
+
     
 });

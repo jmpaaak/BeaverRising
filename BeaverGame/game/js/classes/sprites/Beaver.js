@@ -12,10 +12,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _itemList: [],
     _twigs: [],
     _positions: [],
-    _showTwigsLock: false,
     _curPos:{x:0, y:0},
     _curLayer: null,
+    _isSlow: false,
     _categoryPlayer : null,
+    
     
     count: {
     	savePosCount: 0
@@ -27,7 +28,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this.initWithFile(s_Beaver);
         this.filterGroup();
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-        this.addBeaverWithCoords(layer.world, p);
+        this.addBeaverWithCoords(this._curLayer.world, p);
         this._curPos = this._body.GetPosition();
         layer.addChild(this, 0); //z: 0
     },
@@ -37,11 +38,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
     addTwig: function(twig) {
 	    this._twigs[this._twigs.length] = twig;
 	    this._curLayer.removeChild(twig, true);
+	    this._curLayer.destroyList.push(twig.getBody());
     	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
     },
     addItem: function(item) { //TODO
     	this._itemList[this._itemList.length] = item;
     	this._curLayer.removeChild(item, true);
+    	this._curLayer.destroyList.push(item.getBody());
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     },
     addBeaverWithCoords: function (world, p) {
@@ -57,6 +60,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody;
+        bodyDef.linearDamping = 0;
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
         bodyDef.userData = tex;
         var body = world.CreateBody(bodyDef);
@@ -82,35 +86,42 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body = body;
     },
     slow: function () {
-    	
-    	// var tempVelocity = this._curVelocity;
-    	// this._curVelocity = 1;
-//     	
-    	// console.log("slow 2s beaver: "+this._id);
-    	// this.runAction(cc.Sequence.create(
-    		// cc.Blink.create(2, 5),
-    		// cc.CallFunc.create(function () {
-    			// this._curVelocity = tempVelocity;
-    		// }, this)
-//     		
-//     		
-    	// ));
-    	
+    	this._isSlow = true;
+    	this._curVelocity = 1;
+    	console.log("slow 2s beaver: "+this._id);
+    	this.runAction(cc.Sequence.create(
+    		cc.Blink.create(1.5, 5),
+    		cc.CallFunc.create(function () {
+    			this._curVelocity = 6.7;
+    			this._turn();
+    			this._isSlow = false;
+    			this.setOpacity(255);
+    		}, this)
+    	));
+    },
+    removeTailAtIndex: function (index) {
+    	for(var at = index; at<this._twigs.length; at++)
+    	{
+    		console.log("remove: "+at);
+    		this._curLayer.removeChild(this._twigs[at]);
+    		this._curLayer.destroyList.push(this._twigs[at].getBody());
+    	}
+    	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
     	if(this._startFlag)
-    	{
+    	{	
         	this._move();
         	this._showTwigs();
         }
-        else this._body.SetAwake(false);
+        else this._body.SetActive(false);
         
         if (this._leftKeyDown || this._rightKeyDown)
         {
         	if(!this._startFlag)
         	{
-        		this.slow();
         		this._startFlag = true;
+        		this.slow();
         	}
         	this._turn();
         }
@@ -154,7 +165,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         if (this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
 		if(curAngle < 0) curAngle = 355;
 		if(curAngle > 360) curAngle = 5;
-        //curVector = new Box2D.Common.Math.b2Vec2();
         curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
         curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
         //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
@@ -164,9 +174,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     _move: function () {
         this._body.SetLinearVelocity(this._vector);
-        this._body.SetAwake(true);
-       
-        if(this.count.savePosCount >= 6)
+        this._body.SetActive(true);
+        
+        if(this.count.savePosCount >= 30 && !this._isSlow)
         {
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
         	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
@@ -186,11 +196,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
 	filterGroup: function () {
     	_categoryPlayer = Math.pow(2, this._id);
-    },
-    twigBecomeScore : function() {
-		console.log("beaver got home. now twigs following beaver are changed to score.");
-
-	}
+    }
     
 });
 

@@ -3,7 +3,8 @@ classes.sprites.Twig = cc.Sprite.extend({
 	_type: 0,
     _body: null,
     _isStuck: false,
-    
+    _tailIndex: 0,
+       
     count: {
     },
     ctor: function (layer, p, type, isStuck) {
@@ -42,8 +43,8 @@ classes.sprites.Twig = cc.Sprite.extend({
         bodyDef.type = b2Body.b2_dynamicBody; //type
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
         bodyDef.userData = tex;
-        bodyDef.linearDamping = 2;
-        bodyDef.angularDamping = 1;
+        bodyDef.linearDamping = 0;
+        bodyDef.angularDamping = 0;
         var body = world.CreateBody(bodyDef);
 
         // Define another box shape for our dynamic body.
@@ -55,8 +56,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
-        fixtureDef.restitution = 1;
-        //fixtureDef.isSensor = true;
+        fixtureDef.restitution = 0;
         body.CreateFixture(fixtureDef);
         
         this._body = body;
