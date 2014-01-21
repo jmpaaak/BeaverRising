@@ -15,6 +15,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _positions: [],
     _showTwigsLock: false,
     _curLayer: null,
+    _isSlow: false,
 
     //count
     count: {
@@ -77,6 +78,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body = body;
     },
     slow: function () {
+    	this._isSlow = true;
     	this._curVelocity = 1;
     	console.log("slow 2s beaver: "+this._id);
     	this.runAction(cc.Sequence.create(
@@ -84,6 +86,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		cc.CallFunc.create(function () {
     			this._curVelocity = 6.7;
     			this._turn();
+    			this._isSlow = false;
+    			this.setOpacity(255);
     		}, this)
     	));
     },
@@ -147,7 +151,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body.SetLinearVelocity(this._vector);
         this._body.SetActive(true);
         
-        if(this.count.savePosCount >= 4)
+        if(this.count.savePosCount >= 4 && !this._isSlow)
         {
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
         	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
