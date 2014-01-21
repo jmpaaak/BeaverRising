@@ -46,6 +46,14 @@
         	'game/js/classes/classes.js', //namespace
         	'game/js/classes/GameController.js',
         	
+        	'game/js/classes/sprites/sprites.js', //namespace
+        	'game/js/classes/sprites/Beaver.js',
+        	'game/js/classes/sprites/Item.js',
+        	'game/js/classes/sprites/Twig.js',
+        	'game/js/classes/sprites/BaseCamp.js',
+        	'game/js/classes/sprites/Bullet.js',
+        	'game/js/classes/sprites/ScoreBoard.js',
+        	
         	'game/js/classes/layers/layers.js', //namespace
         	'game/js/classes/layers/DuelGameLayer.js',
         	'game/js/classes/layers/SplashScreenLayer.js',
@@ -54,14 +62,8 @@
         	'game/js/classes/scenes/scenes.js', //namespace
         	'game/js/classes/scenes/DuelGameScene.js',
         	'game/js/classes/scenes/SplashScreenScene.js',
-        	'game/js/classes/scenes/MainMenuScene.js',
+        	'game/js/classes/scenes/MainMenuScene.js'
         	
-        	'game/js/classes/sprites/sprites.js', //namespace
-        	'game/js/classes/sprites/Beaver.js',
-        	'game/js/classes/sprites/Item.js',
-        	'game/js/classes/sprites/Twig.js',
-        	'game/js/classes/sprites/BaseCamp.js',
-        	'game/js/classes/sprites/ScoreBoard.js'
         ]
     };
 

@@ -83,6 +83,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         this.world.SetContinuousPhysics(true);
 		this.world.SetContactListener(contactListener);
 		
+		//TESTING TITLE 
+		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
+        this.addChild(label, 1); //z === 1 : UI
+        label.setColor(cc.c3b(0, 0, 255));
+        label.setPosition(size.width / 2, size.height - 50);
+        
 		var fixDef = new b2FixtureDef;
         fixDef.density = 0;
         fixDef.friction = 0;
@@ -130,16 +136,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         bodyDef.position.Set(40, -1);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
 	
-		//TESTING TITLE 
-		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
-        this.addChild(label, 1); //z === 1 : UI
-        label.setColor(cc.c3b(0, 0, 255));
-        label.setPosition(size.width / 2, size.height - 50);
-        
-        //Adding Beavers
-        for(var i=0; i<4; i++)
-	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i+1);
 
+        //Adding Beavers
+        for(var i=1; i<5; i++)
+	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 
 	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(0,size.height), BG.BASECAMP.HOME1);
 	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width,size.height), BG.BASECAMP.HOME2);
@@ -163,38 +163,22 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SPEED);
 		}
 	},
-	
-	//_twigPopCount
-		popTwig: function() {
-		if(Math.random() <= 0.5)
-		{
+	popTwig: function() {
+		if (Math.random() <= 0.5) {
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();
 				var randY = Math.random();
 			} while( (0.2 >= randX || randX >= 0.8) &&
-					  (0.2 >= randY || randY >= 0.8) );
-					 
-			var x = randX*size.width, y = randY*size.height;
-			
+			(0.2 >= randY || randY >= 0.8) );
+
+			var x = randX * size.width, y = randY * size.height;
+
 			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
 		}
 	},
-	
 	update: function(dt) {
 
-		for(var i=0; i<4; i++)
-			this._beavers[i].update();
-		
-		if(this._itemPopCount === 300) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem();
-		this._itemPopCount++;
-		
-		if(this._twigPopCount === 120) //every 2s (p=0.5) 
-			this._twigPopCount = 0, this.popTwig();
-		this._twigPopCount++;		
-		
-		
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
 		//You need to make an informed choice, the following URL is useful
@@ -223,10 +207,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 		// Reset the array
 		this.destroyList.length = 0; 
-
-	
-		//for(var i=0; i<4; i++) //TODO
-			this._beavers[0].update();
+		
+		for(var i=1; i<5; i++)
+			this._beavers[i].update();
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem();
@@ -234,13 +217,15 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		
 		if(this._twigPopCount === 120) //every 2s (p=0.5) 
 			this._twigPopCount = 0, this.popTwig();
-		this._twigPopCount++;
+		this._twigPopCount++;		
 		
 	},
 	onKeyUp: function() {
- 		this._beavers[0].handleKeyUp();
+		//for(var i=0; i<4; i++) //TODO
+ 			this._beavers[1].handleKeyUp();
 	},
 	onKeyDown: function(e) {
-		this._beavers[0].handleKeyDown(e);
+		//for(var i=0; i<4; i++) //TODO
+			this._beavers[1].handleKeyDown(e);
 	}
 });

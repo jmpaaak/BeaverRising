@@ -26,7 +26,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._super();
         this._id = id;
         this._curLayer = layer;
-        this.filterGroup();
+        this._categoryPlayer = Math.pow(2, this._id);
         this.initWithFile(s_Beaver);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
@@ -193,11 +193,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     getVector: function () {
     	return this._vector;
-    },
-    filterGroup: function () {
-    	this._categoryPlayer = Math.pow(2, this._id);
-    	console.log("the category home is " + this._id + "-  " + this._categoryPlayer);
-    	console.log("the ~ category home is " + this._id + "-  " + (~(this._categoryPlayer)));
     }
 });
 
