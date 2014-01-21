@@ -13,9 +13,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _itemList: [],
     _twigs: [],
     _positions: [],
-    _showTwigsLock: false,
     _curLayer: null,
     _isSlow: false,
+    _bullet: null,
+    _categoryPlayer: null,
 
     //count
     count: {
@@ -25,26 +26,37 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._super();
         this._id = id;
         this._curLayer = layer;
+        this.filterGroup();
         this.initWithFile(s_Beaver);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
         this._curPos = this._body.GetPosition();
         layer.addChild(this, 0); //z: 0
     },
-    getID: function() {
-    	return this._id;
-    },
-    addTwig: function(twig) {
+    addTwig: function (twig) {
 	    this._twigs[this._twigs.length] = twig;
 	    this._curLayer.removeChild(twig);
 	    this._curLayer.destroyList.push(twig.getBody());
     	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
     },
-    addItem: function(item) { //TODO
+    addItem: function (item) { //TODO
+    	if(this._itemList.length === 2) return;
     	this._itemList[this._itemList.length] = item;
     	this._curLayer.removeChild(item);
     	this._curLayer.destroyList.push(item.getBody());
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
+    },
+    _useItem: function () {
+    	if(this._itemList.length === 0) return;
+    	switch(this._itemList[0].getType())
+    	{
+    		case BG.ITEM_TYPE.SPEED:
+    			this._shoot();
+    			break;
+    		case BG.ITEM_TYPE.SHIELD:
+    			break;
+    	}
+    	this._itemList.splice(0,1);
     },
     addBeaverWithCoords: function (world, p) {
         var tex = this;
@@ -72,6 +84,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
+        fixtureDef.filter.categoryBits = this._categoryPlayer;
+        fixtureDef.filter.maskBits = ~(this._categoryPlayer);
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
 
@@ -79,13 +93,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     slow: function () {
     	this._isSlow = true;
-    	this._curVelocity = 1;
+    	this._curVelocity = 0.5;
     	console.log("slow 2s beaver: "+this._id);
     	this.runAction(cc.Sequence.create(
     		cc.Blink.create(1.5, 5),
     		cc.CallFunc.create(function () {
     			this._curVelocity = 6.7;
-    			this._turn();
+    			this._move(); //for Set velocity, not turn 
     			this._isSlow = false;
     			this.setOpacity(255);
     		}, this)
@@ -115,7 +129,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         		this._startFlag = true;
         		this.slow();
         	}
-        	this._turn();
         }
 
         //count
@@ -127,27 +140,27 @@ classes.sprites.Beaver = cc.Sprite.extend({
             if (e === cc.KEY.left) this._leftKeyDown = true;
             else if (e === cc.KEY.right) this._rightKeyDown = true;
         }
+        if(e === cc.KEY.ctrl)
+        	this._useItem();
     },
     handleKeyUp: function () {
         this._leftKeyDown = false;
         this._rightKeyDown = false;
     },
-    _turn: function () {
-        var curVector = this._vector;
+    _move: function () {
+    	var curVector = this._vector;
         var curAngle = this._currentAngle;
         
         if (this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
         if (this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
 		if(curAngle < 0) curAngle = 355;
 		if(curAngle > 360) curAngle = 5;
-        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
+        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180));
         curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
-        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
         
         this._vector = curVector;
         this._currentAngle = curAngle;
-    },
-    _move: function () {
+
         this._body.SetLinearVelocity(this._vector);
         this._body.SetActive(true);
         
@@ -168,6 +181,23 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			}
 			this._twigs[i].getBody().SetPosition(this._positions[(i*5)+4]);
     	}
+    },
+    _shoot: function () {
+    	var x = PTM_RATIO*this._curPos.x,
+    		y = PTM_RATIO*this._curPos.y;
+    	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
+    	bullet.fire();
+	},
+	getID: function () {
+    	return this._id;
+    },
+    getVector: function () {
+    	return this._vector;
+    },
+    filterGroup: function () {
+    	this._categoryPlayer = Math.pow(2, this._id);
+    	console.log("the category home is " + this._id + "-  " + this._categoryPlayer);
+    	console.log("the ~ category home is " + this._id + "-  " + (~(this._categoryPlayer)));
     }
 });
 

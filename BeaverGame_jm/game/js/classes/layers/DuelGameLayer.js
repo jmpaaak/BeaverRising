@@ -88,7 +88,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         label.setPosition(size.width / 2, size.height - 50);
         
         //Adding Beavers
-        for(var i=0; i<4; i++)
+        for(var i=1; i<5; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 
 		
@@ -155,9 +155,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		// Reset the array
 		this.destroyList.length = 0; 
 
-	
 		//for(var i=0; i<4; i++) //TODO
-			this._beavers[0].update();
+			this._beavers[1].update();
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem();
@@ -169,9 +168,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		
 	},
 	onKeyUp: function() {
- 		this._beavers[0].handleKeyUp();
+		//for(var i=0; i<4; i++) //TODO
+ 			this._beavers[1].handleKeyUp();
 	},
 	onKeyDown: function(e) {
-		this._beavers[0].handleKeyDown(e);
+		//for(var i=0; i<4; i++) //TODO
+			this._beavers[1].handleKeyDown(e);
 	}
 });
