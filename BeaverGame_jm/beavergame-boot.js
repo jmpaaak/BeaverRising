@@ -50,6 +50,7 @@
         	'game/js/classes/sprites/Beaver.js',
         	'game/js/classes/sprites/Twig.js',
         	'game/js/classes/sprites/Item.js',
+        	'game/js/classes/sprites/Bullet.js',
         	
         	'game/js/classes/layers/layers.js', //namespace
         	'game/js/classes/layers/DuelGameLayer.js',
