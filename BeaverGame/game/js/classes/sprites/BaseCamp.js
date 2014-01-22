@@ -4,18 +4,20 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_bodyBCamp: null,
 	_bodyHome: null,
 	_categoryPlayer : null,
-	_scoreManager : null,
+	_curLayer : null,
+	_scoreBoard : null,
 	
 	ctor: function (layer, p, id) {
         this._super();
         this._id = id;
+        this._curLayer = layer;
         this.initWithFile(s_BaseCamp1);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.filterGroup();
         this.getId();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
-        this._scoreManager = new classes.sprites.ScoreBoard(layer);
+        this._scoreBoard = new classes.sprites.ScoreBoard(layer);
         layer.addChild(this, 0); //z: 0
         
     },
@@ -46,6 +48,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         fixtureDef.shape = dynamicCircle;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
+        fixtureDef.restitution = 10;
         fixtureDef.filter.categoryBits = _categoryPlayer;
         fixtureDef.filter.maskBits = ~(_categoryPlayer);
     
@@ -97,12 +100,15 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     },
     
     twigBecomeScore : function(beaver) {
+    	
     	for(var i = 0; i < beaver._twigs.length; i++)
     	{
     		console.log("remove: "+i);
     		beaver._curLayer.removeChild(beaver._twigs[i]);
     		beaver._curLayer.destroyList.push(beaver._twigs[i].getBody());
+    		this._scoreBoard._addScore(i+1);
     	}
+    	this._scoreBoard._changeScore();
     	beaver._twigs.splice(0, beaver._twigs.length);
     	
 		console.log("beaver got home. now twigs following beaver are changed to score.");

@@ -3,8 +3,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	_id: 0,
 	_startFlag: false,
     _texture: null,
+    
+    //Key Event
     _leftKeyDown: false,
     _rightKeyDown: false,
+    _qKeyDown: false,
+    _wKeyDown: false,
+    
     _vector: new Box2D.Common.Math.b2Vec2(),
     _currentAngle: 0,
     _curVelocity: 6.7,
@@ -40,6 +45,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
     },
     addItem: function(item) { //TODO
+    	if(this._itemList.length === 2) return;
     	this._itemList[this._itemList.length] = item;
     	this._curLayer.removeChild(item);
     	this._curLayer.destroyList.push(item.getBody());
@@ -58,7 +64,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody;
-        bodyDef.linearDamping = 0;
+        bodyDef.linearDamping = 5;
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
         bodyDef.userData = tex;
         var body = world.CreateBody(bodyDef);
@@ -72,6 +78,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
+        fixtureDef.restitution = 0.1;
         fixtureDef.filter.categoryBits = this._categoryPlayer;
         fixtureDef.filter.maskBits = ~(this._categoryPlayer);
         console.log("the category beaver is " + this._id + "-  " + fixtureDef.filter.categoryBits);
@@ -84,18 +91,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body = body;
     },
     slow: function () {
-    	this._isSlow = true;
-    	this._curVelocity = 0.5;
-    	console.log("slow 2s beaver: "+this._id);
-    	this.runAction(cc.Sequence.create(
-    		cc.Blink.create(1.5, 5),
-    		cc.CallFunc.create(function () {
-    			this._curVelocity = 6.7;
-    			this._move();
-    			this._isSlow = false;
-    			this.setOpacity(255);
-    		}, this)
-    	));
+    	if(!this._isSlow)
+    	{
+	    	this._isSlow = true;
+	    	this._curVelocity = 0.5;
+	    	console.log("slow 2s beaver: "+this._id);
+	    	this.runAction(cc.Sequence.create(
+	    		cc.Blink.create(1.5, 5),
+	    		cc.CallFunc.create(function () {
+	    			this._curVelocity = 6.7;
+	    			this._move();
+	    			this.setOpacity(255);
+	    			this._isSlow = false;
+	    		}, this)
+	    	));
+	    }
     },
     removeTailAtIndex: function (index) {
     	for(var at = index; at<this._twigs.length; at++)
@@ -114,14 +124,28 @@ classes.sprites.Beaver = cc.Sprite.extend({
         }
         else this._body.SetActive(false);
         
-        if (this._leftKeyDown || this._rightKeyDown)
+        if(this._id === 1)
         {
-        	if(!this._startFlag)
-        	{
-        		this._startFlag = true;
-        		this.slow();
-        	}
-        }
+	        if (this._leftKeyDown || this._rightKeyDown)
+	        {
+	        	if(!this._startFlag)
+	        	{
+	        		this._startFlag = true;
+	        		this.slow();
+	        	}
+	        }
+	    }
+	    else if(this._id === 2)
+	    {
+	    	if (this._qKeyDown || this._wKeyDown)
+	        {
+	        	if(!this._startFlag)
+	        	{
+	        		this._startFlag = true;
+	        		this.slow();
+	        	}
+	        }
+	    }
         //case of getting out of screen
         if((this._curPos.y * PTM_RATIO) > 720)
         {
@@ -145,16 +169,36 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	this.count[prop]++;
     },
     handleKeyDown: function (e) {
-        if (!this._leftKeyDown || !this._rightKeyDown) {
-            if (e === cc.KEY.left) this._leftKeyDown = true;
-            else if (e === cc.KEY.right) this._rightKeyDown = true;
-        }
-        if(e === cc.KEY.ctrl)
-        	this._useItem();
+    	if(this._id === 1)
+    	{
+	        if (!this._leftKeyDown || !this._rightKeyDown) {
+	            if (e === cc.KEY.left) this._leftKeyDown = true;
+	            else if (e === cc.KEY.right) this._rightKeyDown = true;
+	        }
+	        if(e === cc.KEY.ctrl)
+	        	this._useItem();
+	    }
+	    else if(this._id === 2)
+	    {
+	    	if (!this._qKeyDown || !this._wKeyDown) {
+	            if (e === cc.KEY.q) this._qKeyDown = true;
+	            else if (e === cc.KEY.w) this._wKeyDown = true;
+	        }
+	        if(e === cc.KEY.e)
+	        	this._useItem();
+	    }
     },
     handleKeyUp: function () {
-        this._leftKeyDown = false;
-        this._rightKeyDown = false;
+    	if(this._id === 1)
+    	{
+        	this._leftKeyDown = false;
+        	this._rightKeyDown = false;
+       }
+       else if(this._id === 2)
+       {
+       		this._qKeyDown = false;
+       		this._wKeyDown = false;
+       }
     },
     _useItem: function () {
     	if(this._itemList.length === 0) return;
@@ -172,21 +216,28 @@ classes.sprites.Beaver = cc.Sprite.extend({
         var curVector = this._vector;
         var curAngle = this._currentAngle;
         
-        if (this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-        if (this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+        if(this._id === 1)
+        {
+	        if (this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if (this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	    }
+	    else if(this._id === 2)
+	    {
+	    	if (this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if (this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	    }
 		if(curAngle < 0) curAngle = 355;
 		if(curAngle > 360) curAngle = 5;
         curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
         curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
         //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
-        
         this._vector = curVector;
         this._currentAngle = curAngle;
         
         this._body.SetLinearVelocity(this._vector);
         this._body.SetActive(true);
         
-        if(this.count.savePosCount >= 10 && !this._isSlow)
+        if(this.count.savePosCount >= 4 && !this._isSlow)
         {
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
         	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
