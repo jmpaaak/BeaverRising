@@ -17,8 +17,9 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.getId();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
-        this._scoreBoard = new classes.sprites.ScoreBoard(layer);
         layer.addChild(this, 0); //z: 0
+        console.log(this.getPosition().y);
+        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer, this.getPosition());
         
     },
 	
@@ -106,9 +107,8 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     		console.log("remove: "+i);
     		beaver._curLayer.removeChild(beaver._twigs[i]);
     		beaver._curLayer.destroyList.push(beaver._twigs[i].getBody());
-    		this._scoreBoard._addScore(i+1);
+    		this._scoreBoard.addScore(i+1);
     	}
-    	this._scoreBoard._changeScore();
     	beaver._twigs.splice(0, beaver._twigs.length);
     	
 		console.log("beaver got home. now twigs following beaver are changed to score.");

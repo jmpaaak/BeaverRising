@@ -209,8 +209,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		// Reset the array
 		this.destroyList.length = 0; 
 		
-		//for(var i=1; i<3; i++)
-			this._beavers[1].update();
+		for(var i=1; i<3; i++)
+		{
+			this._beavers[i].update();
+		}
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem();
@@ -221,12 +223,56 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this._twigPopCount++;		
 		
 	},
-	onKeyUp: function() {
-		for(var i=1; i<3; i++) //TODO
- 			this._beavers[i].handleKeyUp();
+	onKeyUp: function(e) {
+		switch(e)
+		{
+			//player1
+			case cc.KEY.left:
+				this._beavers[1].handleKeyUp(e);
+				break;
+			case cc.KEY.right:
+				this._beavers[1].handleKeyUp(e);
+				break;
+			case cc.KEY.ctrl:
+				this._beavers[1].handleKeyUp(e);
+				break;
+			
+			//player2	
+			case cc.KEY.q:
+				this._beavers[2].handleKeyUp(e);
+				break;
+			case cc.KEY.w:
+				this._beavers[2].handleKeyUp(e);
+				break;
+			case cc.KEY.e:
+				this._beavers[2].handleKeyUp(e);
+				break;
+		}
 	},
 	onKeyDown: function(e) {
-		for(var i=1; i<3; i++) //TODO
-			this._beavers[i].handleKeyDown(e);
+		switch(e)
+		{
+			//player1
+			case cc.KEY.left:
+				this._beavers[1].handleKeyDown(e);
+				break;
+			case cc.KEY.right:
+				this._beavers[1].handleKeyDown(e);
+				break;
+			case cc.KEY.ctrl:
+				this._beavers[1].handleKeyDown(e);
+				break;
+			
+			//player2	
+			case cc.KEY.q:
+				this._beavers[2].handleKeyDown(e);
+				break;
+			case cc.KEY.w:
+				this._beavers[2].handleKeyDown(e);
+				break;
+			case cc.KEY.e:
+				this._beavers[2].handleKeyDown(e);
+				break;
+		}
 	}
 });

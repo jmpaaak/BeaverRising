@@ -36,7 +36,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
         this._curPos = this._body.GetPosition();
-        layer.addChild(this, 0); //z: 0
+        layer.addChild(this, 1); //z: 0
     },
     addTwig: function(twig) {
 	    this._twigs[this._twigs.length] = twig;
@@ -84,7 +84,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         console.log("the category beaver is " + this._id + "-  " + fixtureDef.filter.categoryBits);
 		console.log("the ~ mask beaver is " + this._id + "-  " + fixtureDef.filter.maskBits);
 
-        
         //fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
         
@@ -252,7 +251,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				newTwig.setTailIndex(i);
 				this._twigs[i] = newTwig;
 			}
-			this._twigs[i].getBody().SetPosition(this._positions[(i*5)+4]);
+			//this._twigs[i].getBody().SetPosition(this._positions[(i*5)+4]);
+			this._twigs[i].setPosition(this._positions[(i*5)+4].x * PTM_RATIO, this._positions[(i*5)+4].y * PTM_RATIO);
     	}
     },
     _shoot: function () {
@@ -266,6 +266,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     getVector: function () {
     	return this._vector;
+    },
+    getIsStart: function () {
+    	return this._starFlag;
     }
 });
 
