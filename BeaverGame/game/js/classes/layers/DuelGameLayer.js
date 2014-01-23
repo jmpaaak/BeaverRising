@@ -141,6 +141,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         //Adding Beavers
         for(var i=1; i<5; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
+	       
 
 	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(0,size.height), BG.BASECAMP.HOME1);
 	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width,size.height), BG.BASECAMP.HOME2);
@@ -203,7 +204,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 		
 		//Destroy Body
-		for (var i in this.destroyList) {
+		for (var i=0; i<this.destroyList.length; i++) {
 			this.world.DestroyBody(this.destroyList[i]);
 		}
 		// Reset the array

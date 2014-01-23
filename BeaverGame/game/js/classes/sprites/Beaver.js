@@ -23,10 +23,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _bullet: null,
     _categoryPlayer : null,
     
-    
-    count: {
-    	savePosCount: 0
-    },
+    count: 0,
+    // count: {
+    	// savePosCount: 0
+    // },
     ctor: function (layer, p, id) {
         this._super();
         this._id = id;
@@ -35,7 +35,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this.initWithFile(s_Beaver);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
-        this._curPos = this._body.GetPosition();
+  		this._curPos = this._body.GetPosition();
         layer.addChild(this, 1); //z: 0
     },
     addTwig: function(twig) {
@@ -116,6 +116,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
+    	// this._curPos.x = this.getPosition().x / PTM_RATIO;
+    	// this._curPos.y = this.getPosition().y / PTM_RATIO;
     	if(this._startFlag)
     	{	
         	this._move();
@@ -163,9 +165,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	this._body.SetPosition(cc.p(1280 / PTM_RATIO,this._curPos.y));
         }
         
+        this.count++;
         //count
-        for(var prop in this.count)
-        	this.count[prop]++;
+       // for(var prop in this.count)
+        	// this.count[prop]++;
     },
     handleKeyDown: function (e) {
     	if(this._id === 1)
@@ -236,23 +239,25 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._body.SetLinearVelocity(this._vector);
         this._body.SetActive(true);
         
-        if(this.count.savePosCount >= 4 && !this._isSlow)
+        if(this.count >= 10 && !this._isSlow)
         {
+        	//console.log(this._id+" "+this._curPos.x+" "+this._curPos.y);
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
         	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
-        	this.count.savePosCount = 0;
+        	this.count = 0;
         }
     },
     _showTwigs: function () {
-    	for(var i in this._twigs) {
+    	for(var i=0; i<this._twigs.length; i++) {
     		if (!this._twigs[i].getIsStuck()) {
 				this._twigs[i].setIsStuck(true);
 				var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true);
 				newTwig.setTailIndex(i);
 				this._twigs[i] = newTwig;
 			}
-			//this._twigs[i].getBody().SetPosition(this._positions[(i*5)+4]);
-			this._twigs[i].setPosition(this._positions[(i*5)+4].x * PTM_RATIO, this._positions[(i*5)+4].y * PTM_RATIO);
+			var p = this._positions[(i*5)+4];
+			this._twigs[i].getBody().SetPosition(p);
+			//this._twigs[i].setPosition(this._positions[(i*5)+4].x * PTM_RATIO, this._positions[(i*5)+4].y * PTM_RATIO);
     	}
     },
     _shoot: function () {
