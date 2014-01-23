@@ -4,13 +4,14 @@ classes.sprites.Twig = cc.Sprite.extend({
     _body: null,
     _isStuck: false,
     _tailIndex: 0,
-       
+    beaverID: 0,
     count: {
     },
-    ctor: function (layer, p, type, isStuck) {
+    ctor: function (layer, p, type, isStuck, beaverID) {
         this._super();
         this._type = type;
         this._isStuck = isStuck;
+        this._beaverID = beaverID;
         switch(type)
         {
         	case BG.TWIG_TYPE.NORMAL:
@@ -108,6 +109,9 @@ classes.sprites.Twig = cc.Sprite.extend({
     },
     getTailIndex: function () {
     	return this._tailIndex;
+    },
+    getBeaverID: function () {
+    	return this._beaverID;
     },
     update: function () {
 

@@ -10,14 +10,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _qKeyDown: false,
     _wKeyDown: false,
     
-    _vector: new Box2D.Common.Math.b2Vec2(),
+    _vector: null,
     _currentAngle: 0,
     _curVelocity: 6.7,
-    _curPos:{x:0, y:0},
+    _curPos: null,
+    _tempPos: null,
     _body: null,
-    _itemList: [],
-    _twigs: [],
-    _positions: [],
+    _itemList: null,
+    _twigs: null,
+    _positions: null,
     _curLayer: null,
     _isSlow: false,
     _bullet: null,
@@ -35,8 +36,16 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this.initWithFile(s_Beaver);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
-  		this._curPos = this._body.GetPosition();
+  		this._itemList = [];
+  		this._twigs = [];
+  		this._positions = [];
+        for(var i=0; i<100; i++)
+        	this._positions[i] = cc.p(0,0);
+   
         layer.addChild(this, 1); //z: 0
+        
+        this.schedule(this.update, 1 / 60);
+        
     },
     addTwig: function(twig) {
 	    this._twigs[this._twigs.length] = twig;
@@ -99,9 +108,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    		cc.Blink.create(1.5, 5),
 	    		cc.CallFunc.create(function () {
 	    			this._curVelocity = 6.7;
-	    			this._move();
 	    			this.setOpacity(255);
 	    			this._isSlow = false;
+	    			this._move();
 	    		}, this)
 	    	));
 	    }
@@ -116,14 +125,19 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
-    	// this._curPos.x = this.getPosition().x / PTM_RATIO;
-    	// this._curPos.y = this.getPosition().y / PTM_RATIO;
+        this._body.SetAwake(true);
+        this._curPos = new cc.Point();
+    	this._curPos.x = this.getPosition().x / PTM_RATIO;
+    	this._curPos.y = this.getPosition().y / PTM_RATIO;
+		this._positions[0] = cc.p(this._curPos.x, this._curPos.y);
+		 //console.log(this._id+" "+this._positions[0].x+" "+this._positions[0].y);
+		
     	if(this._startFlag)
     	{	
         	this._move();
-        	this._showTwigs();
+        	//this._showTwigs();
         }
-        else this._body.SetActive(false);
+        //else this._body.SetActive(false);
         
         if(this._id === 1)
         {
@@ -215,6 +229,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._itemList.splice(0,1);
     },
     _move: function () {
+    	if(!this._vector) this._vector = new cc.Point();
         var curVector = this._vector;
         var curAngle = this._currentAngle;
         
@@ -236,28 +251,40 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._vector = curVector;
         this._currentAngle = curAngle;
         
+       // this._body.SetAwake(true);
         this._body.SetLinearVelocity(this._vector);
-        this._body.SetActive(true);
         
-        if(this.count >= 10 && !this._isSlow)
+        if(this.count >= 4 && !this._isSlow)
         {
-        	//console.log(this._id+" "+this._curPos.x+" "+this._curPos.y);
-        	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y)); 
-        	if(this._positions.length == ((this._twigs.length+3)*5)+6) this._positions.pop(); 
+        	//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
+        	//this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
+        	for(var i=0; i<this._positions.length-1; i++)
+        	{
+        		//console.log(this._id+" "+i+" "+this._positions[i].x+" "+this._positions[i].y+" "+this._positions.length);
+        		if(i==0) this._tempPos = this._positions[0];
+        		var temp = this._positions[i+1];
+        		this._positions[i+1] = this._tempPos;
+        		this._tempPos = temp;
+        	}
+        	// this._positions[0] = cc.p(this._curPos.x, this._curPos.y);
+        	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
+        	// console.log(this._id+" "+this._twigs.length);
         	this.count = 0;
         }
+        this._showTwigs();
     },
     _showTwigs: function () {
-    	for(var i=0; i<this._twigs.length; i++) {
+    	for(var i=0; i<this._twigs.length; i++) 
+    	{
     		if (!this._twigs[i].getIsStuck()) {
 				this._twigs[i].setIsStuck(true);
-				var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true);
+				var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true, this._id);
 				newTwig.setTailIndex(i);
 				this._twigs[i] = newTwig;
 			}
 			var p = this._positions[(i*5)+4];
+			// console.log(this._id+" "+p.x+" "+p.y);
 			this._twigs[i].getBody().SetPosition(p);
-			//this._twigs[i].setPosition(this._positions[(i*5)+4].x * PTM_RATIO, this._positions[(i*5)+4].y * PTM_RATIO);
     	}
     },
     _shoot: function () {

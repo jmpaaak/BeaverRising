@@ -29,7 +29,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
           	
         	var dataA = contact.GetFixtureA().GetBody().GetUserData(),
         		dataB = contact.GetFixtureB().GetBody().GetUserData();
-        		
+        		// console.log(dataA.name+" "+dataB.name);
         	if(dataA.name === "Beaver" || dataB.name === "Beaver")
         	{
         		if(dataA.name === "Beaver")
@@ -66,7 +66,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.addItem(target);
 							break;
 						case "Twig":
-							beaver.removeTailAtIndex(target.getTailIndex());
+							var i = target.getBeaverID();
+							that._beavers[i].removeTailAtIndex(target.getTailIndex());
 							break;
 						case "Home":
 							target.twigBecomeScore(beaver);
@@ -139,7 +140,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	
 
         //Adding Beavers
-        for(var i=1; i<5; i++)
+        for(var i=1; i<3; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 	       
 
@@ -209,11 +210,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 		// Reset the array
 		this.destroyList.length = 0; 
-		
-		for(var i=1; i<3; i++)
-		{
-			this._beavers[i].update();
-		}
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem();
