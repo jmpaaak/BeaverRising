@@ -62,6 +62,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				else //is sensor
 				{
 					switch(target.name) {
+						case "Bullet":
+							if(beaver.getID() === target.getID()) return;
+							beaver.slow();
+							target.destroy(that);
+							target = null;
+							break;
 						case "Item":
 							beaver.addItem(target);
 							break;
@@ -208,7 +214,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		for (var i=0; i<this.destroyList.length; i++) {
 			this.world.DestroyBody(this.destroyList[i]);
 		}
-		// Reset the array
+		//Reset the array
 		this.destroyList.length = 0; 
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 

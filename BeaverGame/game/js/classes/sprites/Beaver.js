@@ -52,6 +52,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._curLayer.removeChild(twig);
 	    this._curLayer.destroyList.push(twig.getBody());
     	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
+    	twig = null;
     },
     addItem: function(item) { //TODO
     	if(this._itemList.length === 2) return;
@@ -59,6 +60,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._curLayer.removeChild(item);
     	this._curLayer.destroyList.push(item.getBody());
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
+    	item = null;
     },
     addBeaverWithCoords: function (world, p) {
         var tex = this;
@@ -121,6 +123,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		console.log("remove: "+at);
     		this._curLayer.removeChild(this._twigs[at]);
     		this._curLayer.destroyList.push(this._twigs[at].getBody());
+    		this._twigs[at] = null;
+    		
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
@@ -249,24 +253,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._vector = curVector;
         this._currentAngle = curAngle;
         
-       // this._body.SetAwake(true);
         this._body.SetLinearVelocity(this._vector);
         
         if(this.count >= 4 && !this._isSlow)
         {
         	//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
+        	//console.log(this._id+" "+this._twigs.length);
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
-        	// for(var i=0; i<this._positions.length; i++)
-        	// {
-        		// //console.log(this._id+" "+i+" "+this._positions[i].x+" "+this._positions[i].y+" "+this._positions.length);
-        		// if(i==0) this._tempPos = this._positions[0];
-        		// var temp = this._positions[i+1];
-        		// this._positions[i+1] = this._tempPos;
-        		// this._tempPos = temp;
-        	// }
-        	// this._positions[0] = cc.p(this._curPos.x, this._curPos.y);
         	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
-        	// console.log(this._id+" "+this._twigs.length);
         	this.count = 0;
         }
         this._showTwigs();

@@ -47,8 +47,15 @@ classes.sprites.Bullet = cc.Sprite.extend({
         
         this._body = body;
     },
+    destroy: function (layer) {
+    	layer.removeChild(this);
+    	layer.destroyList.push(this._body);
+    },
     getBody: function () {
     	return this._body;
+    },
+    getID: function () {
+    	return this._id;
     },
     fire: function () { 	
 		this._vector.x = this._velocity * this._vector.x;
