@@ -62,7 +62,7 @@ classes.sprites.Bullet = cc.Sprite.extend({
 		this._vector.y = this._velocity * this._vector.y;
     	this._body.SetLinearVelocity(this._vector);
     },
-    filterGroup: function () {
+    filterGroup: function(){
     	this._categoryPlayer = Math.pow(2, this._id);
     	console.log("the category home is " + this._id + "-  " + this._categoryPlayer);
     	console.log("the ~ category home is " + this._id + "-  " + (~(this._categoryPlayer)));

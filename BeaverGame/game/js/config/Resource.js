@@ -19,6 +19,8 @@ var s_BaseCamp1 = "BaseCamp1.png";
 //var s_BaseCamp3 = "BaseCamp3.png";
 //var s_BaseCamp4 = "BaseCamp4.png";
 
+var s_ScoreBoard = "ScoreBoard.png";
+
 var g_resources = [
     //image
     {src:s_HelloWorld},
@@ -34,7 +36,9 @@ var g_resources = [
 	
 	{src:s_Twig_Normal},
 	
-	{src:s_BaseCamp1}
+	{src:s_BaseCamp1},
+	
+	{src:s_ScoreBoard}
 	
     //plist
 
