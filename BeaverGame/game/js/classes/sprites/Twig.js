@@ -114,8 +114,5 @@ classes.sprites.Twig = cc.Sprite.extend({
     	return this._beaverID;
     },
     update: function () {
-
-    	 //counter proc
- 
     }
 });

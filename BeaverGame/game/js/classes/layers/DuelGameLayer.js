@@ -30,20 +30,24 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         	var dataA = contact.GetFixtureA().GetBody().GetUserData(),
         		dataB = contact.GetFixtureB().GetBody().GetUserData();
         		// console.log(dataA.name+" "+dataB.name);
+        		
+        	//Beaver Listener
         	if(dataA.name === "Beaver" || dataB.name === "Beaver")
         	{
         		if(dataA.name === "Beaver")
         		{
         			var beaver = contact.GetFixtureA().GetBody().GetUserData(),
         				target = contact.GetFixtureB().GetBody().GetUserData();
+        				var targetFix = contact.GetFixtureB();
         		}
         		else if(dataB.name === "Beaver")
         		{
         			var beaver = contact.GetFixtureB().GetBody().GetUserData(),
         				target = contact.GetFixtureA().GetBody().GetUserData();
+        				var targetFix = contact.GetFixtureA();
         		}
         			
-				if(!contact.IsSensor()) //is NOT sensor
+				if(!targetFix.IsSensor()) //is NOT sensor
 				{
 					switch(target.name) {
 						case "Home":
@@ -66,7 +70,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							if(beaver.getID() === target.getID()) return;
 							beaver.slow();
 							target.destroy(that);
-							target = null;
 							break;
 						case "Item":
 							beaver.addItem(target);
@@ -77,6 +80,40 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							break;
 						case "Home":
 							target.twigBecomeScore(beaver);
+							break;
+					}
+				}
+			}
+			
+			//Bullet Listener
+			if(dataA.name === "Bullet" || dataB.name === "Bullet")
+        	{
+        		if(dataA.name === "Bullet")
+        		{
+        			var bullet = contact.GetFixtureA().GetBody().GetUserData(),
+        				target = contact.GetFixtureB().GetBody().GetUserData();
+        				var targetFix = contact.GetFixtureB();
+        		}
+        		else if(dataB.name === "Bullet")
+        		{
+        			var bullet = contact.GetFixtureB().GetBody().GetUserData(),
+        				target = contact.GetFixtureA().GetBody().GetUserData();
+        				var targetFix = contact.GetFixtureA();
+        		}
+        			
+				if(!targetFix.IsSensor()) //is NOT sensor
+				{
+					// switch(target.name) {
+					// }
+				} 
+				else //is sensor
+				{
+					switch(target.name) {
+						case "Twig":
+							var i = target.getBeaverID();
+							console.log(contact.IsSensor());
+							that._beavers[i].removeTailAtIndex(target.getTailIndex());
+							bullet.destroy(that);
 							break;
 					}
 				}
@@ -173,7 +210,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 	},
 	popTwig: function() {
-		if (Math.random() <= 0.5) {
+		if (Math.random() <= 0.99) {
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();

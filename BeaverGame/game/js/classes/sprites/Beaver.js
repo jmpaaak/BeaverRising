@@ -124,7 +124,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		this._curLayer.removeChild(this._twigs[at]);
     		this._curLayer.destroyList.push(this._twigs[at].getBody());
     		this._twigs[at] = null;
-    		
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
@@ -211,12 +210,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	{
         	this._leftKeyDown = false;
         	this._rightKeyDown = false;
-       }
-       else if(this._id === 2)
-       {
+        }
+        else if(this._id === 2)
+        {
        		this._qKeyDown = false;
        		this._wKeyDown = false;
-       }
+        }
     },
     _useItem: function () {
     	if(this._itemList.length === 0) return;
@@ -237,13 +236,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
         
         if(this._id === 1)
         {
-	        if (this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if (this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
 	    }
 	    else if(this._id === 2)
 	    {
-	    	if (this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if (this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
 	    }
 		if(curAngle < 0) curAngle = 355;
 		if(curAngle > 360) curAngle = 5;
