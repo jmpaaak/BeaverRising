@@ -7,20 +7,17 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_curLayer : null,
 	_scoreBoard : null,
 	
-	ctor: function (layer, p, id) {
+	ctor: function (layer, p, id){
         this._super();
         this._id = id;
         this._curLayer = layer;
         this.initWithFile(s_BaseCamp1);
         this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.filterGroup();
-        this.getId();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
-        layer.addChild(this, 0); //z: 0
-        console.log(this.getPosition().y);
-        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer, this.getPosition());
-        
+        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this.getPosition(),id);
+        layer.addChild(this, 10); //z: 0
     },
 	
 	addBaseCampWithType : function (world, p){

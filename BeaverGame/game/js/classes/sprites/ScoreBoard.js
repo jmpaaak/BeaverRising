@@ -1,27 +1,48 @@
 classes.sprites.ScoreBoard = cc.Sprite.extend({
-	_labelScore: null,
-	_totalScore: null,
-	_curLayer: null,
-	ctor: function (layer, p) {
+	_labelScore : null,
+	_totalScore : null,
+	_baseCampPos : null,
+	_spriteWidth_half : null,
+	_spriteWHeight_half : null,
+
+	ctor: function (layer,Pos,id) {
         this._super();
-        this._curLayer = layer;
-        this.initWithFile(s_BaseCamp1);
-        this.setPosition(p.x+300, p.y-100);
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-        layer.addChild(this, 1); //z: 0
+		this._baseCampPos = Pos;
+        this.initWithFile(s_ScoreBoard);
         
-        this.init();
+        _spriteWidth_half = this.getTextureRect().width / 2;
+        _spriteWHeight_half = this.getTextureRect().height / 2;
+        
+        switch(id)
+        {
+        	case BG.BASECAMP.HOME1 : 
+       			this.setPosition( Pos.x + _spriteWidth_half, Pos.y - _spriteWHeight_half );
+        		break;
+        	case BG.BASECAMP.HOME2 :
+       			this.setPosition( Pos.x - _spriteWidth_half, Pos.y - _spriteWHeight_half );
+        		break;
+        	case BG.BASECAMP.HOME3 :
+       			this.setPosition( Pos.x + _spriteWidth_half, Pos.y + _spriteWHeight_half );
+        		break;
+        	case BG.BASECAMP.HOME4 :
+       			this.setPosition( Pos.x - _spriteWidth_half, Pos.y + _spriteWHeight_half );
+        		break;
+        }
+
+        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+        layer.addChild(this, 20); //z: 0
+
+   		this.init();
     },
-    init : function () {
-    	size = cc.Director.getInstance().getWinSize();
+
+    init : function(){
     	this._labelScore = cc.LabelTTF.create("Score :" + this._getScore(), "Helvetica", 20);
+        this._labelScore.setPosition(this.getTextureRect().width / 2 , this.getTextureRect().height / 2);
         this._labelScore.setColor(cc.c3(255,0,0));//black color
-        this._labelScore.setPosition(this.getTextureRect().width/2, this.getTextureRect().height/2);
-        this.addChild(this._labelScore, 1);
+        this.addChild(this._labelScore,2);
     },
     _changeScore : function(){
-    	console.log("change proc!");
-    	this._labelScore.setString("hello" + this._getScore()); 	
+    	this._labelScore.setString("Score :" + this._getScore()); 	
     },
 	_getScore : function(){
 			return this._totalScore;
@@ -29,11 +50,10 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 	
 	addScore : function(num){
 			this._totalScore+=num;
-			this._changeScore();
 			console.log("total is "+this._totalScore);
+			this._changeScore();
 	},
-	
-	subScore : function(num){
+	_subScore : function(num){
 			this._totalScore-=num;
 	}
 	
