@@ -1,25 +1,31 @@
+var s_HelloWorld = "images/HelloWorld.jpg";
+var s_CloseNormal = "images/CloseNormal.png";
+var s_CloseSelected = "images/CloseSelected.png";
 
-var s_HelloWorld = "HelloWorld.jpg";
-var s_CloseNormal = "CloseNormal.png";
-var s_CloseSelected = "CloseSelected.png";
+//SplashScreen
+var s_SplashScreen1 = "images/DigitalMedia_splashscreen.png";
+var s_SplashScreen2 = "images/Brainstorm_splashscreen.png";
+var s_SplashScreen3 = "images/BeaverGame_splashscreen.png";
 
-var s_bgMainMenu = "bgMainMenu.png";
-var s_Beaver = "1.png";
-var s_SplashScreen1 = "DigitalMedia_splashscreen.png";
-var s_SplashScreen2 = "Brainstorm_splashscreen.png";
-var s_SplashScreen3 = "BeaverGame_splashscreen.png";
-var s_Item_Speed = "Item_Speed.png";
-//var s_Item_Shield = "Item_Shield.png";
+//MainMenu
+var s_bgMainMenu = "images/bgMainMenu.png";
 
-var s_Twig_Normal = "Twig_Normal.png";
+//GameLayer
+var s_Beaver = "images/1.png";
+var s_Twig_Normal = "images/Twig_Normal.png";
+var s_BaseCamp1 = "images/BaseCamp1.png";
+var s_ScoreBoard = "images/ScoreBoard.png";
+var s_Item_Speed = "images/Item_Speed.png";
+//var s_Item_Shield = "images/Item_Shield.png";
+
+//Font
+var s_Konqa32 = "fonts/konqa32.fnt";
 
 
-var s_BaseCamp1 = "BaseCamp1.png";
 //var s_BaseCamp2 = "BaseCamp2.png";
 //var s_BaseCamp3 = "BaseCamp3.png";
 //var s_BaseCamp4 = "BaseCamp4.png";
 
-var s_ScoreBoard = "ScoreBoard.png";
 
 var g_resources = [
     //image
@@ -35,15 +41,14 @@ var g_resources = [
 	//{src:s_Item_Shield}	
 	
 	{src:s_Twig_Normal},
-	
 	{src:s_BaseCamp1},
-	
-	{src:s_ScoreBoard}
+	{src:s_ScoreBoard},
 	
     //plist
 
     //fnt
-
+	{src:s_Konqa32}
+	
     //tmx
 
     //bgm

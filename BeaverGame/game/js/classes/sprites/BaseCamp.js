@@ -104,7 +104,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     		console.log("remove: "+i);
     		beaver._curLayer.removeChild(beaver._twigs[i]);
     		beaver._curLayer.destroyList.push(beaver._twigs[i].getBody());
-    		this._scoreBoard.addScore(i+1);
+    		this._scoreBoard.addScore(i+1); //each twig: 1 2 3 4 5
     	}
     	beaver._twigs.splice(0, beaver._twigs.length);
     	

@@ -53,6 +53,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._curLayer.destroyList.push(twig.getBody());
     	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
     	twig = null;
+    	
+    	var willGetScore = cc.LabelBMFont.create("+" + this._twigs.length, s_Konqa32);
+    	if(this._twigs.length >= 5) willGetScore.setColor(cc.c3(255,0,0));
+    	else willGetScore.setColor(cc.c3(255,255,255));
+        willGetScore.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO+20); 
+        this._curLayer.addChild(willGetScore,2);
+        //Actions
+        willGetScore.runAction(cc.Sequence.create(cc.MoveBy.create(0.5, cc.p(0,20))));
+	    willGetScore.runAction(cc.Sequence.create(
+	    	cc.FadeIn.create(0.3),
+	    	cc.DelayTime.create(0.2),
+	    	cc.CallFunc.create(function () {
+	    		this._curLayer.removeChild(willGetScore, true);
+	    	}, this)
+	    ));
     },
     addItem: function(item) { //TODO
     	if(this._itemList.length === 2) return;

@@ -115,7 +115,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							that._beavers[i].removeTailAtIndex(target.getTailIndex());
 							bullet.destroy(that);
 							break;
-					}
+					} 
 				}
 			}
 	    };

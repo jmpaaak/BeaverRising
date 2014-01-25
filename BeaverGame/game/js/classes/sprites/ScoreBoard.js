@@ -1,6 +1,6 @@
 classes.sprites.ScoreBoard = cc.Sprite.extend({
-	_labelScore : null,
-	_totalScore : null,
+	_labelScore : 0,
+	_totalScore : 0,
 	_baseCampPos : null,
 	_spriteWidth_half : null,
 	_spriteWHeight_half : null,
@@ -36,9 +36,9 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
     },
 
     init : function(){
-    	this._labelScore = cc.LabelTTF.create("Score :" + this._getScore(), "Helvetica", 20);
+    	this._labelScore = cc.LabelBMFont.create("Score :" + this._getScore(), s_Konqa32);
         this._labelScore.setPosition(this.getTextureRect().width / 2 , this.getTextureRect().height / 2);
-        this._labelScore.setColor(cc.c3(255,0,0));//black color
+        this._labelScore.setColor(cc.c3(0,0,0));
         this.addChild(this._labelScore,2);
     },
     _changeScore : function(){
