@@ -276,8 +276,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
         	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
         	this.count = 0;
+        	this._showTwigs();
         }
-        this._showTwigs();
     },
     _showTwigs: function () {
     	for(var i=0; i<this._twigs.length; i++) 
