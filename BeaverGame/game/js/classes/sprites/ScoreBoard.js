@@ -29,7 +29,7 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
         		break;
         }
 
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+        //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         layer.addChild(this, 20); //z: 0
 
    		this.init();

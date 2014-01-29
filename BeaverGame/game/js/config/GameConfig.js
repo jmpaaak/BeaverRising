@@ -30,8 +30,9 @@ BG.SOUND = true;
 
 //item types
 BG.ITEM_TYPE = {
-    SPEED:1,
+    BULLET:1,
     SHIELD:2,
+    LIGHTENING:3,
     //TODO
 };
 
@@ -45,6 +46,13 @@ BG.CATEGORY = {
 
 BG.OBSTACLE_TYPE = {
 	//TODO
+};
+
+BG.BEAVER_SPEED ={
+	SLOW : 0.5,
+	NORMAL : 6.7,
+	FAST : 10,
+	SUPERFAST : 30
 };
 
 //branch types

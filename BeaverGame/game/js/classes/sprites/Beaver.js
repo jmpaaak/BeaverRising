@@ -12,7 +12,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     
     _vector: null,
     _currentAngle: 0,
-    _curVelocity: 6.7,
+    _curVelocity: BG.BEAVER_SPEED.NORMAL,
     _curPos: null,
     _tempPos: null,
     _body: null,
@@ -24,7 +24,17 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _bullet: null,
     _categoryPlayer : null,
     
-    count: 0,
+    _homeInPoint : null,
+    _settingHomeIn : null, 
+    _settingHomeOut : null,
+    _setInFlag : false,
+    _setOutFlag : false,
+    _isHome : false,
+    _outAngle : 0,
+    
+    _lighteningOn : false,
+    
+    count: null,
     // count: {
     	// savePosCount: 0
     // },
@@ -34,18 +44,45 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._curLayer = layer;
         this._categoryPlayer = Math.pow(2, this._id);
         this.initWithFile(s_Beaver);
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
   		this._itemList = [];
   		this._twigs = [];
   		this._positions = [];
+  		this.settingPoint();
         for(var i=0; i<100; i++)
         	this._positions[i] = cc.p(0,0);
-   
+   		this.count = {
+   			savePosCount: 0,
+   			moveAllowCount: 0,
+   			lighteningCount: 0
+   		};
         layer.addChild(this, 1); //z: 0
         
         this.schedule(this.update, 1 / 60);
         
+    },
+    settingPoint : function(){
+    	var size = cc.Director.getInstance().getWinSize();
+    	this._homeInPoint = new cc.Point();
+    	switch(this._id)
+    	{
+    		case BG.BASECAMP.HOME1:
+    			this._homeInPoint= cc.p(0,size.height/PTM_RATIO);
+    			this._outAngle = 45;
+    			break;
+    		case BG.BASECAMP.HOME2:
+    			this._homeInPoint= cc.p(size.width/PTM_RATIO, size.height/PTM_RATIO);
+    			this._outAngle = 135;
+    			break;
+    		case BG.BASECAMP.HOME3:
+    			this._homeInPoint= cc.p(0,0);
+    			this._outAngle = 225;
+    			break;
+    		case BG.BASECAMP.HOME4:
+    			this._homeInPoint= cc.p(size.width/PTM_RATIO,0);
+    			this._outAngle = 315;
+    			break;
+    	}
     },
     addTwig: function(twig) {
 	    this._twigs[this._twigs.length] = twig;
@@ -119,12 +156,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	if(!this._isSlow)
     	{
 	    	this._isSlow = true;
-	    	this._curVelocity = 0.5;
+	    	this._curVelocity = BG.BEAVER_SPEED.SLOW;
 	    	console.log("slow 2s beaver: "+this._id);
 	    	this.runAction(cc.Sequence.create(
 	    		cc.Blink.create(1.5, 5),
 	    		cc.CallFunc.create(function () {
-	    			this._curVelocity = 6.7;
+	    			this._curVelocity = BG.BEAVER_SPEED.NORMAL;
 	    			this.setOpacity(255);
 	    			this._isSlow = false;
 	    			this._move();
@@ -143,18 +180,47 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
-        this._body.SetAwake(true);
+//        this._body.SetAwake(true);
         this._curPos = new cc.Point();
     	this._curPos.x = this.getPosition().x / PTM_RATIO;
     	this._curPos.y = this.getPosition().y / PTM_RATIO;
 		//this._positions[0] = cc.p(this._curPos.x, this._curPos.y);
 		 //console.log(this._id+" "+this._positions[0].x+" "+this._positions[0].y);
 		
-    	if(this._startFlag)
+    	if(this._startFlag && (!this._setInFlag) && (!this._setOutFlag))
     	{	
         	this._move();
+			this._body.SetAwake(true);
+        	this.count.moveAllowCount = 0;
+        }
+        else if(this._setInFlag)
+        {
+        	this._settingHomeIn();
+        	this.settingIn(false);
+        }
+        else if(this._setOutFlag)
+        {
+        	if(this.count.moveAllowCount >= 20) {
+        		this.settingOut(false); 
+        		this.setIsHome(false);	
+        	}
+        	this._settingHomeOut();
+        	this.count.moveAllowCount++;
         }
         
+        
+        this._showTwigs();
+        
+        if(this._lighteningOn){
+        	if(this.count.lighteningCount == 20){
+        		this.count.lighteningCount = 0;
+        		this._lighteningOn = false;
+        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+        	}
+        	this.count.lighteningCount++;
+        }
+        	
+        	
         if(this._id === 1)
         {
 	        if (this._leftKeyDown || this._rightKeyDown)
@@ -194,11 +260,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
         {
         	this._body.SetPosition(cc.p(1280 / PTM_RATIO,this._curPos.y));
         }
-        
-        this.count++;
-        //count
-       // for(var prop in this.count)
-        	// this.count[prop]++;
+
+       // count
+       this.count.savePosCount++;
     },
     handleKeyDown: function (e) {
     	if(this._id === 1)
@@ -236,69 +300,84 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	if(this._itemList.length === 0) return;
     	switch(this._itemList[0].getType())
     	{
-    		case BG.ITEM_TYPE.SPEED:
+    		case BG.ITEM_TYPE.BULLET:
     			this._shoot();
     			break;
     		case BG.ITEM_TYPE.SHIELD:
+    			break;
+    		case BG.ITEM_TYPE.LIGHTENING:
+    			this._lightening();
     			break;
     	}
     	this._itemList.splice(0,1);
     },
     _move: function () {
-    	if(!this._vector) this._vector = new cc.Point();
-        var curVector = this._vector;
-        var curAngle = this._currentAngle;
-        
-        if(this._id === 1)
-        {
-	        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	    }
-	    else if(this._id === 2)
-	    {
-	    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	    }
-		if(curAngle < 0) curAngle = 355;
-		if(curAngle > 360) curAngle = 5;
-        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
-        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
-        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
-        this._vector = curVector;
-        this._currentAngle = curAngle;
-        
-        this._body.SetLinearVelocity(this._vector);
-        
-        if(this.count >= 4 && !this._isSlow)
-        {
-        	//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
-        	//console.log(this._id+" "+this._twigs.length);
-        	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
-        	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
-        	this.count = 0;
-        }
-        this._showTwigs();
+	    	if(!this._vector) this._vector = new cc.Point();
+	        var curVector = this._vector;
+	        var curAngle = this._currentAngle;
+	        
+	        if(this._id === 1)
+	        {
+		        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		    }
+		    else if(this._id === 2)
+		    {
+		    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		    }
+			if(curAngle < 0) curAngle = 355;
+			if(curAngle > 360) curAngle = 5;
+	        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
+	        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
+	        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
+	        this._vector = curVector;
+	        this._currentAngle = curAngle;
+	        this._body.SetLinearVelocity(this._vector);
+	        
     },
     _showTwigs: function () {
-    	for(var i=0; i<this._twigs.length; i++) 
-    	{
-    		if (!this._twigs[i].getIsStuck()) {
-				this._twigs[i].setIsStuck(true);
-				var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true, this._id);
-				newTwig.setTailIndex(i);
-				this._twigs[i] = newTwig;
-			}
-			var p = this._positions[(i*5)+4];
-			// console.log(this._id+" "+p.x+" "+p.y);
-			this._twigs[i].getBody().SetPosition(p);
-    	}
+    	if(this.count.savePosCount >= 4 && !this._isSlow)
+	    {
+			//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
+			//console.log(this._id+" "+this._twigs.length);
+			this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
+			if (this._positions.length >= ((this._twigs.length + 3) * 5) + 6)
+				this._positions.pop();
+			this.count.savePosCount = 0;
+			for(var i=0; i<this._twigs.length; i++) 
+	    	{
+	    		if (!this._twigs[i].getIsStuck()) {
+					this._twigs[i].setIsStuck(true);
+					var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true, this._id);
+					newTwig.setTailIndex(i);
+					this._twigs[i] = newTwig;
+				}
+				var p = this._positions[(i*5)+4];
+				// console.log(this._id+" "+p.x+" "+p.y);
+				this._twigs[i].getBody().SetPosition(p);
+				this._twigs[i].setRotate();
+	    	}
+	    }
     },
+    
+    
+    ///// Item effects/////
     _shoot: function () {
     	var x = PTM_RATIO*this._curPos.x,
     		y = PTM_RATIO*this._curPos.y;
     	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
     	bullet.fire();
 	},
+	_shield: function (){
+		
+	},
+	_lightening : function() {
+		this._lighteningOn = true;
+		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
+	},
+	
+	///// ///// ///// /////
 	getID: function () {
     	return this._id;
     },
@@ -307,7 +386,49 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     getIsStart: function () {
     	return this._starFlag;
+    },
+    getTwigs : function(){
+    	return this._twigs;
+    },
+    settingIn : function(bool){
+    	this._setInFlag = bool;
+    },
+    settingOut : function(bool){
+    	this._setOutFlag = bool;
+    },
+    getInFlag : function(){
+    	return this._setInFlag;
+    },
+    
+    setIsHome : function(bool){
+    	this._isHome = bool;
+    },
+    getIsHome : function(){
+    	return this._isHome;
+    },
+
+
+    
+    _settingHomeIn : function(){
+    	if(this._lighteningOn == true) this._lighteningOn = false;
+    	this._body.SetPosition(this._homeInPoint);
+    	this._curVelocity = 0;
+    },
+    _settingHomeOut : function(){
+	    var curVector = this._vector;
+	    var curAngle = this._outAngle;
+		if(this._curVelocity == 0) this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+	    this._body.SetAngle(curAngle*(Math.PI/180));
+	    
+	    curVector.x = this._curVelocity * Math.cos(-curAngle*(Math.PI/180));
+	    curVector.y = this._curVelocity * Math.sin(-curAngle*(Math.PI/180));
+	    
+	    this._vector = curVector;
+	    this._currentAngle = curAngle;
+	    this._body.SetLinearVelocity(this._vector);
+	   //d this.setRotation(cc.RADIANS_TO_DEGREES(this._body.GetAngle()));
     }
+
 });
 
 

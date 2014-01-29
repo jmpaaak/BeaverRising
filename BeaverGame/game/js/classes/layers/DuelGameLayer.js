@@ -26,11 +26,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         //ContactListener
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact) {
-          	
         	var dataA = contact.GetFixtureA().GetBody().GetUserData(),
         		dataB = contact.GetFixtureB().GetBody().GetUserData();
-        		// console.log(dataA.name+" "+dataB.name);
-        		
+
         	//Beaver Listener
         	if(dataA.name === "Beaver" || dataB.name === "Beaver")
         	{
@@ -44,7 +42,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         		{
         			var beaver = contact.GetFixtureB().GetBody().GetUserData(),
         				target = contact.GetFixtureA().GetBody().GetUserData();
-        				var targetFix = contact.GetFixtureA();
+        			var targetFix = contact.GetFixtureA();
         		}
         			
 				if(!targetFix.IsSensor()) //is NOT sensor
@@ -75,11 +73,25 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.addItem(target);
 							break;
 						case "Twig":
+							if(!beaver.getIsHome()){
 							var i = target.getBeaverID();
 							that._beavers[i].removeTailAtIndex(target.getTailIndex());
+							}
 							break;
 						case "Home":
-							target.twigBecomeScore(beaver);
+							if(!beaver.getIsHome()){
+								console.log("hey");
+								if(beaver._twigs.length == 0)
+								{
+									beaver.settingOut(true);
+								}
+								else
+								{
+									target.setTwigsLength(beaver.getTwigs());
+									beaver.settingIn(true);
+								}
+								beaver.setIsHome(true);
+							}
 							break;
 					}
 				}
@@ -118,10 +130,58 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					} 
 				}
 			}
+			
+			
+			//Home Listener
+			if(dataA.name === "Home" || dataB.name === "Home")
+        	{
+        		if(dataA.name === "Home")
+        		{
+        			var Home = contact.GetFixtureA().GetBody().GetUserData(),
+        				target = contact.GetFixtureB().GetBody().GetUserData();
+        			var HomeFix = contact.GetFixtureA();
+        			var targetFix = contact.GetFixtureB();
+        		}
+        		else if(dataB.name === "Home")
+        		{
+        			var Home = contact.GetFixtureB().GetBody().GetUserData(),
+        				target = contact.GetFixtureA().GetBody().GetUserData();
+        			var HomeFix = contact.GetFixtureB();
+        			var targetFix = contact.GetFixtureA();
+        		}
+        		
+
+        		if(!targetFix.IsSensor()) //is NOT sensor
+				{
+
+				} 
+				else //is sensor
+				{
+										
+					switch(target.name) {
+						case "Twig":
+						if(HomeFix.IsSensor())
+						{
+							Home.twigBecomeScore(target._tailIndex);
+
+						console.log(Home._finalTailIndex +" "+ target._tailIndex);
+						
+							if(Home._finalTailIndex == target._tailIndex)
+							{
+								var index = target.getBeaverID();
+								that._beavers[index].removeTailAtIndex(0);
+								that._beavers[index].settingOut(true);
+								
+							}
+						}
+						break;
+					} 
+				}
+        	}
 	    };
 	    contactListener.EndContact = function(contact) {};
 	    contactListener.PostSolve = function(contact, impulse) {};
-	    contactListener.PreSolve = function(contact, oldManifold) {};
+	    contactListener.PreSolve = function(contact, oldManifold) {        };
         
        	// Construct a world object, which will hold and simulate the rigid bodies.
         this.world = new b2World(new b2Vec2(0, 0), true); //no gravity
@@ -197,16 +257,27 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	popItem: function() {
 		if(Math.random() <= 0.5)
 		{
+
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();
 				var randY = Math.random();
-			} while( (0.2 >= randX || randX >= 0.8) &&
-					  (0.2 >= randY || randY >= 0.8) );
-					 
-			var x = randX*size.width, y = randY*size.height;
-			
-			new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SPEED);
+			} while( ((0.25 >= randX || randX >= 0.85) ||
+					  (0.25 >= randY || randY >= 0.85)) );
+			var x = randX * size.width, y = randY * size.height;
+			var itemChoice = Math.floor((Math.random()*10 % 3) + 1);		
+			switch(itemChoice){
+				case BG.ITEM_TYPE.BULLET:
+					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.BULLET);
+				break;
+				case BG.ITEM_TYPE.SHIELD:
+					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SHIELD);
+				break;
+				case BG.ITEM_TYPE.LIGHTENING:
+					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.LIGHTENING);
+				break;		
+			}
+
 		}
 	},
 	popTwig: function() {
@@ -215,11 +286,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			do {
 				var randX = Math.random();
 				var randY = Math.random();
-			} while( (0.2 >= randX || randX >= 0.8) &&
-			(0.2 >= randY || randY >= 0.8) );
-
+			} while( ((0.25 >= randX || randX >= 0.85) ||
+			          (0.25 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
-
 			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
 		}
 	},

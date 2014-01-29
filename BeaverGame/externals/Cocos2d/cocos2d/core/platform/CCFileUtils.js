@@ -147,7 +147,7 @@ cc.FileUtils = cc.Class.extend({
      * </p>
      */
     purgeCachedEntries:function(){
-        this._searchPathArray = [];
+        this._searchPathArray.length = 0;
     },
     /**
      * Get Byte Array from file
@@ -159,7 +159,7 @@ cc.FileUtils = cc.Class.extend({
      */
     getByteArrayFromFile:function (fileName, mode, size) {
         fileName = this.fullPathForFilename(fileName);
-        if (this._fileDataCache.hasOwnProperty(fileName))
+        if (this._fileDataCache[fileName])
             return this._fileDataCache[fileName];
         return this._loadBinaryFileData(fileName);
     },
@@ -173,7 +173,7 @@ cc.FileUtils = cc.Class.extend({
     },
 
     unloadBinaryFileData:function (fileUrl) {
-        if (this._fileDataCache.hasOwnProperty(fileUrl))
+        if (this._fileDataCache[fileUrl])
             delete this._fileDataCache[fileUrl];
     },
 
@@ -256,7 +256,7 @@ cc.FileUtils = cc.Class.extend({
 
     unloadTextFileData:function (fileUrl) {
         fileUrl = this.fullPathForFilename(fileUrl);
-        if (this._textFileCache.hasOwnProperty(fileUrl))
+        if (this._textFileCache[fileUrl])
             delete this._textFileCache[fileUrl];
     },
 
@@ -324,7 +324,7 @@ cc.FileUtils = cc.Class.extend({
      */
     getTextFileData:function (fileUrl) {
         fileUrl = this.fullPathForFilename(fileUrl);
-        if (this._textFileCache.hasOwnProperty(fileUrl))
+        if (this._textFileCache[fileUrl])
             return this._textFileCache[fileUrl];
         return this._loadTextFileData(fileUrl);
     },
@@ -736,7 +736,8 @@ cc.FileUtils = cc.Class.extend({
     setSearchPaths:function (searchPaths) {
         var existDefaultRootPath = false;
 
-        this._searchPathArray = [];
+        var locPathArray = this._searchPathArray;
+        locPathArray.length = 0;
         for (var i = 0; i < searchPaths.length; i++) {
             var iter = searchPaths[i];
 
@@ -752,14 +753,13 @@ cc.FileUtils = cc.Class.extend({
             if (!existDefaultRootPath && path == this._defaultResRootPath) {
                 existDefaultRootPath = true;
             }
-            this._searchPathArray.push(path);
+            locPathArray.push(path);
         }
 
         if (!existDefaultRootPath) {
             //cc.log("Default root path doesn't exist, adding it.");
-            this._searchPathArray.push(this._defaultResRootPath);
+            locPathArray.push(this._defaultResRootPath);
         }
-
     },
 
     /**

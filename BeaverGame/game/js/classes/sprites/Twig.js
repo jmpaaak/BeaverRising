@@ -4,6 +4,7 @@ classes.sprites.Twig = cc.Sprite.extend({
     _body: null,
     _isStuck: false,
     _tailIndex: 0,
+    _angle : 0,
     beaverID: 0,
     count: {
     },
@@ -23,7 +24,6 @@ classes.sprites.Twig = cc.Sprite.extend({
         		
         	//TODO
         }
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         if(this._isStuck === false)
         	this._addTwigWithType(layer.world, p);
         else if(this._isStuck === true)
@@ -43,6 +43,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody; //type
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
+        bodyDef.angle = 0;
         bodyDef.userData = tex;
         bodyDef.linearDamping = 0;
         bodyDef.angularDamping = 0;
@@ -73,7 +74,7 @@ classes.sprites.Twig = cc.Sprite.extend({
             b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
 
         var bodyDef = new b2BodyDef();
-        bodyDef.type = b2Body.b2_staticBody; //type
+        bodyDef.type = b2Body.b2_dynamicBody; //type
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
         bodyDef.userData = tex;
         var body = world.CreateBody(bodyDef);
@@ -114,5 +115,11 @@ classes.sprites.Twig = cc.Sprite.extend({
     	return this._beaverID;
     },
     update: function () {
+    },
+    
+    setRotate : function(){
+    	this._angle+=0.1;
+    	if(this._angle >360) this._angle = 0.1; 
+    	this._body.SetAngle(this._angle);
     }
 });

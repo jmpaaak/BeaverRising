@@ -7,16 +7,17 @@ classes.sprites.Item = cc.Sprite.extend({
         this._type = type;
         switch(type)
         {
-        	case BG.ITEM_TYPE.SPEED:
-        		this.initWithFile(s_Item_Speed);
+        	case BG.ITEM_TYPE.BULLET:
+        		this.initWithFile(s_Item_Bullet);
         		break;
         	case BG.ITEM_TYPE.SHIELD:
-        		//this.initWithFile(s_Item_Shield);
+        		this.initWithFile(s_Item_Shield);
         		break;
-        		
+        	case BG.ITEM_TYPE.LIGHTENING:
+        		this.initWithFile(s_Item_Lightening);
+        		break;
         	//TODO
         }
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addItemWithType(layer.world, p);
         layer.addChild(this, 0); //z: 0
     },

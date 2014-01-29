@@ -7,11 +7,10 @@ classes.sprites.Bullet = cc.Sprite.extend({
     _categoryPlayer: null,
     ctor: function (layer, p, beaver) {
         this._super();
-        this.initWithFile(s_Item_Speed);
+        this.initWithFile(s_Item_Bullet);
         this._id = beaver.getID();
         this._vector = beaver.getVector();
         this.filterGroup();
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBulletBody(layer.world, p);
         layer.addChild(this, 0); //z: 0
     },

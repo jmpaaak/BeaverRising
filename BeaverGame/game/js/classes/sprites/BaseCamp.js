@@ -6,13 +6,13 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_categoryPlayer : null,
 	_curLayer : null,
 	_scoreBoard : null,
-	
+	_finalTailIndex : 0,
+
 	ctor: function (layer, p, id){
         this._super();
         this._id = id;
         this._curLayer = layer;
         this.initWithFile(s_BaseCamp1);
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
@@ -28,7 +28,6 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         var b2BodyDef = Box2D.Dynamics.b2BodyDef,
             b2Body = Box2D.Dynamics.b2Body,
             b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
-            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
             b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 			b2FilterData = Box2D.Dynamics.b2FilterData;
 			
@@ -47,8 +46,8 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 10;
-        fixtureDef.filter.categoryBits = _categoryPlayer;
-        fixtureDef.filter.maskBits = ~(_categoryPlayer);
+        fixtureDef.filter.categoryBits = this._categoryPlayer;
+        fixtureDef.filter.maskBits = ~(this._categoryPlayer);
     
         body.CreateFixture(fixtureDef);
         
@@ -56,7 +55,6 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	},
 	
 	_addWelcomeHome : function (world, p){
-		
 		var tex = this;
         tex.setPosition(p.x, p.y);
         
@@ -64,17 +62,16 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         var b2BodyDef = Box2D.Dynamics.b2BodyDef,
             b2Body = Box2D.Dynamics.b2Body,
             b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
-            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
             b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 			
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_staticBody; //type
         bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
-		bodyDef.userData = this;
+		bodyDef.userData = tex;
         var body = world.CreateBody(bodyDef);
 
         // Define another box shape for our dynamic body.
-        var dynamicCircle = new b2CircleShape(3.5);
+        var dynamicCircle = new b2CircleShape(3.8);
 
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();
@@ -88,30 +85,20 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	},	
 	
 	filterGroup: function(){
-    	_categoryPlayer = Math.pow(2, this._id);
-    	console.log("the category home is " + this._id + "-  " + _categoryPlayer);
-    	console.log("the ~ category home is " + this._id + "-  " + (~(_categoryPlayer)));
-   },
-    
+    	this._categoryPlayer = Math.pow(2, this._id);
+    	console.log("the category home is " + this._id + "-  " + this._categoryPlayer);
+    	console.log("the ~ category home is " + this._id + "-  " + (~(this._categoryPlayer)));
+    },
     getId : function(){
     	return this._id;
     },
+    setTwigsLength : function(twigs){
+    	this._finalTailIndex = twigs.length - 1; // _twigs[0].
+    },
     
-    twigBecomeScore : function(beaver) {
-    	
-    	for(var i = 0; i < beaver._twigs.length; i++)
-    	{
-    		console.log("remove: "+i);
-    		beaver._curLayer.removeChild(beaver._twigs[i]);
-    		beaver._curLayer.destroyList.push(beaver._twigs[i].getBody());
-    		this._scoreBoard.addScore(i+1); //each twig: 1 2 3 4 5
-    	}
-    	beaver._twigs.splice(0, beaver._twigs.length);
-    	
-		console.log("beaver got home. now twigs following beaver are changed to score.");
-		
+    twigBecomeScore : function(tailIndex) {
+    	this._scoreBoard.addScore(tailIndex+1); //each twig: 1 2 3 4 5
+		console.log("-->" + this._finalTailIndex);
 	}
-		
-
-    
+	
 });
