@@ -172,14 +172,13 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 						{
 							Home.twigBecomeScore(target._tailIndex);
 
-						console.log(Home._finalTailIndex +" "+ target._tailIndex);
+							console.log(Home._finalTailIndex +" "+ target._tailIndex);
 						
 							if(Home._finalTailIndex == target._tailIndex)
 							{
 								var index = target.getBeaverID();
 								that._beavers[index].removeTailAtIndex(0);
 								that._beavers[index].settingOut(true);
-								
 							}
 						}
 						break;

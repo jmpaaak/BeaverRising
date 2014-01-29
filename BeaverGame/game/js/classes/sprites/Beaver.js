@@ -25,8 +25,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _categoryPlayer : null,
     
     _homeInPoint : null,
-    _settingHomeIn : null, 
-    _settingHomeOut : null,
     _setInFlag : false,
     _setOutFlag : false,
     _isHome : false,
@@ -212,7 +210,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._showTwigs();
         
         if(this._lighteningOn){
-        	if(this.count.lighteningCount == 20){
+        	if(this.count.lighteningCount == 20) this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
+        	else if(this.count.lighteningCount == 40){
         		this.count.lighteningCount = 0;
         		this._lighteningOn = false;
         		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
@@ -307,7 +306,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this._shield();
     			break;
     		case BG.ITEM_TYPE.LIGHTENING:
-    			this._lightening();
+    			this._lighteningOn = true;
     			break;
     	}
     	this._itemList.splice(0,1);
@@ -335,40 +334,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        this._vector = curVector;
 	        this._currentAngle = curAngle;
 	        this._body.SetLinearVelocity(this._vector);
-
-    	if(!this._vector) this._vector = new cc.Point();
-        var curVector = this._vector;
-        var curAngle = this._currentAngle;
-        
-        if(this._id === 1)
-        {
-	        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	    }
-	    else if(this._id === 2)
-	    {
-	    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	    }
-		if(curAngle < 0) curAngle = 355;
-		if(curAngle > 360) curAngle = 5;
-        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
-        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
-        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
-        this._vector = curVector;
-        this._currentAngle = curAngle;
-        
-        this._body.SetLinearVelocity(this._vector);
-        
-        if(this.count >= 4 && !this._isSlow)
-        {
-        	//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
-        	//console.log(this._id+" "+this._twigs.length);
-        	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
-        	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
-        	this.count = 0;
-        	this._showTwigs();
-        }
+  
     },
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isSlow)
@@ -402,13 +368,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		y = PTM_RATIO*this._curPos.y;
     	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
     	bullet.fire();
-	},
-	_shield: function (){
-		
-	},
-	_lightening : function() {
-		this._lighteningOn = true;
-		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
 	},
 	///// ///// ///// /////
 	_shield: function () {
@@ -448,8 +407,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	return this._isHome;
     },
 
-
-    
     _settingHomeIn : function(){
     	if(this._lighteningOn == true) this._lighteningOn = false;
     	this._body.SetPosition(this._homeInPoint);
@@ -467,7 +424,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._vector = curVector;
 	    this._currentAngle = curAngle;
 	    this._body.SetLinearVelocity(this._vector);
-	   //d this.setRotation(cc.RADIANS_TO_DEGREES(this._body.GetAngle()));
     }
 
 });
