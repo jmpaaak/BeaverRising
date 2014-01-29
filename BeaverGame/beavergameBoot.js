@@ -27,7 +27,7 @@
 (function () {
     var d = document;
     var c = {
-        COCOS2D_DEBUG:2, //0 to turn debug off, 1 for basic debug, and 2 for full debug
+        COCOS2D_DEBUG:0, //0 to turn debug off, 1 for basic debug, and 2 for full debug
         box2d:true,
         chipmunk:false,
         showFPS:true,
@@ -53,6 +53,7 @@
         	'game/js/classes/sprites/BaseCamp.js',
         	'game/js/classes/sprites/Bullet.js',
         	'game/js/classes/sprites/ScoreBoard.js',
+        	'game/js/classes/sprites/TimerBoard.js',
         	
         	'game/js/classes/layers/layers.js', //namespace
         	'game/js/classes/layers/DuelGameLayer.js',

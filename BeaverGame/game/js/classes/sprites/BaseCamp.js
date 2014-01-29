@@ -6,9 +6,14 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_categoryPlayer : null,
 	_curLayer : null,
 	_scoreBoard : null,
+<<<<<<< HEAD
 	_finalTailIndex : 0,
 
 	ctor: function (layer, p, id){
+=======
+	
+	ctor: function (layer, p, id) {
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
         this._super();
         this._id = id;
         this._curLayer = layer;
@@ -17,10 +22,10 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
         this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this.getPosition(),id);
-        layer.addChild(this, 10); //z: 0
+        layer.addChild(this, 1);
     },
 	
-	addBaseCampWithType : function (world, p){
+	addBaseCampWithType : function (world, p) {
 		var tex = this;
         tex.setPosition(p.x, p.y);
 

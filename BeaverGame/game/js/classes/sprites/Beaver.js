@@ -58,7 +58,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
    		};
         layer.addChild(this, 1); //z: 0
         
-        this.schedule(this.update, 1 / 60);
+        this.schedule(this.update, 1/60);
         
     },
     settingPoint : function(){
@@ -304,6 +304,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this._shoot();
     			break;
     		case BG.ITEM_TYPE.SHIELD:
+    			this._shield();
     			break;
     		case BG.ITEM_TYPE.LIGHTENING:
     			this._lightening();
@@ -312,6 +313,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._itemList.splice(0,1);
     },
     _move: function () {
+<<<<<<< HEAD
 	    	if(!this._vector) this._vector = new cc.Point();
 	        var curVector = this._vector;
 	        var curAngle = this._currentAngle;
@@ -335,6 +337,41 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        this._currentAngle = curAngle;
 	        this._body.SetLinearVelocity(this._vector);
 	        
+=======
+    	if(!this._vector) this._vector = new cc.Point();
+        var curVector = this._vector;
+        var curAngle = this._currentAngle;
+        
+        if(this._id === 1)
+        {
+	        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	    }
+	    else if(this._id === 2)
+	    {
+	    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+	    }
+		if(curAngle < 0) curAngle = 355;
+		if(curAngle > 360) curAngle = 5;
+        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
+        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
+        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
+        this._vector = curVector;
+        this._currentAngle = curAngle;
+        
+        this._body.SetLinearVelocity(this._vector);
+        
+        if(this.count >= 4 && !this._isSlow)
+        {
+        	//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
+        	//console.log(this._id+" "+this._twigs.length);
+        	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
+        	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
+        	this.count = 0;
+        	this._showTwigs();
+        }
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
     },
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isSlow)
@@ -369,6 +406,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
     	bullet.fire();
 	},
+<<<<<<< HEAD
 	_shield: function (){
 		
 	},
@@ -378,6 +416,16 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	},
 	
 	///// ///// ///// /////
+=======
+	_shield: function () {
+		for(var i=0; i<this._twigs.length; i++)
+			this._twigs[i].setIsShielding(true);
+	},
+	_unshield: function () {
+		for(var i=0; i<this._twigs.length; i++)
+			this._twigs[i].setIsShielding(false);
+	},
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 	getID: function () {
     	return this._id;
     },

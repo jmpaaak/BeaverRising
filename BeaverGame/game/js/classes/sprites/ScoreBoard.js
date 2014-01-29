@@ -28,9 +28,14 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
        			this.setPosition( Pos.x - _spriteWidth_half, Pos.y + _spriteWHeight_half );
         		break;
         }
+<<<<<<< HEAD
 
         //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         layer.addChild(this, 20); //z: 0
+=======
+;
+        layer.addChild(this, 2);
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 
    		this.init();
     },
@@ -38,7 +43,7 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
     init : function(){
     	this._labelScore = cc.LabelBMFont.create("Score :" + this._getScore(), s_Konqa32);
         this._labelScore.setPosition(this.getTextureRect().width / 2 , this.getTextureRect().height / 2);
-        this._labelScore.setColor(cc.c3(0,0,0));
+        //this._labelScore.setColor(cc.c3b(255,255,0)); //only webGL
         this.addChild(this._labelScore,2);
     },
     _changeScore : function(){

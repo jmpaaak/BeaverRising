@@ -12,12 +12,19 @@ classes.sprites.Item = cc.Sprite.extend({
         		break;
         	case BG.ITEM_TYPE.SHIELD:
         		this.initWithFile(s_Item_Shield);
+<<<<<<< HEAD
         		break;
         	case BG.ITEM_TYPE.LIGHTENING:
         		this.initWithFile(s_Item_Lightening);
+=======
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
         		break;
         	//TODO
         }
+<<<<<<< HEAD
+=======
+        //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
         this.addItemWithType(layer.world, p);
         layer.addChild(this, 0); //z: 0
     },

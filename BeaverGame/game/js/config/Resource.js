@@ -1,7 +1,3 @@
-var s_HelloWorld = "images/HelloWorld.jpg";
-var s_CloseNormal = "images/CloseNormal.png";
-var s_CloseSelected = "images/CloseSelected.png";
-
 //SplashScreen
 var s_SplashScreen1 = "images/DigitalMedia_splashscreen.png";
 var s_SplashScreen2 = "images/Brainstorm_splashscreen.png";
@@ -15,12 +11,19 @@ var s_Beaver = "images/1.png";
 var s_Twig_Normal = "images/Twig_Normal.png";
 var s_BaseCamp1 = "images/BaseCamp1.png";
 var s_ScoreBoard = "images/ScoreBoard.png";
+<<<<<<< HEAD
 
 
 
 var s_Item_Bullet = "images/Item_Bullet.png";
 var s_Item_Shield = "images/Item_Shield.png";
 var s_Item_Lightening = "images/Item_Lightening.png";
+=======
+var s_Item_Speed = "images/Item_Speed.png";
+var s_Item_Shield = "images/Item_Shield.png";
+var s_TimerBoard = "images/TimerBoard.png";
+//var s_Item_Shield = "images/Item_Shield.png";
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 
 //Font
 var s_Konqa32 = "fonts/konqa32.fnt";
@@ -33,22 +36,25 @@ var s_Konqa32 = "fonts/konqa32.fnt";
 
 var g_resources = [
     //image
-    {src:s_HelloWorld},
-    {src:s_CloseNormal},
-    {src:s_CloseSelected},
     {src:s_bgMainMenu},
 	{src:s_Beaver},
 	{src:s_SplashScreen1},
 	{src:s_SplashScreen2},
 	{src:s_SplashScreen3},
+<<<<<<< HEAD
 	{src:s_Item_Bullet},
 	{src:s_Item_Shield},
 	{src:s_Item_Lightening},
 		
+=======
+	{src:s_Item_Speed},
+	{src:s_Item_Shield},
+	
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 	{src:s_Twig_Normal},
 	{src:s_BaseCamp1},
 	{src:s_ScoreBoard},
-	
+	{src:s_TimerBoard},
     //plist
 
     //fnt

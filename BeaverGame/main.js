@@ -61,14 +61,21 @@ var cocos2dApp = cc.Application.extend({
             // }
         // }
         // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
+<<<<<<< HEAD
         cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
         cc.EGLView.getInstance().resizeWithBrowserSize(true);
+=======
+        
+>>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 
+      	cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
+        cc.EGLView.getInstance().resizeWithBrowserSize(true);
+        
         // turn on display FPS
         director.setDisplayStats(this.config['showFPS']);
 
         // set FPS. the default value is 1.0/60 if you don't call this
-        director.setAnimationInterval(1.0 / this.config['frameRate']);
+       director.setAnimationInterval(1.0 / this.config['frameRate']);
         
         //load resources
         cc.LoaderScene.preload(g_resources, function () {
