@@ -5,18 +5,18 @@ classes.sprites.Bullet = cc.Sprite.extend({
 	_velocity: 10,
     _body: null,
     _categoryPlayer: null,
+    _curPos: null,
     ctor: function (layer, p, beaver) {
         this._super();
         this.initWithFile(s_Item_Bullet);
         this._id = beaver.getID();
         this._vector = beaver.getVector();
         this.filterGroup();
-<<<<<<< HEAD
-=======
-        //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
         this.addBulletBody(layer.world, p);
         layer.addChild(this, 0); //z: 0
+        
+        this._curPos = this._body.GetPosition();
+        this.schedule(this.update, 1/30);
     },
     addBulletBody: function (world, p) {
         var tex = this;
@@ -53,6 +53,17 @@ classes.sprites.Bullet = cc.Sprite.extend({
     destroy: function (layer) {
     	layer.removeChild(this);
     	layer.destroyList.push(this._body);
+    },
+    update: function () {
+    	//case of getting out of screen
+        if((this._curPos.y * PTM_RATIO) > 720)
+			this.destroy();
+        else if((this._curPos.y * PTM_RATIO) < 0)
+        	this.destroy();
+        else if((this._curPos.x * PTM_RATIO) > 1280)
+        	this.destroy();        
+        else if((this._curPos.x * PTM_RATIO) < 0)
+        	this.destroy();  
     },
     getBody: function () {
     	return this._body;

@@ -61,15 +61,10 @@ var cocos2dApp = cc.Application.extend({
             // }
         // }
         // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
-<<<<<<< HEAD
+
         cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
         cc.EGLView.getInstance().resizeWithBrowserSize(true);
-=======
-        
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 
-      	cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
-        cc.EGLView.getInstance().resizeWithBrowserSize(true);
         
         // turn on display FPS
         director.setDisplayStats(this.config['showFPS']);

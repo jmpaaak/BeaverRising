@@ -28,15 +28,10 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
        			this.setPosition( Pos.x - _spriteWidth_half, Pos.y + _spriteWHeight_half );
         		break;
         }
-<<<<<<< HEAD
+
 
         //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         layer.addChild(this, 20); //z: 0
-=======
-;
-        layer.addChild(this, 2);
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
-
    		this.init();
     },
 

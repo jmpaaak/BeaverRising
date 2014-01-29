@@ -1,7 +1,6 @@
 classes.sprites.Beaver = cc.Sprite.extend({
 	name: "Beaver",
 	_id: 0,
-	_startFlag: false,
     _texture: null,
     
     //Key Event
@@ -20,19 +19,18 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _twigs: null,
     _positions: null,
     _curLayer: null,
-    _isSlow: false,
     _bullet: null,
     _categoryPlayer : null,
-    
+    _outAngle : 0,
     _homeInPoint : null,
-    _settingHomeIn : null, 
-    _settingHomeOut : null,
+    
+    //state flag
+	_startFlag: false,
     _setInFlag : false,
     _setOutFlag : false,
     _isHome : false,
-    _outAngle : 0,
-    
     _lighteningOn : false,
+    _isSlow: false,
     
     count: null,
     // count: {
@@ -51,11 +49,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
   		this.settingPoint();
         for(var i=0; i<100; i++)
         	this._positions[i] = cc.p(0,0);
+        
+        //init counter	
    		this.count = {
    			savePosCount: 0,
    			moveAllowCount: 0,
    			lighteningCount: 0
    		};
+   		
         layer.addChild(this, 1); //z: 0
         
         this.schedule(this.update, 1/60);
@@ -180,34 +181,33 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
-//        this._body.SetAwake(true);
         this._curPos = new cc.Point();
     	this._curPos.x = this.getPosition().x / PTM_RATIO;
     	this._curPos.y = this.getPosition().y / PTM_RATIO;
-		//this._positions[0] = cc.p(this._curPos.x, this._curPos.y);
-		 //console.log(this._id+" "+this._positions[0].x+" "+this._positions[0].y);
-		
-    	if(this._startFlag && (!this._setInFlag) && (!this._setOutFlag))
+
+    	if(this._startFlag)
     	{	
-        	this._move();
-			this._body.SetAwake(true);
-        	this.count.moveAllowCount = 0;
-        }
-        else if(this._setInFlag)
-        {
-        	this._settingHomeIn();
-        	this.settingIn(false);
-        }
-        else if(this._setOutFlag)
-        {
-        	if(this.count.moveAllowCount >= 20) {
-        		this.settingOut(false); 
-        		this.setIsHome(false);	
-        	}
-        	this._settingHomeOut();
-        	this.count.moveAllowCount++;
-        }
-        
+	        if(this._setInFlag)
+	        {
+	        	this._settingHomeIn();
+	        	this.settingIn(false);
+	        }
+	        else if(this._setOutFlag)
+	        {
+	        	if(this.count.moveAllowCount >= 20) {
+	        		this.settingOut(false); 
+	        		this.setIsHome(false);	
+	        	}
+	        	this._settingHomeOut();
+	        	this.count.moveAllowCount++;
+	        }
+	        else
+	        {
+	        	this._move();
+				this._body.SetAwake(true);
+	        	this.count.moveAllowCount = 0;
+	        }
+	    }	      
         
         this._showTwigs();
         
@@ -304,7 +304,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this._shoot();
     			break;
     		case BG.ITEM_TYPE.SHIELD:
-    			this._shield();
+    			this.shield();
     			break;
     		case BG.ITEM_TYPE.LIGHTENING:
     			this._lightening();
@@ -313,7 +313,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._itemList.splice(0,1);
     },
     _move: function () {
-<<<<<<< HEAD
 	    	if(!this._vector) this._vector = new cc.Point();
 	        var curVector = this._vector;
 	        var curAngle = this._currentAngle;
@@ -336,42 +335,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        this._vector = curVector;
 	        this._currentAngle = curAngle;
 	        this._body.SetLinearVelocity(this._vector);
-	        
-=======
-    	if(!this._vector) this._vector = new cc.Point();
-        var curVector = this._vector;
-        var curAngle = this._currentAngle;
-        
-        if(this._id === 1)
-        {
-	        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	    }
-	    else if(this._id === 2)
-	    {
-	    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-	    }
-		if(curAngle < 0) curAngle = 355;
-		if(curAngle > 360) curAngle = 5;
-        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
-        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
-        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
-        this._vector = curVector;
-        this._currentAngle = curAngle;
-        
-        this._body.SetLinearVelocity(this._vector);
-        
-        if(this.count >= 4 && !this._isSlow)
-        {
-        	//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
-        	//console.log(this._id+" "+this._twigs.length);
-        	this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
-        	if(this._positions.length >= ((this._twigs.length+3)*5)+6) this._positions.pop(); 
-        	this.count = 0;
-        	this._showTwigs();
-        }
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
     },
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isSlow)
@@ -381,7 +344,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
 			if (this._positions.length >= ((this._twigs.length + 3) * 5) + 6)
 				this._positions.pop();
-			this.count.savePosCount = 0;
+				
+        	if(this._isHome)
+        		this.count.savePosCount = 3;
+        	else
+        		this.count.savePosCount = 0;
+        		
 			for(var i=0; i<this._twigs.length; i++) 
 	    	{
 	    		if (!this._twigs[i].getIsStuck()) {
@@ -406,26 +374,20 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
     	bullet.fire();
 	},
-<<<<<<< HEAD
-	_shield: function (){
-		
-	},
 	_lightening : function() {
 		this._lighteningOn = true;
 		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
 	},
-	
 	///// ///// ///// /////
-=======
-	_shield: function () {
+	shield: function () {
+		console.log("shield");
 		for(var i=0; i<this._twigs.length; i++)
 			this._twigs[i].setIsShielding(true);
 	},
-	_unshield: function () {
+	unshield: function () {
 		for(var i=0; i<this._twigs.length; i++)
 			this._twigs[i].setIsShielding(false);
 	},
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 	getID: function () {
     	return this._id;
     },
@@ -435,8 +397,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getIsStart: function () {
     	return this._starFlag;
     },
-    getTwigs : function(){
+    getTwigs : function () {
     	return this._twigs;
+    },
+    getIsShielding: function () {
+    	return this._isShielding;
     },
     settingIn : function(bool){
     	this._setInFlag = bool;
@@ -454,9 +419,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getIsHome : function(){
     	return this._isHome;
     },
-
-
-    
     _settingHomeIn : function(){
     	if(this._lighteningOn == true) this._lighteningOn = false;
     	this._body.SetPosition(this._homeInPoint);
