@@ -189,7 +189,7 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 	    };
 	    contactListener.EndContact = function(contact) {};
 	    contactListener.PostSolve = function(contact, impulse) {};
-	    contactListener.PreSolve = function(contact, oldManifold) {        };
+	    contactListener.PreSolve = function(contact, oldManifold) {};
         
        	// Construct a world object, which will hold and simulate the rigid bodies.
         this.world = new b2World(new b2Vec2(0, 0), true); //no gravity
@@ -273,7 +273,6 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 			do {
 				var randX = Math.random();
 				var randY = Math.random();
-<<<<<<< HEAD
 			} while( ((0.25 >= randX || randX >= 0.85) ||
 					  (0.25 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
@@ -289,15 +288,6 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.LIGHTENING);
 				break;		
 			}
-
-=======
-			} while( (0.2 >= randX || randX >= 0.8) &&
-					  (0.2 >= randY || randY >= 0.8) );
-					 
-			var x = randX*size.width, y = randY*size.height;
-			
-			new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SHIELD);
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 		}
 	},
 	popTwig: function() {

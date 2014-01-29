@@ -313,7 +313,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._itemList.splice(0,1);
     },
     _move: function () {
-<<<<<<< HEAD
 	    	if(!this._vector) this._vector = new cc.Point();
 	        var curVector = this._vector;
 	        var curAngle = this._currentAngle;
@@ -336,8 +335,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        this._vector = curVector;
 	        this._currentAngle = curAngle;
 	        this._body.SetLinearVelocity(this._vector);
-	        
-=======
+
     	if(!this._vector) this._vector = new cc.Point();
         var curVector = this._vector;
         var curAngle = this._currentAngle;
@@ -371,7 +369,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	this.count = 0;
         	this._showTwigs();
         }
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
     },
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isSlow)
@@ -406,7 +403,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
     	bullet.fire();
 	},
-<<<<<<< HEAD
 	_shield: function (){
 		
 	},
@@ -414,9 +410,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		this._lighteningOn = true;
 		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
 	},
-	
 	///// ///// ///// /////
-=======
 	_shield: function () {
 		for(var i=0; i<this._twigs.length; i++)
 			this._twigs[i].setIsShielding(true);
@@ -425,7 +419,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		for(var i=0; i<this._twigs.length; i++)
 			this._twigs[i].setIsShielding(false);
 	},
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
 	getID: function () {
     	return this._id;
     },

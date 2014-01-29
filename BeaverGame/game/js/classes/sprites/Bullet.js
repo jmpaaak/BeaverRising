@@ -11,10 +11,8 @@ classes.sprites.Bullet = cc.Sprite.extend({
         this._id = beaver.getID();
         this._vector = beaver.getVector();
         this.filterGroup();
-<<<<<<< HEAD
-=======
+
         //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
->>>>>>> e1670233b8bb107b13c7f152c9b476f24d46a522
         this.addBulletBody(layer.world, p);
         layer.addChild(this, 0); //z: 0
     },
