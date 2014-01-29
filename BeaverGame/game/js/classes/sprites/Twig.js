@@ -4,7 +4,9 @@ classes.sprites.Twig = cc.Sprite.extend({
     _body: null,
     _isStuck: false,
     _tailIndex: 0,
+    _isShielding: false,
     beaverID: 0,
+    
     count: {
     },
     ctor: function (layer, p, type, isStuck, beaverID) {
@@ -23,7 +25,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         		
         	//TODO
         }
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+        //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         if(this._isStuck === false)
         	this._addTwigWithType(layer.world, p);
         else if(this._isStuck === true)
@@ -98,8 +100,14 @@ classes.sprites.Twig = cc.Sprite.extend({
     setIsStuck: function (bool) {
     	this._isStuck = bool;
     },
+    setIsShielding: function (bool) {
+    	this._isShielding = bool;
+    },
     getType: function () {
     	return this._type;
+    },
+    getIsShielding: function () {
+    	return this._isShielding;
     },
     getBody: function () {
     	return this._body;

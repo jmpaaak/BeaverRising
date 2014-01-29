@@ -34,7 +34,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._curLayer = layer;
         this._categoryPlayer = Math.pow(2, this._id);
         this.initWithFile(s_Beaver);
-        this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         this.addBeaverWithCoords(this._curLayer.world, p);
   		this._itemList = [];
   		this._twigs = [];
@@ -44,7 +43,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
    
         layer.addChild(this, 1); //z: 0
         
-        this.schedule(this.update, 1 / 60);
+        this.schedule(this.update, 1/60);
         
     },
     addTwig: function(twig) {
@@ -240,6 +239,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this._shoot();
     			break;
     		case BG.ITEM_TYPE.SHIELD:
+    			this._shield();
     			break;
     	}
     	this._itemList.splice(0,1);
@@ -298,6 +298,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		y = PTM_RATIO*this._curPos.y;
     	var bullet = new classes.sprites.Bullet(this._curLayer, cc.p(x,y), this);
     	bullet.fire();
+	},
+	_shield: function () {
+		for(var i=0; i<this._twigs.length; i++)
+			this._twigs[i].setIsShielding(true);
+	},
+	_unshield: function () {
+		for(var i=0; i<this._twigs.length; i++)
+			this._twigs[i].setIsShielding(false);
 	},
 	getID: function () {
     	return this._id;

@@ -1,6 +1,7 @@
-classes.layers.DuelGameLayer = cc.Layer.extend({
+classes.layers.DuelGameLayer = cc.LayerColor.extend({
 	_beavers: [],
 	_baseCamp: [],
+	_timer: null,
 	_itemPopCount: 0,
 	_twigPopCount: 0,
 	destroyList: [],
@@ -12,8 +13,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
-		this.scheduleUpdate(); //update 60fps in Layer
-		
+		this.schedule(this.update, 1/60);
+		//this.scheduleUpdate(); //update 60fps in Layer
 		//box2d  (32px === 1m !!)
 		var PTM_RATIO = 32;
 		var b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -110,10 +111,17 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				{
 					switch(target.name) {
 						case "Twig":
-							var i = target.getBeaverID();
-							console.log(contact.IsSensor());
-							that._beavers[i].removeTailAtIndex(target.getTailIndex());
-							bullet.destroy(that);
+							if(!target.getIsShielding())
+							{
+								var i = target.getBeaverID();
+								console.log(contact.IsSensor());
+								that._beavers[i].removeTailAtIndex(target.getTailIndex());
+								bullet.destroy(that);
+							}
+							else
+							{
+								bullet.destroy(that);
+							}
 							break;
 					} 
 				}
@@ -191,8 +199,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width,size.height), BG.BASECAMP.HOME2);
 	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(0,0), BG.BASECAMP.HOME3);
 	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width,0), BG.BASECAMP.HOME4);
+	   
+	    this._timer = new classes.sprites.TimerBoard(this);
 
 		return true;
+
 	},
 	popItem: function() {
 		if(Math.random() <= 0.5)
@@ -206,7 +217,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					 
 			var x = randX*size.width, y = randY*size.height;
 			
-			new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SPEED);
+			new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SHIELD);
 		}
 	},
 	popTwig: function() {
@@ -224,7 +235,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 	},
 	update: function(dt) {
-
+			
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
 		//You need to make an informed choice, the following URL is useful
@@ -236,7 +247,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		// Instruct the world to perform a single step of simulation. It is
 		// generally best to keep the time step and iterations fixed.
 		this.world.Step(dt, velocityIterations, positionIterations);
-
+	
 		//Iterate over the bodies in the physics world
 		for (var b = this.world.GetBodyList(); b; b = b.GetNext()) {
 			if (b.GetUserData() != null && b.GetUserData().name != "wall") {
