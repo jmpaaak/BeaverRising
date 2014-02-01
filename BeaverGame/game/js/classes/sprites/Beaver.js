@@ -1,13 +1,16 @@
 classes.sprites.Beaver = cc.Sprite.extend({
 	name: "Beaver",
 	_id: 0,
-    _texture: null,
     
     //Key Event
     _leftKeyDown: false,
     _rightKeyDown: false,
     _qKeyDown: false,
     _wKeyDown: false,
+    _leftKeyUp: false,
+    _rightKeyUp: false,
+    _qKeyUp: false,
+    _wKeyUp: false,
     
     _vector: null,
     _currentAngle: 0,
@@ -15,6 +18,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _curPos: null,
     _tempPos: null,
     _body: null,
+    _tailBody: null,
     _itemList: null,
     _twigs: null,
     _positions: null,
@@ -47,6 +51,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
   		this._twigs = [];
   		this._positions = [];
   		this.settingPoint();
+  		this._curPos = this._body.GetPosition();
+		this._curTailPos = this._tailBody.GetPosition();
         for(var i=0; i<100; i++)
         	this._positions[i] = cc.p(0,0);
         
@@ -116,15 +122,19 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	item = null;
     },
     addBeaverWithCoords: function (world, p) {
+		/*
+         * add Beaver body
+         */
         var tex = this;
         tex.setPosition(p.x, p.y);
-
         // Define the dynamic body.
-        var b2BodyDef = Box2D.Dynamics.b2BodyDef,
+        var b2Vec2 = Box2D.Common.Math.b2Vec2,
+        	b2BodyDef = Box2D.Dynamics.b2BodyDef,
             b2Body = Box2D.Dynamics.b2Body,
             b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
             b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
-			b2FilterData = Box2D.Dynamics.b2FilterData;
+			b2FilterData = Box2D.Dynamics.b2FilterData,
+			b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef;
 			
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody;
@@ -145,13 +155,51 @@ classes.sprites.Beaver = cc.Sprite.extend({
         fixtureDef.restitution = 0.1;
         fixtureDef.filter.categoryBits = this._categoryPlayer;
         fixtureDef.filter.maskBits = ~(this._categoryPlayer);
-        console.log("the category beaver is " + this._id + "-  " + fixtureDef.filter.categoryBits);
-		console.log("the ~ mask beaver is " + this._id + "-  " + fixtureDef.filter.maskBits);
-
-        //fixtureDef.isSensor = true;
+        // fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
         
         this._body = body;
+        
+        /*
+         * add Tail
+         */
+        var tex = cc.Sprite.create();
+        tex.initWithFile(s_BeaverTail);
+        this._curLayer.addChild(tex, 1);
+        
+        var bodyDef = new b2BodyDef();
+        bodyDef.type = b2Body.b2_dynamicBody;
+        bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
+        bodyDef.linearDamping = 5;
+        bodyDef.userData = tex;
+        var body = world.CreateBody(bodyDef);
+
+        // Define another box shape for our dynamic body.
+        var dynamicBox = new b2PolygonShape();
+        dynamicBox.SetAsBox(tex.getTextureRect().width / (PTM_RATIO*2), tex.getTextureRect().height / (PTM_RATIO*2));
+
+        // Define the dynamic body fixture.
+        var fixtureDef = new b2FixtureDef();
+        fixtureDef.shape = dynamicBox;
+        fixtureDef.density = 0;
+        fixtureDef.friction = 0;
+        fixtureDef.restitution = 0;
+        fixtureDef.filter.categoryBits = this._categoryPlayer;
+        fixtureDef.filter.maskBits = ~(this._categoryPlayer);
+        //fixtureDef.isSensor = true;
+        body.CreateFixture(fixtureDef);
+        
+        this._tailBody = body;
+        
+        var joint = new b2DistanceJointDef();
+        joint.frequencyHz = 0;
+        joint.bodyA = this._body;
+        joint.bodyB = this._tailBody;
+        joint.localAnchorA = cc.p(0,0);
+        joint.localAnchorB = cc.p(-0.1,0);
+        
+        world.CreateJoint(joint);
+
     },
     slow: function () {
     	if(!this._isSlow)
@@ -181,10 +229,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
-        this._curPos = new cc.Point();
-    	this._curPos.x = this.getPosition().x / PTM_RATIO;
-    	this._curPos.y = this.getPosition().y / PTM_RATIO;
-
+        // this._curPos = this._body.GetPosition();
+		// this._curTailPos = this._tailBody.GetPosition();
     	if(this._startFlag)
     	{	
 	        if(this._setInFlag)
@@ -277,21 +323,25 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        }
 	    }
         //case of getting out of screen
-        if((this._curPos.y * PTM_RATIO) > 720)
+        if((this._curTailPos.y * PTM_RATIO) > 720+32)
         {
 			this._body.SetPosition(cc.p(this._curPos.x,0));
+			this._tailBody.SetPosition(cc.p(this._curTailPos.x,-1));
         }
-        else if((this._curPos.y * PTM_RATIO) < 0)
+        else if((this._curTailPos.y * PTM_RATIO) < -32)
         {
         	this._body.SetPosition(cc.p(this._curPos.x,720 / PTM_RATIO));
+        	this._tailBody.SetPosition(cc.p(this._curTailPos.x,(720+32) / PTM_RATIO));
         }        
-        else if((this._curPos.x * PTM_RATIO) > 1280)
+        else if((this._curTailPos.x * PTM_RATIO) > 1280+32)
         {
         	this._body.SetPosition(cc.p(0,this._curPos.y));
+        	this._tailBody.SetPosition(cc.p(-1,this._curTailPos.y));
         }        
-        else if((this._curPos.x * PTM_RATIO) < 0)
+        else if((this._curTailPos.x * PTM_RATIO) < -32)
         {
         	this._body.SetPosition(cc.p(1280 / PTM_RATIO,this._curPos.y));
+        	this._tailBody.SetPosition(cc.p((1280+32) / PTM_RATIO,this._curTailPos.y));
         }
 
        // count
@@ -300,6 +350,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     handleKeyDown: function (e) {
     	if(this._id === 1)
     	{
+    		this._leftKeyUp = false;
+        	this._rightKeyUp = false;
 	        if (!this._leftKeyDown || !this._rightKeyDown) {
 	            if (e === cc.KEY.left) this._leftKeyDown = true;
 	            else if (e === cc.KEY.right) this._rightKeyDown = true;
@@ -309,6 +361,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    }
 	    else if(this._id === 2)
 	    {
+	    	this._leftKeyUp = false;
+        	this._rightKeyUp = false;
 	    	if (!this._qKeyDown || !this._wKeyDown) {
 	            if (e === cc.KEY.q) this._qKeyDown = true;
 	            else if (e === cc.KEY.w) this._wKeyDown = true;
@@ -317,16 +371,24 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        	this._useItem();
 	    }
     },
-    handleKeyUp: function () {
+    handleKeyUp: function (e) {
     	if(this._id === 1)
     	{
         	this._leftKeyDown = false;
         	this._rightKeyDown = false;
+        	if (!this._leftKeyUp || !this._rightKeyUp) {
+	            if (e === cc.KEY.left) this._leftKeyUp = true;
+	            else if (e === cc.KEY.right) this._rightKeyUp = true;
+	        }
         }
         else if(this._id === 2)
         {
        		this._qKeyDown = false;
        		this._wKeyDown = false;
+       		if (!this._qKeyUp || !this._wKeyUp) {
+	            if (e === cc.KEY.q) this._qKeyUp = true;
+	            else if (e === cc.KEY.w) this._wKeyUp = true;
+	        }
         }
     },
     _useItem: function () {
@@ -352,13 +414,17 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        
 	        if(this._id === 1)
 	        {
-		        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle+45)*(Math.PI/180));
+		        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle-45)*(Math.PI/180));
+		        if(this._leftKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
+		        if(this._rightKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
 		    }
 		    else if(this._id === 2)
 		    {
-		    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle+45)*(Math.PI/180));
+		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle-45)*(Math.PI/180));
+		        if(this._qKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
+		        if(this._wKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
 		    }
 			if(curAngle < 0) curAngle = 355;
 			if(curAngle > 360) curAngle = 5;

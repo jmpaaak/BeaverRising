@@ -8,6 +8,7 @@ var s_bgMainMenu = "images/bgMainMenu.png";
 
 //GameLayer
 var s_Beaver = "images/1.png";
+var s_BeaverTail = "images/Tail.png"
 var s_Twig_Normal = "images/Twig_Normal.png";
 var s_BaseCamp1 = "images/BaseCamp1.png";
 var s_ScoreBoard = "images/ScoreBoard.png";
@@ -35,6 +36,7 @@ var g_resources = [
     //image
     {src:s_bgMainMenu},
 	{src:s_Beaver},
+	{src:s_BeaverTail},
 	{src:s_SplashScreen1},
 	{src:s_SplashScreen2},
 	{src:s_SplashScreen3},
