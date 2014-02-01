@@ -32,7 +32,7 @@ BG.SOUND = true;
 BG.ITEM_TYPE = {
     BULLET:1,
     SHIELD:2,
-    LIGHTENING:3,
+    LIGHTNING:3,
     //TODO
 };
 
@@ -52,7 +52,7 @@ BG.BEAVER_SPEED ={
 	SLOW : 0.5,
 	NORMAL : 6.7,
 	FAST : 10,
-	SUPERFAST : 30
+	SUPERFAST : 40
 };
 
 //branch types

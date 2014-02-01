@@ -14,8 +14,8 @@ classes.sprites.Item = cc.Sprite.extend({
         		this.initWithFile(s_Item_Shield);
 
         		break;
-        	case BG.ITEM_TYPE.LIGHTENING:
-        		this.initWithFile(s_Item_Lightening);
+        	case BG.ITEM_TYPE.LIGHTNING:
+        		this.initWithFile(s_Item_Lightning);
 
         		break;
         	//TODO

@@ -74,9 +74,11 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 							beaver.addItem(target);
 							break;
 						case "Twig":
-							if(!beaver.getIsHome()){
-							var i = target.getBeaverID();
-							that._beavers[i].removeTailAtIndex(target.getTailIndex());
+							if(!beaver.getIsHome() && !target.getIsShielding())
+							{
+								console.log("contact: "+target.getIsShielding());
+								var i = target.getBeaverID();
+								that._beavers[i].removeTailAtIndex(target.getTailIndex());
 							}
 							break;
 						case "Home":
@@ -91,6 +93,7 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 									target.setTwigsLength(beaver.getTwigs());
 									beaver.settingIn(true);
 								}
+								beaver.shield();
 								beaver.setIsHome(true);
 							}
 							break;
@@ -267,7 +270,6 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 	popItem: function() {
 		if(Math.random() <= 0.5)
 		{
-
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();
@@ -275,21 +277,24 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 			} while( ((0.25 >= randX || randX >= 0.85) ||
 					  (0.25 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
-			var itemChoice = Math.floor((Math.random()*10 % 3) + 1);		
-			switch(itemChoice){
+			var itemChoice = Math.floor((Math.random()*10 % 3) + 1);
+			itemChoice = 3;
+			switch(itemChoice) 
+			{
 				case BG.ITEM_TYPE.BULLET:
 					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.BULLET);
-				break;
+					break;
 				case BG.ITEM_TYPE.SHIELD:
 					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.SHIELD);
-				break;
-				case BG.ITEM_TYPE.LIGHTENING:
-					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.LIGHTENING);
-				break;		
+					break;
+				case BG.ITEM_TYPE.LIGHTNING:
+					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.LIGHTNING);
+					break;
 			}
 		}
 	},
-	popTwig: function() {
+	popTwig: function() 
+	{
 		if (Math.random() <= 0.99) {
 			var size = cc.Director.getInstance().getWinSize();
 			do {
