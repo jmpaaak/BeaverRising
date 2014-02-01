@@ -62,6 +62,13 @@ var cocos2dApp = cc.Application.extend({
         // }
         // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
 
+
+
+		// var resourceSize = cc.size(480, 800);
+		// var designSize = cc.size(480, 800);
+		// director.setContentScaleFactor(resourceSize.width / designSize.width);
+		// cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
+
         cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
         cc.EGLView.getInstance().resizeWithBrowserSize(true);
 
