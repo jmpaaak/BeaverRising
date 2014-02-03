@@ -16,8 +16,8 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
-        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this.getPosition(),id);
         layer.addChild(this, 1);
+        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this.getPosition(),id);
     },
 	
 	addBaseCampWithType : function (world, p) {
@@ -83,7 +83,6 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         
         this._bodyHome = body;
 	},	
-	
 	filterGroup: function(){
     	this._categoryPlayer = Math.pow(2, this._id);
     	console.log("the category home is " + this._id + "-  " + this._categoryPlayer);
@@ -94,11 +93,13 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     },
     setTwigsLength : function(twigs){
     	this._finalTailIndex = twigs.length - 1; // _twigs[0].
-    },
-    
+    },    
     twigBecomeScore : function(tailIndex) {
     	this._scoreBoard.addScore(tailIndex+1); //each twig: 1 2 3 4 5
 		console.log("-->" + this._finalTailIndex);
-	}
+	},
+	setColor: function () {
+		this._scoreBoard.setColor();
+	},
 	
 });

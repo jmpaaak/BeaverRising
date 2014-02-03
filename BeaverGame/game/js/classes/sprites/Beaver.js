@@ -16,9 +16,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _currentAngle: 0,
     _curVelocity: BG.BEAVER_SPEED.NORMAL,
     _curPos: null,
-    _tempPos: null,
     _body: null,
-    _tailBody: null,
     _itemList: null,
     _twigs: null,
     _positions: null,
@@ -52,7 +50,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
   		this._positions = [];
   		this.settingPoint();
   		this._curPos = this._body.GetPosition();
-		this._curTailPos = this._tailBody.GetPosition();
         for(var i=0; i<100; i++)
         	this._positions[i] = cc.p(0,0);
         
@@ -101,7 +98,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	var willGetScore = cc.LabelBMFont.create("+" + this._twigs.length, s_Konqa32);
     	if(this._twigs.length >= 5) willGetScore.setColor(cc.c3(255,0,0));
     	else willGetScore.setColor(cc.c3(255,255,255));
-        willGetScore.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO+20); 
+        willGetScore.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO+20);
         this._curLayer.addChild(willGetScore,2);
         //Actions
         willGetScore.runAction(cc.Sequence.create(cc.MoveBy.create(0.5, cc.p(0,20))));
@@ -159,47 +156,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         body.CreateFixture(fixtureDef);
         
         this._body = body;
-        
-        /*
-         * add Tail
-         */
-        var tex = cc.Sprite.create();
-        tex.initWithFile(s_BeaverTail);
-        this._curLayer.addChild(tex, 1);
-        
-        var bodyDef = new b2BodyDef();
-        bodyDef.type = b2Body.b2_dynamicBody;
-        bodyDef.position.Set(p.x / PTM_RATIO, p.y / PTM_RATIO);
-        bodyDef.linearDamping = 5;
-        bodyDef.userData = tex;
-        var body = world.CreateBody(bodyDef);
-
-        // Define another box shape for our dynamic body.
-        var dynamicBox = new b2PolygonShape();
-        dynamicBox.SetAsBox(tex.getTextureRect().width / (PTM_RATIO*2), tex.getTextureRect().height / (PTM_RATIO*2));
-
-        // Define the dynamic body fixture.
-        var fixtureDef = new b2FixtureDef();
-        fixtureDef.shape = dynamicBox;
-        fixtureDef.density = 0;
-        fixtureDef.friction = 0;
-        fixtureDef.restitution = 0;
-        fixtureDef.filter.categoryBits = this._categoryPlayer;
-        fixtureDef.filter.maskBits = ~(this._categoryPlayer);
-        //fixtureDef.isSensor = true;
-        body.CreateFixture(fixtureDef);
-        
-        this._tailBody = body;
-        
-        var joint = new b2DistanceJointDef();
-        joint.frequencyHz = 0;
-        joint.bodyA = this._body;
-        joint.bodyB = this._tailBody;
-        joint.localAnchorA = cc.p(0,0);
-        joint.localAnchorB = cc.p(-0.1,0);
-        
-        world.CreateJoint(joint);
-
     },
     slow: function () {
     	if(!this._isSlow)
@@ -229,8 +185,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._twigs.splice(index, this._twigs.length-index);
     },
     update: function () {
-        // this._curPos = this._body.GetPosition();
-		// this._curTailPos = this._tailBody.GetPosition();
+
     	if(this._startFlag)
     	{	
 	        if(this._setInFlag)
@@ -253,62 +208,52 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				this._body.SetAwake(true);
 	        	this.count.moveAllowCount = 0;
 	        }
+	        
+       		this._showTwigs();
+       		
+	        if(this._lighteningOn){
+	        	if(this.count.lighteningCount == 20){
+	        		this.count.lighteningCount = 0;
+	        		this._lighteningOn = false;
+	        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+	        	}
+	        	this.count.lighteningCount++;
+	        }
+	    }
+	    else if(this._curLayer.getIsStart())
+	    {
+	    	this.slow();
+	    	this._startFlag = true;
 	    }	      
-        
-        this._showTwigs();
-        
-        if(this._lighteningOn){
-        	if(this.count.lighteningCount == 20){
-        		this.count.lighteningCount = 0;
-        		this._lighteningOn = false;
-        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
-        	}
-        	this.count.lighteningCount++;
-        }
-        	
         	
         if(this._id === 1)
         {
 	        if (this._leftKeyDown || this._rightKeyDown)
 	        {
-	        	if(!this._startFlag)
-	        	{
-	        		this._startFlag = true;
-	        		this.slow();
-	        	}
 	        }
 	    }
 	    else if(this._id === 2)
 	    {
 	    	if (this._qKeyDown || this._wKeyDown)
 	        {
-	        	if(!this._startFlag)
-	        	{
-	        		this._startFlag = true;
-	        		this.slow();
-	        	}
 	        }
 	    }
         //case of getting out of screen
-        if((this._curTailPos.y * PTM_RATIO) > 720+32)
+        if((this._curPos.y * PTM_RATIO) > 720)
         {
 			this._body.SetPosition(cc.p(this._curPos.x,0));
-			this._tailBody.SetPosition(cc.p(this._curTailPos.x,-1));
         }
-        else if((this._curTailPos.y * PTM_RATIO) < -32)
+        else if((this._curPos.y * PTM_RATIO) < 0)
         {
         	this._body.SetPosition(cc.p(this._curPos.x,720 / PTM_RATIO));
-        	this._tailBody.SetPosition(cc.p(this._curTailPos.x,(720+32) / PTM_RATIO));
         }        
-        else if((this._curTailPos.x * PTM_RATIO) > 1280+32)
+        else if((this._curPos.x * PTM_RATIO) > 1280)
         {
         	this._body.SetPosition(cc.p(0,this._curPos.y));
-        	this._tailBody.SetPosition(cc.p(-1,this._curTailPos.y));
         }        
-        else if((this._curTailPos.x * PTM_RATIO) < -32)
+        else if((this._curPos.x * PTM_RATIO) < 0)
         {
         	this._body.SetPosition(cc.p(1280 / PTM_RATIO,this._curPos.y));
-        	this._tailBody.SetPosition(cc.p((1280+32) / PTM_RATIO,this._curTailPos.y));
         }
 
        // count
@@ -381,21 +326,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        
 	        if(this._id === 1)
 	        {
-		        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle+45)*(Math.PI/180));
-		        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle-45)*(Math.PI/180));
-		        if(this._leftKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
-		        if(this._rightKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
+		        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._leftKeyUp);
+		        if(this._rightKeyUp);
 		    }
 		    else if(this._id === 2)
 		    {
-		    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle+45)*(Math.PI/180));
-		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180)), this._tailBody.SetAngle((curAngle-45)*(Math.PI/180));
-		        if(this._qKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
-		        if(this._wKeyUp) this._tailBody.SetAngle(curAngle*(Math.PI/180));
+		    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._qKeyUp);
+		        if(this._wKeyUp);
 		    }
 			if(curAngle < 0) curAngle = 355;
 			if(curAngle > 360) curAngle = 5;
-	        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180)); // 5: velocity
+	        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180));
 	        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
 	        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
 	        this._vector = curVector;
@@ -444,7 +389,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		this._lighteningOn = true;
 		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
 	},
-	///// ///// ///// /////
 	shield: function () {
 		console.log("shield");
 		for(var i=0; i<this._twigs.length; i++)

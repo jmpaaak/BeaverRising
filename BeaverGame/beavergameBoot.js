@@ -59,6 +59,7 @@
         	'game/js/classes/layers/DuelGameLayer.js',
         	'game/js/classes/layers/SplashScreenLayer.js',
         	'game/js/classes/layers/MainMenuLayer.js',
+        	'game/js/classes/layers/ReadyLayer.js',
         	
         	'game/js/classes/scenes/scenes.js', //namespace
         	'game/js/classes/scenes/DuelGameScene.js',
