@@ -6,10 +6,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	_itemPopCount: 0,
 	_twigPopCount: 0,
 	destroyList: [],
+	_isStart: false,
 	
 	init: function() {
-		var that = this;
+		var that = this;		
 		var size = cc.Director.getInstance().getWinSize();
+		
 		this._super();
 		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
@@ -202,7 +204,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//TESTING TITLE 
 		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
         this.addChild(label, 1); //z === 1 : UI
-        label.setColor(cc.c3b(0, 0, 255));
+        label.setColor(cc.c3(0, 0, 255));
         label.setPosition(size.width / 2, size.height - 50);
         
 		var fixDef = new b2FixtureDef;
@@ -311,8 +313,21 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			else new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
 		}
 	},
+	start: function () {
+		this._isStart = true;
+	},
+	getIsStart: function () {
+		return this._isStart;
+	},
 	update: function(dt) {
-			
+		if(this._timer.getTime() === 100)
+		{
+			this._baseCamp[0].setColor();
+			this._baseCamp[1].setColor();
+			this._baseCamp[2].setColor();
+			this._baseCamp[3].setColor();
+			this._timer.setColor();
+		}
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
 		//You need to make an informed choice, the following URL is useful

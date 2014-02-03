@@ -1,9 +1,12 @@
 classes.scenes.DuelGameScene = cc.Scene.extend({
 	onEnter: function() {
 		this._super();
-		var layer = new classes.layers.DuelGameLayer();
-		layer.init();
-		this.addChild(layer);
+		var readyLayer = new classes.layers.ReadyLayer();
+		var gameLayer = new classes.layers.DuelGameLayer();
+		readyLayer.init();
+		gameLayer.init();
+		this.addChild(readyLayer, 1);
+		this.addChild(gameLayer, 0);
 	}
 });
 

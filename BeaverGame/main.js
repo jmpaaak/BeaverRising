@@ -37,8 +37,6 @@ var cocos2dApp = cc.Application.extend({
     applicationDidFinishLaunching:function () {
         // initialize director
         var director = cc.Director.getInstance();
-  
-        var screenSize = cc.EGLView.getInstance().getFrameSize();
 
         var searchPaths = [];
         var resDirOrders = [];
@@ -64,10 +62,10 @@ var cocos2dApp = cc.Application.extend({
 
 
 
-		// var resourceSize = cc.size(480, 800);
-		// var designSize = cc.size(480, 800);
+		// var resourceSize = cc.size(1280, 720);
+		// var designSize = cc.size(20, 10);
 		// director.setContentScaleFactor(resourceSize.width / designSize.width);
-		// cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
+		//cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
 
         // cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
         // cc.EGLView.getInstance().resizeWithBrowserSize(true);
@@ -81,11 +79,11 @@ var cocos2dApp = cc.Application.extend({
         
         //load resources
         cc.LoaderScene.preload(g_resources, function () {
-            director.replaceScene(new this.startScene());
+            director.replaceScene(this.startScene());
         }, this);
 
         return true;
     }
 });
 
-var myApp = new cocos2dApp(classes.scenes.DuelGameScene);
+var myApp = new cocos2dApp(classes.scenes.DuelGameScene.getInstance);

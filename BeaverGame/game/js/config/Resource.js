@@ -7,8 +7,11 @@ var s_SplashScreen3 = "images/BeaverGame_splashscreen.png";
 var s_bgMainMenu = "images/bgMainMenu.png";
 
 //GameLayer
+var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
+var s_bgReady = "images/bgReady.png";
+var s_bgStart = "images/bgStart.png";
 var s_Beaver = "images/1.png";
-var s_BeaverTail = "images/Tail.png";
+
 var s_Twig_Normal = "images/Twig_Normal.png";
 var s_Twig_Thorn = "images/Twig_Thorn.png";
 var s_ScoreBoard = "images/ScoreBoard.png";
@@ -62,10 +65,12 @@ var g_resources = [
     //image
     {src:s_bgMainMenu},
 	{src:s_Beaver},
-	{src:s_BeaverTail},
 	{src:s_SplashScreen1},
 	{src:s_SplashScreen2},
 	{src:s_SplashScreen3},
+	{src:s_bgReady},
+	{src:s_bgStart},
+	{src:s_bgDuelGameLayer},
 
 	{src:s_Item_Bullet},
 	{src:s_Item_Shield},
