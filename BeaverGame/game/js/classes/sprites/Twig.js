@@ -21,8 +21,8 @@ classes.sprites.Twig = cc.Sprite.extend({
         	case BG.TWIG_TYPE.NORMAL:
         		this.initWithFile(s_Twig_Normal);
         		break;
-        	case BG.TWIG_TYPE.STRONG:
-        		//this.initWithFile(s_Twig_Strong);
+        	case BG.TWIG_TYPE.THORN:
+        		this.initWithFile(s_Twig_Thorn);
         		break;
         		
         	//TODO

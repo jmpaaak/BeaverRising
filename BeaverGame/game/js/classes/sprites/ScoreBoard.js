@@ -36,21 +36,22 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
     },
 
     init : function(){
-    	this._labelScore = cc.LabelBMFont.create("Score :" + this._getScore(), s_Konqa32);
+    	this._labelScore = cc.LabelBMFont.create("Score :" + this.getScore(), s_Konqa32);
         this._labelScore.setPosition(this.getTextureRect().width / 2 , this.getTextureRect().height / 2);
-        //this._labelScore.setColor(cc.c3b(255,255,0)); //only webGL
+        //this._labelScore.setColor(cc.c3(255,255,0));
         this.addChild(this._labelScore,2);
     },
     _changeScore : function(){
-    	this._labelScore.setString("Score :" + this._getScore()); 	
+    	this._labelScore.setString("Score :" + this.getScore()); 	
     },
-	_getScore : function(){
+	getScore : function(){
 			return this._totalScore;
 	},
 	
 	addScore : function(num){
 			this._totalScore+=num;
 			console.log("total is "+this._totalScore);
+			        this._labelScore.setColor(cc.c3(255,255,0));
 			this._changeScore();
 	},
 	_subScore : function(num){

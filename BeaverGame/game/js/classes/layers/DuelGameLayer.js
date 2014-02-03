@@ -1,6 +1,7 @@
-classes.layers.DuelGameLayer = cc.LayerColor.extend({
+classes.layers.DuelGameLayer = cc.Layer.extend({
 	_beavers: [],
 	_baseCamp: [],
+	_bgWater : null,
 	_timer: null,
 	_itemPopCount: 0,
 	_twigPopCount: 0,
@@ -250,6 +251,9 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
         //Home4
         bodyDef.position.Set(40, -1);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+		
+		
+		this._bgWater = new classes.sprites.BG_Water(this);
 	
 
         //Adding Beavers
@@ -278,7 +282,6 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 					  (0.25 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
 			var itemChoice = Math.floor((Math.random()*10 % 3) + 1);
-			itemChoice = 3;
 			switch(itemChoice) 
 			{
 				case BG.ITEM_TYPE.BULLET:
@@ -295,15 +298,17 @@ classes.layers.DuelGameLayer = cc.LayerColor.extend({
 	},
 	popTwig: function() 
 	{
-		if (Math.random() <= 0.99) {
+		if (Math.random() <= 0.5) {
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();
 				var randY = Math.random();
-			} while( ((0.25 >= randX || randX >= 0.85) ||
-			          (0.25 >= randY || randY >= 0.85)) );
+			} while( ((0.15 >= randX || randX >= 0.85) ||
+			          (0.15 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
-			new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
+			var twigProb = Math.random(); 
+			if(twigProb < 0.5) new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.THORN, false); 
+			else new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
 		}
 	},
 	update: function(dt) {

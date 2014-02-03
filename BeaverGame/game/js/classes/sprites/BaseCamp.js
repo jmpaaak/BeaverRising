@@ -6,13 +6,15 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_categoryPlayer : null,
 	_curLayer : null,
 	_scoreBoard : null,
+	_homeLevel : 0,
+	_targetHome : 5,
 	_finalTailIndex : 0,
 
 	ctor: function (layer, p, id) {
         this._super();
         this._id = id;
         this._curLayer = layer;
-        this.initWithFile(s_BaseCamp1);
+      	this.spriteChanger();
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
@@ -98,7 +100,20 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     
     twigBecomeScore : function(tailIndex) {
     	this._scoreBoard.addScore(tailIndex+1); //each twig: 1 2 3 4 5
-		console.log("-->" + this._finalTailIndex);
+		console.log(this._homeLevel);
+		if(this._scoreBoard.getScore() > this._targetHome && this._homeLevel <= 4 ) {
+			this.spriteChanger();
+		}
+	},
+	
+	spriteChanger: function(){
+			this.initWithFile(s_BaseCamp[this._homeLevel]);
+			this._targetHome+= 5;
+			this._homeLevel++;
 	}
+	
+	
+	
+	
 	
 });

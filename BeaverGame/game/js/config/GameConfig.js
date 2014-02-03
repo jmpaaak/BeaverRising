@@ -36,14 +36,6 @@ BG.ITEM_TYPE = {
     //TODO
 };
 
-BG.CATEGORY = {
-	PLAYER1:0,
-	PLAYER2:1,
-	PLAYER3:2,
-	PLAYER4:3
-};
-
-
 BG.OBSTACLE_TYPE = {
 	//TODO
 };
@@ -58,7 +50,14 @@ BG.BEAVER_SPEED ={
 //branch types
 BG.TWIG_TYPE = {
     NORMAL:1,
-    STRONG:2
+    THORN:2
+};
+
+BG.CATEGORY = {
+	PLAYER1:1,
+	PLAYER2:2,
+	PLAYER3:3,
+	PLAYER4:4
 };
 //Beaver's home (basecamp)
 BG.BASECAMP = {

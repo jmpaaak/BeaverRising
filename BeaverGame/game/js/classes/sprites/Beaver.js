@@ -73,19 +73,19 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._homeInPoint = new cc.Point();
     	switch(this._id)
     	{
-    		case BG.BASECAMP.HOME1:
+    		case BG.CATEGORY.PLAYER1:
     			this._homeInPoint= cc.p(0,size.height/PTM_RATIO);
     			this._outAngle = 45;
     			break;
-    		case BG.BASECAMP.HOME2:
+    		case BG.CATEGORY.PLAYER2:
     			this._homeInPoint= cc.p(size.width/PTM_RATIO, size.height/PTM_RATIO);
     			this._outAngle = 135;
     			break;
-    		case BG.BASECAMP.HOME3:
+    		case BG.CATEGORY.PLAYER3:
     			this._homeInPoint= cc.p(0,0);
     			this._outAngle = 225;
     			break;
-    		case BG.BASECAMP.HOME4:
+    		case BG.CATEGORY.PLAYER4:
     			this._homeInPoint= cc.p(size.width/PTM_RATIO,0);
     			this._outAngle = 315;
     			break;
@@ -267,35 +267,44 @@ classes.sprites.Beaver = cc.Sprite.extend({
         		this._lightningOn = false;
         		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
         	}
-        	else {//if(Math.random() < 0.5){ //lightning prepare.
+        	else {	//if(Math.random() < 0.5){ //lightning prepare.
         		var lightPrepare = cc.Sprite.create(s_LightningPrepare);
-        		var randomPosX = Math.floor(Math.random()*10) % 2 ;
-        		var randomPosY = Math.floor(Math.random()*10) % 2 ;
         		
-				if(randomPosX == 0) randomPosX = (this._curPos.x * PTM_RATIO) + (Math.random() * 40);
-        		else randomPosX = (this._curPos.x * PTM_RATIO) - (Math.random() * 40);
-
-  				if(randomPosY == 0) randomPosY = (this._curPos.y * PTM_RATIO) + (Math.random() * 40);
-        		else randomPosY = (this._curPos.y * PTM_RATIO) - (Math.random() * 40);  
-        		
-        		   		
-
+        		var choiceLightning = Math.floor(Math.random()*10) % 4 ;
+				if(choiceLightning == 0){ //drawing in front of beaver 
+		    			var randomPosX = (Math.floor(Math.random()*100) % this.getTextureRect().width) + (this.getTextureRect().width / 2);
+		  				var randomPosY = (Math.floor(Math.random()*100) % this.getTextureRect().height);   						
+					}
+				else{ //drawing back of beaver
+						var randomPosX = Math.floor(Math.random()*10) % 2 ;
+        				var randomPosY = Math.floor(Math.random()*10) % 2 ;
+        				
+						if(randomPosX == 0) randomPosX = (this._curPos.x * PTM_RATIO) + (Math.floor(Math.random()*100) % this.getTextureRect().width);
+		        		else randomPosX = (this._curPos.x * PTM_RATIO) - (Math.floor(Math.random()*100) % this.getTextureRect().width);
+		  				if(randomPosY == 0) randomPosY = (this._curPos.y * PTM_RATIO) + (Math.floor(Math.random()*100) % this.getTextureRect().height);
+		        		else randomPosY = (this._curPos.y * PTM_RATIO) - (Math.floor(Math.random()*100) % this.getTextureRect().height);
+				}
         		lightPrepare.setPosition(randomPosX, randomPosY);		  
         		lightPrepare.setRotation(this._body.GetAngle());
-        		this._curLayer.addChild(lightPrepare,5);
         		
-        		
-        		var delay = cc.DelayTime.create(0.1);
-		        var action1 = cc.FadeIn.create(0.5);
-		        var action1Back = action1.reverse();
-    			var removeLightning = cc.CallFunc.create(function () 
-    			{this._curLayer.removeChild(lightPrepare, true);}, this);
-    			
+        		if(choiceLightning == 0){ //drawing in front of beaver // position based on canvas
+        			this.addChild(lightPrepare,5);
+        			var delay = cc.DelayTime.create(0.2);
+			        var action1 = cc.FadeIn.create(0.1);
+			        var action1Back = action1.reverse();
+	    			var removeLightning = cc.CallFunc.create(function () 
+	    			{this.removeChild(lightPrepare, true);}, this);	
+        		}
+        		else{ //drawing back of beaver //// position based on beaver
+        			this._curLayer.addChild(lightPrepare,0);
+        			var delay = cc.DelayTime.create(0.4);
+			        var action1 = cc.FadeIn.create(0.2);
+			        var action1Back = action1.reverse();
+	    			var removeLightning = cc.CallFunc.create(function () 
+	    			{this._curLayer.removeChild(lightPrepare, true);}, this);
+        		}
             	lightPrepare.runAction(cc.Sequence.create(action1, delay, action1Back, removeLightning));
-
-		
         	}
-        	
         	this.count.lightningCount++;
         }
         	

@@ -54,6 +54,7 @@
         	'game/js/classes/sprites/Bullet.js',
         	'game/js/classes/sprites/ScoreBoard.js',
         	'game/js/classes/sprites/TimerBoard.js',
+        	'game/js/classes/sprites/BG_Water.js',
         	
         	'game/js/classes/layers/layers.js', //namespace
         	'game/js/classes/layers/DuelGameLayer.js',
