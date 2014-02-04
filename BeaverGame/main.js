@@ -62,9 +62,9 @@ var cocos2dApp = cc.Application.extend({
 
 
 
-		// var resourceSize = cc.size(1280, 720);
-		// var designSize = cc.size(20, 10);
-		// director.setContentScaleFactor(resourceSize.width / designSize.width);
+		var resourceSize = cc.size(1920, 1080);
+		var designSize = cc.size(960, 540);
+		director.setContentScaleFactor(resourceSize.width / designSize.width);
 		//cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
 
         // cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
