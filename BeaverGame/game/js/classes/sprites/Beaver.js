@@ -25,6 +25,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _categoryPlayer : null,
     _outAngle : 0,
     _homeInPoint : null,
+    _winSize : null,
 
     //state flag
 	_startFlag: false,
@@ -40,6 +41,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     // },
     ctor: function (layer, p, id) {
         this._super();
+        this._winSize = cc.Director.getInstance().getWinSize();
         this._id = id;
         this._curLayer = layer;
         this._categoryPlayer = Math.pow(2, this._id);
@@ -66,16 +68,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
         
     },
     settingPoint : function(){
-    	var size = cc.Director.getInstance().getWinSize();
     	this._homeInPoint = new cc.Point();
     	switch(this._id)
     	{
     		case BG.CATEGORY.PLAYER1:
-    			this._homeInPoint= cc.p(0,size.height/PTM_RATIO);
+    			this._homeInPoint= cc.p(0,this._winSize.height/PTM_RATIO);
     			this._outAngle = 45;
     			break;
     		case BG.CATEGORY.PLAYER2:
-    			this._homeInPoint= cc.p(size.width/PTM_RATIO, size.height/PTM_RATIO);
+    			this._homeInPoint= cc.p(this._winSize.width/PTM_RATIO, this._winSize.height/PTM_RATIO);
     			this._outAngle = 135;
     			break;
     		case BG.CATEGORY.PLAYER3:
@@ -83,7 +84,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this._outAngle = 225;
     			break;
     		case BG.CATEGORY.PLAYER4:
-    			this._homeInPoint= cc.p(size.width/PTM_RATIO,0);
+    			this._homeInPoint= cc.p(this._winSize.width/PTM_RATIO,0);
     			this._outAngle = 315;
     			break;
     	}
@@ -293,21 +294,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        }
 	    }
         //case of getting out of screen
-        if((this._curPos.y * PTM_RATIO) > 720)
+        if((this._curPos.y * PTM_RATIO) > this._winSize.height)
         {
 			this._body.SetPosition(cc.p(this._curPos.x,0));
         }
         else if((this._curPos.y * PTM_RATIO) < 0)
         {
-        	this._body.SetPosition(cc.p(this._curPos.x,720 / PTM_RATIO));
+        	this._body.SetPosition(cc.p(this._curPos.x, this._winSize.height / PTM_RATIO));
         }        
-        else if((this._curPos.x * PTM_RATIO) > 1280)
+        else if((this._curPos.x * PTM_RATIO) > this._winSize.width)
         {
         	this._body.SetPosition(cc.p(0,this._curPos.y));
         }        
         else if((this._curPos.x * PTM_RATIO) < 0)
         {
-        	this._body.SetPosition(cc.p(1280 / PTM_RATIO,this._curPos.y));
+        	this._body.SetPosition(cc.p(this._winSize.width / PTM_RATIO,this._curPos.y));
         }
 
        // count
