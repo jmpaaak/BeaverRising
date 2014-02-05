@@ -232,34 +232,34 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         
         //Creating the wall
         //Vertical Box 
-        fixDef.shape.SetAsBox(1, 4.5);
-        //Home1
-        bodyDef.position.Set(-1, 33.75);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home2
-        bodyDef.position.Set(60 +1, 33.75);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home3
-        bodyDef.position.Set(-1, 0);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
-        //Home4
-        bodyDef.position.Set(60 +1, 0);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        
-        //horizontal Box 
-        fixDef.shape.SetAsBox(4.5, 1);
-        //Home1
-        bodyDef.position.Set(0, 33.75 +1);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home2
-        bodyDef.position.Set(60, 33.75 +1);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home3
-        bodyDef.position.Set(0, -1);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
-        //Home4
-        bodyDef.position.Set(60, -1);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // fixDef.shape.SetAsBox(1, 4.5);
+        // //Home1
+        // bodyDef.position.Set(-1, 33.75);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home2
+        // bodyDef.position.Set(60 +1, 33.75);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home3
+        // bodyDef.position.Set(-1, 0);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+        // //Home4
+        // bodyDef.position.Set(60 +1, 0);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+//         
+        // //horizontal Box 
+        // fixDef.shape.SetAsBox(4.5, 1);
+        // //Home1
+        // bodyDef.position.Set(0, 33.75 +1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home2
+        // bodyDef.position.Set(60, 33.75 +1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home3
+        // bodyDef.position.Set(0, -1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+        // //Home4
+        // bodyDef.position.Set(60, -1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		
 		
 		this._bgWater = new classes.sprites.BG_Water(this);

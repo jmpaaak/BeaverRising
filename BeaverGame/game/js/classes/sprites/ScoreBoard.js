@@ -28,7 +28,7 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
         	case BG.BASECAMP.HOME2 :
        			this.setPosition( Pos.x - this._spriteWidth_half, Pos.y - this._spriteHeight_half + BG.GAME_UI.OUTTER_FRAME.HEIGHT);
 				var player1Recog = cc.Sprite.create(s_player1Recog);
-				player1Recog.setPosition(this._spriteWidth_half * 2 + player1Recog.getTextureRect().width / 2 , this._spriteHeight_half);		
+				player1Recog.setPosition(-player1Recog.getTextureRect().width / 2, +player1Recog.getTextureRect().height / 2);		
 				this.addChild(player1Recog);
         		break;
         	case BG.BASECAMP.HOME3 :
@@ -38,10 +38,11 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 				this.addChild(player1Recog);
         		break;
         	case BG.BASECAMP.HOME4 :
+        		this.setPosition( Pos.x - this._spriteWidth_half, Pos.y + this._spriteHeight_half - BG.GAME_UI.OUTTER_FRAME.HEIGHT);
 				var player1Recog = cc.Sprite.create(s_player1Recog);
-				player1Recog.setPosition(this._spriteWidth_half * 2 - player1Recog.getTextureRect().width / 2 , this._spriteHeight_half);		
+				player1Recog.setPosition(-player1Recog.getTextureRect().width / 2, +player1Recog.getTextureRect().height / 2);		
 				this.addChild(player1Recog);
-       			this.setPosition( Pos.x - this._spriteWidth_half, Pos.y + this._spriteHeight_half - BG.GAME_UI.OUTTER_FRAME.HEIGHT);
+       			
         		break;
         }
         layer.addChild(this, 60); //z: 0
