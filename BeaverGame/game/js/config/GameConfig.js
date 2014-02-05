@@ -28,6 +28,20 @@ BG.SCORE = 0;
 //sound
 BG.SOUND = true;
 
+//game UI size
+BG.GAME_UI = {
+	OUTTER_FRAME: {
+		WIDTH : 30,
+		HEIGHT : 70
+	},
+	INNER_WINDOW : {
+		WIDTH : 1860,
+		HEIGHT : 940
+	}
+	
+	
+};
+
 //item types
 BG.ITEM_TYPE = {
     BULLET:1,
@@ -42,7 +56,7 @@ BG.OBSTACLE_TYPE = {
 
 BG.BEAVER_SPEED ={
 	SLOW : 0.5,
-	NORMAL : 5,
+	NORMAL :6.7,
 	FAST : 10,
 	SUPERFAST : 40
 };

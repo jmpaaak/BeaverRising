@@ -11,30 +11,46 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
         this.initWithFile(s_ScoreBoard);
         
         this._spriteWidth_half = this.getTextureRect().width / 2;
-        this._spriteWHeight_half = this.getTextureRect().height / 2;
+        this._spriteHeight_half = this.getTextureRect().height / 2;
         
         switch(id)
         {
         	case BG.BASECAMP.HOME1 : 
-       			this.setPosition( Pos.x + this._spriteWidth_half, Pos.y - this._spriteWHeight_half );
+        		// get posX from basecamp position -> add (sprite.width / 2) because posX is center point of basecamp sprite.
+        		// + BG.GAME_UI.OUTTER_FRAME.HEIGHT is to raise the scoreboard upto game frame.				 
+       			this.setPosition( Pos.x + this._spriteWidth_half, Pos.y - this._spriteHeight_half + BG.GAME_UI.OUTTER_FRAME.HEIGHT);
+				//create player recognition board sprite
+				var player1Recog = cc.Sprite.create(s_player1Recog);
+				player1Recog.setPosition(this._spriteWidth_half * 2 + player1Recog.getTextureRect().width / 2 , this._spriteHeight_half);		
+				this.addChild(player1Recog);
+				//finish creating player recogBoard
         		break;
         	case BG.BASECAMP.HOME2 :
-       			this.setPosition( Pos.x - this._spriteWidth_half, Pos.y - this._spriteWHeight_half );
+       			this.setPosition( Pos.x - this._spriteWidth_half, Pos.y - this._spriteHeight_half + BG.GAME_UI.OUTTER_FRAME.HEIGHT);
+				var player1Recog = cc.Sprite.create(s_player1Recog);
+				player1Recog.setPosition(this._spriteWidth_half * 2 + player1Recog.getTextureRect().width / 2 , this._spriteHeight_half);		
+				this.addChild(player1Recog);
         		break;
         	case BG.BASECAMP.HOME3 :
-       			this.setPosition( Pos.x + this._spriteWidth_half, Pos.y + this._spriteWHeight_half );
+       			this.setPosition( Pos.x + this._spriteWidth_half, Pos.y + this._spriteHeight_half - BG.GAME_UI.OUTTER_FRAME.HEIGHT);
+				var player1Recog = cc.Sprite.create(s_player1Recog);
+				player1Recog.setPosition(this._spriteWidth_half * 2 - player1Recog.getTextureRect().width / 2 , this._spriteHeight_half);		
+				this.addChild(player1Recog);
         		break;
         	case BG.BASECAMP.HOME4 :
-       			this.setPosition( Pos.x - this._spriteWidth_half, Pos.y + this._spriteWHeight_half );
+				var player1Recog = cc.Sprite.create(s_player1Recog);
+				player1Recog.setPosition(this._spriteWidth_half * 2 - player1Recog.getTextureRect().width / 2 , this._spriteHeight_half);		
+				this.addChild(player1Recog);
+       			this.setPosition( Pos.x - this._spriteWidth_half, Pos.y + this._spriteHeight_half - BG.GAME_UI.OUTTER_FRAME.HEIGHT);
         		break;
         }
-        layer.addChild(this, 2); //z: 0
+        layer.addChild(this, 60); //z: 0
    		this.init();
     },
 
     init : function () {
     	this._labelScore = cc.LabelBMFont.create("Score :" + this._totalScore, s_Konqa32);
-        this._labelScore.setPosition(this._spriteWidth_half , this._spriteWHeight_half);
+        this._labelScore.setPosition(this._spriteWidth_half , this._spriteHeight_half);
         this.addChild(this._labelScore,2);
         //this._labelScore.setColor(cc.c3(255,0,0));
     },
