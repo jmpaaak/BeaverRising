@@ -19,15 +19,12 @@ classes.sprites.Twig = cc.Sprite.extend({
         switch(type)
         {
         	case BG.TWIG_TYPE.NORMAL:
-        		this.initWithFile(s_Twig_Normal);
-        		break;
-        	case BG.TWIG_TYPE.THORN:
         		this.initWithFile(s_Twig_Thorn);
         		break;
-        		
-        	//TODO
+        	case BG.TWIG_TYPE.WEEK:
+        		this.initWithFile(s_Twig_Normal);
+        		break;
         }
-
         //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
         if(this._isStuck === false)
         	this._addTwigWithType(layer.world, p);
@@ -104,8 +101,28 @@ classes.sprites.Twig = cc.Sprite.extend({
     setIsStuck: function (bool) {
     	this._isStuck = bool;
     },
-    setIsShielding: function (bool) {
-    	this._isShielding = bool;
+    shield: function () {
+    	this._isShielding = true;
+    	switch(this._type)
+        {
+        	case BG.TWIG_TYPE.NORMAL:
+        		this.initWithFile(s_Twig_Thorn_Shield);
+        		break;
+        	case BG.TWIG_TYPE.WEEK:
+        		this.initWithFile(s_Twig_Normal_Shield);
+        		break;
+        }
+    },
+    unshield: function () {
+    	this._isShielding = false;
+		switch(this._type) {
+			case BG.TWIG_TYPE.NORMAL:
+				this.initWithFile(s_Twig_Thorn);
+				break;
+			case BG.TWIG_TYPE.WEEK:
+				this.initWithFile(s_Twig_Normal);
+				break;
+		}
     },
     getType: function () {
     	return this._type;
@@ -127,7 +144,6 @@ classes.sprites.Twig = cc.Sprite.extend({
     },
     update: function () {
     },
-    
     setRotate : function(){
     	this._angle+=0.1;
     	if(this._angle >360) this._angle = 0.1; 

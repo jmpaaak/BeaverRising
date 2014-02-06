@@ -62,13 +62,13 @@ var cocos2dApp = cc.Application.extend({
 
 
 
-		var resourceSize = cc.size(1920, 1080);
-		var designSize = cc.size(960, 540);
-		director.setContentScaleFactor(resourceSize.width / designSize.width);
+		// var resourceSize = cc.size(1920, 1080);
+		// var designSize = cc.size(960, 540);
+		// director.setContentScaleFactor(resourceSize.width / designSize.width);
 		//cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
 
-        // cc.EGLView.getInstance().setDesignResolutionSize(1280, 720, cc.RESOLUTION_POLICY.SHOW_ALL);
-        // cc.EGLView.getInstance().resizeWithBrowserSize(true);
+        cc.EGLView.getInstance().setDesignResolutionSize(1920, 1080, cc.RESOLUTION_POLICY.SHOW_ALL);
+        cc.EGLView.getInstance().resizeWithBrowserSize(true);
 
         
         // turn on display FPS
@@ -77,13 +77,13 @@ var cocos2dApp = cc.Application.extend({
         // set FPS. the default value is 1.0/60 if you don't call this
        director.setAnimationInterval(1.0 / this.config['frameRate']);
         
-        //load resources
-        cc.LoaderScene.preload(g_resources, function () {
-            director.replaceScene(this.startScene());
+        //load only Menu, Splash sreen resources
+        cc.Loader.preload(g_resources_splash, function () {
+            director.runWithScene(this.startScene()); //director.replaceScene(this.startScene());
         }, this);
 
         return true;
     }
 });
 
-var myApp = new cocos2dApp(classes.scenes.DuelGameScene.getInstance);
+var myApp = new cocos2dApp(classes.scenes.SplashScreenScene.getInstance);  //classes.scenes.DuelGameScene.getInstance

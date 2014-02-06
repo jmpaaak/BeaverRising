@@ -1,5 +1,8 @@
 classes.layers.MainMenuLayer = cc.LayerColor.extend({
 	_bg: null,
+	_logo: null,
+	_menus: null,
+	_curMenu: 0,
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
 		this._super();
@@ -9,23 +12,114 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 		this.setColor(cc.c3b(255,255,255));
 		
 		//TESTING TITLE
-		var label = cc.LabelTTF.create("MainMenuScreen Test:", "Marker Felt", 32);
-        this.addChild(label, 1);
-        label.setColor(cc.c3b(255, 0, 255));
-        label.setPosition(size.width / 2, size.height - 50);
+		// var label = cc.LabelTTF.create("MainMenuScreen Test:", "Marker Felt", 32);
+        // this.addChild(label, 1);
+        // label.setColor(cc.c3b(255, 0, 255));
+        // label.setPosition(size.width / 2, size.height - 50);
         
         this._bg = cc.Sprite.create(s_bgMainMenu);
         this._bg.setPosition(size.width/2, size.height/2);
+        this.addChild(this._bg);
+        
+        this._logo = cc.Sprite.create(s_Title1);
+        this._logo.setScaleX(0.4);//TODO
+        this._logo.setScaleY(0.4);//TODO
+        this._logo.setPosition(size.width/2, size.height - 200);
+        this.addChild(this._logo);
+        
+        var bigger = cc.ScaleBy.create(0.5, 1.2, 0.9);
+        var smaller = bigger.reverse();
+        var delay = cc.DelayTime.create(0.2);
+        var action = cc.RepeatForever.create(cc.Sequence.create(bigger, delay, smaller));
+        this._logo.runAction(action);
+        
+        var singleGameNormal = cc.Sprite.create(s_Button_SinglePlay_Normal);
+        var singleGameSelected = cc.Sprite.create(s_Button_SinglePlay_Selected);
+        
+        var duelGameNormal = cc.Sprite.create(s_Button_MultiPlay_Normal);
+        var duelGameSelected = cc.Sprite.create(s_Button_MultiPlay_Selected);
+        
+        var howToPlayNormal = cc.Sprite.create(s_Button_HowToPlay_Normal);
+        var howToPlaySelected = cc.Sprite.create(s_Button_HowToPlay_Selected);
+         
+        var creditNormal = cc.Sprite.create(s_Button_Credit_Normal);
+        var creditSelected = cc.Sprite.create(s_Button_Credit_Selected);
+         
+        var optionNormal = cc.Sprite.create(s_Button_Option_Normal);
+        var optionSelected = cc.Sprite.create(s_Button_Option_Selected);
+        
+        this._menus = [
+        				[singleGameNormal, singleGameSelected],
+        				[duelGameNormal, duelGameSelected],
+        				[howToPlayNormal, howToPlaySelected],
+        				[creditNormal, creditSelected],
+        				[optionNormal, optionSelected]
+        			  ]
+
+		singleGameNormal.setPosition((size.width/6) * 1+100, size.height/4);
+		duelGameNormal.setPosition((size.width/6) * 3, size.height/2-100);
+		howToPlayNormal.setPosition((size.width/6) * 3+400, size.height/4);
+		creditNormal.setPosition((size.width/6) * 4+200, size.height/2);
+		optionNormal.setPosition((size.width/6) * 5+200, size.height/3);
+		
+		for(var i=0; i<this._menus.length; i++)
+			this.addChild(this._menus[i][0]);
+		
+		this._changeMenu();
         
 		//this.scheduleUpdate(); //update 60fps in Layer
 		
 		return true;
 	},
-	update: function(dt) {
+	_changeMenu: function(dt) {
+		if(this._curMenu < 0) this._curMenu = this._menus.length-1;
+		if(this._curMenu > this._menus.length-1) this._curMenu = 0;
+		
+		var changed = this._menus[this._curMenu];
+		this.removeChild(changed[0]);
+		changed[1].setPosition(changed[0].getPosition());
+		this.addChild(changed[1]);
+		
+		for(var i=0; i<this._menus.length; i++)
+		{
+			if(i !== this._curMenu && this._menus[i][0].getParent() === null)
+			{
+				this.removeChild(this._menus[i][1]);
+				this.addChild(this._menus[i][0]);
+			}
+		}
 	},
-	onKeyUp: function() {
+	onKeyUp: function(e) {
 	},
 	onKeyDown: function(e) {
+		switch(e)
+		{
+			//player1		
+			case cc.KEY.left:
+				this._curMenu--;
+				this._changeMenu();
+				break;
+			case cc.KEY.right:
+				this._curMenu++;
+				this._changeMenu();
+				break;
+			case cc.KEY.ctrl:
+				switch(this._curMenu)
+				{
+					case 0:
+						break;
+					case 1:
+						classes.GameController.getInstance().setCurScene(classes.scenes.DuelGameScene.getInstance());
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+				}
+				break;
+		}
 	}
 });
 

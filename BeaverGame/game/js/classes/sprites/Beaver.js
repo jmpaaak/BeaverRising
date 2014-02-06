@@ -33,7 +33,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _setOutFlag : false,
     _isHome : false,
     _lightningOn : false,
-    _isSlow: false,
+    _shieldingOn : false,
+    _isStun: false,
+    _goHomeFlag: false,
     
     count: null,
     // count: {
@@ -158,18 +160,18 @@ classes.sprites.Beaver = cc.Sprite.extend({
         
         this._body = body;
     },
-    slow: function () {
-    	if(!this._isSlow)
+    stun: function () {
+    	if(!this._isStun)
     	{
-	    	this._isSlow = true;
-	    	this._curVelocity = BG.BEAVER_SPEED.SLOW;
-	    	console.log("slow 2s beaver: "+this._id);
+	    	this._isStun = true;
+	    	this._curVelocity = 0;
+	    	console.log("stun 2s beaver: "+this._id);
 	    	this.runAction(cc.Sequence.create(
 	    		cc.Blink.create(1.5, 5),
 	    		cc.CallFunc.create(function () {
 	    			this._curVelocity = BG.BEAVER_SPEED.NORMAL;
 	    			this.setOpacity(255);
-	    			this._isSlow = false;
+	    			this._isStun = false;
 	    			this._move();
 	    		}, this)
 	    	));
@@ -185,8 +187,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
+    returnToBase: function () {
+    	this._goHomeFlag = true;
+    	this.removeTailAtIndex(0);
+    },
     update: function () {
-
     	if(this._startFlag)
     	{	
 	        if(this._setInFlag)
@@ -202,6 +207,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        	}
 	        	this._settingHomeOut();
 	        	this.count.moveAllowCount++;
+	        }
+	        else if(this._goHomeFlag)
+	        {
+	        	this._body.SetPosition(this._homeInPoint);
+	        	this.runAction(cc.Blink.create(2, 7));
+	        	this.setOpacity(255);
+				this._goHomeFlag = false;	        	
 	        }
 	        else
 	        {
@@ -223,23 +235,32 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    }
 	    else if(this._curLayer.getIsStart())
 	    {
-	    	this.slow();
+	    	this.stun();
 	    	this._startFlag = true;
 	    }
 
         this._showTwigs();
         
-        if(this._lightningOn){
+        if(this._shieldingOn) {
+        	for(var i=0; i<this._twigs.length; i++) 
+	    	{
+	    		this._twigs[i].shield();
+	    	}
+        }
+        
+        //using lightning
+        if(this._lightningOn) {
         	
-        	if(this.count.lightningCount == 30){
+        	if(this.count.lightningCount == 30) {
         		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
         	}
-        	else if(this.count.lightningCount == 40){
+        	else if(this.count.lightningCount == 40) {
         		this.count.lightningCount = 0;
         		this._lightningOn = false;
         		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
         	}
-        	else {	//if(Math.random() < 0.5){ //lightning prepare.
+        	else 
+        	{	//if(Math.random() < 0.5){ //lightning prepare.
         		var lightPrepare = cc.Sprite.create(s_LightningPrepare);
         		
         		var choiceLightning = Math.floor(Math.random()*10) % 4 ;
@@ -278,6 +299,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
             	lightPrepare.runAction(cc.Sequence.create(action1, delay, action1Back, removeLightning));
         	}
         	this.count.lightningCount++;
+        	
         }
         	
         	
@@ -366,7 +388,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this._shoot();
     			break;
     		case BG.ITEM_TYPE.SHIELD:
-    			this.shield();
+    			this.shielding();
     			break;
     		case BG.ITEM_TYPE.LIGHTNING:
     			this._lightningOn = true;
@@ -404,7 +426,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     
     _showTwigs: function () {
-    	if(this.count.savePosCount >= 4 && !this._isSlow)
+    	if(this.count.savePosCount >= 4 && !this._isStun)
 	    {
 			//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
 			//console.log(this._id+" "+this._twigs.length);
@@ -445,16 +467,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		this._lighteningOn = true;
 		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
 	},
-	shield: function () {
-		console.log("shield");
-		for(var i=0; i<this._twigs.length; i++)
-			this._twigs[i].setIsShielding(true);
+	shielding: function () {
+		if(this._twigs.length === 0) return;
+		var that = this;
+		this._shieldingOn = true;
+		this.runAction(cc.Sequence.create(
+    		cc.DelayTime.create(5.0),
+    		cc.CallFunc.create(function () {
+    			that._shieldingOn = false;
+	        	for(var i=0; i<that._twigs.length; i++) 
+		    	{
+		    		that._twigs[i].unshield();
+		    	}
+    		})
+    	));
 	},
-	unshield: function () {
-		for(var i=0; i<this._twigs.length; i++)
-			this._twigs[i].setIsShielding(false);
-	},
-	///// ///// ///// /////
 	getID: function () {
     	return this._id;
     },

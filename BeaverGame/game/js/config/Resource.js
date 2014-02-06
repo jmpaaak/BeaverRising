@@ -1,10 +1,21 @@
 //SplashScreen
-var s_SplashScreen1 = "images/DigitalMedia_splashscreen.png";
-var s_SplashScreen2 = "images/Brainstorm_splashscreen.png";
-var s_SplashScreen3 = "images/BeaverGame_splashscreen.png";
+var s_SplashScreen1 = "images/BeaverGame_splashscreen.png";
+var s_SplashScreen2 = "images/DigitalMedia_splashscreen.png";
 
 //MainMenu
-var s_bgMainMenu = "images/bgMainMenu.png";
+var s_bgMainMenu = "images/mainmenu/bgMainMenu.png";
+var s_Title1 = "images/mainmenu/Title1.png";
+var s_Button_SinglePlay_Normal = "images/mainmenu/Button_SinglePlay_Normal.png";
+var s_Button_MultiPlay_Normal = "images/mainmenu/Button_MultiPlay_Normal.png";
+var s_Button_HowToPlay_Normal = "images/mainmenu/Button_HowToPlay_Normal.png";
+var s_Button_Credit_Normal = "images/mainmenu/Button_Credit_Normal.png";
+var s_Button_Option_Normal = "images/mainmenu/Button_Option_Normal.png";
+
+var s_Button_SinglePlay_Selected = "images/mainmenu/Button_SinglePlay_Selected.png";
+var s_Button_MultiPlay_Selected = "images/mainmenu/Button_MultiPlay_Selected.png";
+var s_Button_HowToPlay_Selected = "images/mainmenu/Button_HowToPlay_Selected.png";
+var s_Button_Credit_Selected = "images/mainmenu/Button_Credit_Selected.png";
+var s_Button_Option_Selected = "images/mainmenu/Button_Option_Selected.png";
 
 //GameLayer
 var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
@@ -14,6 +25,8 @@ var s_Beaver = "images/1.png";
 
 var s_Twig_Normal = "images/Twig_Normal.png";
 var s_Twig_Thorn = "images/Twig_Thorn.png";
+var s_Twig_Normal_Shield = "images/Twig_Normal_Shield.png";
+var s_Twig_Thorn_Shield = "images/Twig_Thorn_Shield.png";
 var s_ScoreBoard = "images/ScoreBoard.png";
 
 var s_BaseCamp = [];
@@ -59,15 +72,21 @@ var s_Konqa32 = "fonts/konqa32.fnt";
 //var s_BaseCamp4 = "BaseCamp4.png";
 
 
+var g_resources_splash = [
+	{src:s_SplashScreen1},
+	{src:s_SplashScreen2}
+];
 
-
-var g_resources = [
-    //image
+var g_resources_game = [
     {src:s_bgMainMenu},
 	{src:s_Beaver},
-	{src:s_SplashScreen1},
-	{src:s_SplashScreen2},
-	{src:s_SplashScreen3},
+	{src:s_Title1},
+	{src:s_Button_SinglePlay_Normal},
+	{src:s_Button_MultiPlay_Normal},
+	{src:s_Button_HowToPlay_Normal},
+	{src:s_Button_Credit_Normal},
+	{src:s_Button_Option_Normal},
+    //image
 	{src:s_bgReady},
 	{src:s_bgStart},
 	{src:s_bgDuelGameLayer},
@@ -79,6 +98,8 @@ var g_resources = [
 
 	{src:s_Twig_Normal},
 	{src:s_Twig_Thorn},
+	{src:s_Twig_Normal_Shield},
+	{src:s_Twig_Thorn_Shield},
 	{src:s_ScoreBoard},
 	{src:s_TimerBoard},
 

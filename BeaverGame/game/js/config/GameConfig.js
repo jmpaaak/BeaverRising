@@ -50,7 +50,7 @@ BG.BEAVER_SPEED ={
 //branch types
 BG.TWIG_TYPE = {
     NORMAL:1,
-    THORN:2
+    WEEK:2
 };
 
 BG.CATEGORY = {

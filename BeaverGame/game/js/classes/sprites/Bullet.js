@@ -57,11 +57,11 @@ classes.sprites.Bullet = cc.Sprite.extend({
     },
     update: function () {
     	//case of getting out of screen
-        if((this._curPos.y * PTM_RATIO) > 720)
+        if((this._curPos.y * PTM_RATIO) > 1080)
 			this.destroy(this._curLayer);
         else if((this._curPos.y * PTM_RATIO) < 0)
         	this.destroy(this._curLayer);
-        else if((this._curPos.x * PTM_RATIO) > 1280)
+        else if((this._curPos.x * PTM_RATIO) > 1920)
         	this.destroy(this._curLayer);        
         else if((this._curPos.x * PTM_RATIO) < 0)
         	this.destroy(this._curLayer);  

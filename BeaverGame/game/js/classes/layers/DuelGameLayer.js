@@ -33,7 +33,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         	var dataA = contact.GetFixtureA().GetBody().GetUserData(),
         		dataB = contact.GetFixtureB().GetBody().GetUserData();
 
-        	//Beaver Listener
+        	/*
+			 * Beaver Listener
+			 * 
+			 *
+			 */
         	if(dataA.name === "Beaver" || dataB.name === "Beaver")
         	{
         		if(dataA.name === "Beaver")
@@ -54,14 +58,14 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					switch(target.name) {
 						case "Home":
 							console.log("Base camp " + target._id + " is crashed !" );
-							beaver.slow();
+							beaver.stun();
 							break;
 						case "Twig":
 							beaver.addTwig(target);
 							break;
 						case "Beaver":
-							beaver.slow();
-							target.slow();
+							beaver.stun();
+							target.stun();
 							break;
 					}
 				} 
@@ -70,22 +74,27 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					switch(target.name) {
 						case "Bullet":
 							if(beaver.getID() === target.getID()) return;
-							beaver.slow();
+							beaver.removeTailAtIndex(0);
+							beaver.stun();
 							target.destroy(that);
 							break;
 						case "Item":
 							beaver.addItem(target);
 							break;
 						case "Twig":
-							if(!beaver.getIsHome() && !target.getIsShielding())
+							if(!beaver.getIsHome() && !target.getIsShielding() && target.getType() === BG.TWIG_TYPE.WEEK)
 							{
-								console.log("contact: "+target.getIsShielding());
 								var i = target.getBeaverID();
 								that._beavers[i].removeTailAtIndex(target.getTailIndex());
 							}
+							else if(target.getIsShielding() || target.getType() === BG.TWIG_TYPE.NORMAL)
+							{
+								beaver.returnToBase();
+								console.log("crash with normal");
+							}
 							break;
 						case "Home":
-							if(!beaver.getIsHome()){
+							if(!beaver.getIsHome()) {
 								console.log("hey");
 								if(beaver._twigs.length == 0)
 								{
@@ -96,7 +105,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 									target.setTwigsLength(beaver.getTwigs());
 									beaver.settingIn(true);
 								}
-								beaver.shield();
+								beaver.shielding();
 								beaver.setIsHome(true);
 							}
 							break;
@@ -104,7 +113,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				}
 			}
 			
-			//Bullet Listener
+			/*
+			 * Bullet Listener
+			 * 
+			 *
+			 */
 			if(dataA.name === "Bullet" || dataB.name === "Bullet")
         	{
         		if(dataA.name === "Bullet")
@@ -146,7 +159,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			}
 			
 			
-			//Home Listener
+			/* 
+			 * Home Listener
+			 * 
+			 * only for effect
+			 */
 			if(dataA.name === "Home" || dataB.name === "Home")
         	{
         		if(dataA.name === "Home")
@@ -214,7 +231,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
         var bodyDef = new b2BodyDef;
 
-        //create ground //w:40, h:22.5
+        //create ground //w:60 40, h:33.75 22.5
         bodyDef.type = b2Body.b2_staticBody;
         var wallObject = {name:"wall"};
         
@@ -227,31 +244,31 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         //Vertical Box 
         fixDef.shape.SetAsBox(1, 4.5);
         //Home1
-        bodyDef.position.Set(-1, 22.5);
+        bodyDef.position.Set(-1, 33.75);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
         //Home2
-        bodyDef.position.Set(41, 22.5);
+        bodyDef.position.Set(61, 33.75);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
         //Home3
         bodyDef.position.Set(-1, 0);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
         //Home4
-        bodyDef.position.Set(41, 0);
+        bodyDef.position.Set(61, 0);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
         
         //horizontal Box 
         fixDef.shape.SetAsBox(4.5, 1);
         //Home1
-        bodyDef.position.Set(0, 23.5);
+        bodyDef.position.Set(0, 34.75);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
         //Home2
-        bodyDef.position.Set(40, 23.5);
+        bodyDef.position.Set(40, 34.75);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
         //Home3
         bodyDef.position.Set(0, -1);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
         //Home4
-        bodyDef.position.Set(40, -1);
+        bodyDef.position.Set(60, -1);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		
 		
@@ -274,7 +291,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
 	},
 	popItem: function() {
-		if(Math.random() <= 0.5)
+		if(Math.random() <= 0.9)
 		{
 			var size = cc.Director.getInstance().getWinSize();
 			do {
@@ -309,8 +326,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			          (0.15 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
 			var twigProb = Math.random(); 
-			if(twigProb < 0.5) new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.THORN, false); 
-			else new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false);
+			if(twigProb < 0.9) new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false); 
+			else new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.WEEK, false);
 		}
 	},
 	start: function () {
