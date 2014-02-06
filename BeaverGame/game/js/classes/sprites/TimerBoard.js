@@ -9,10 +9,10 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
         this._super();
         this._curLayer = layer;
         this.initWithFile(s_TimerBoard);
-       	this.setPosition(cc.p(size.width/2, size.height-50));
+       	this.setPosition(cc.p(size.width/2, size.height - (BG.GAME_UI.OUTTER_FRAME.HEIGHT / 2) ) );
        	this._limitedTime = 100;
    		this._addTimeLabel();
-        layer.addChild(this, 2);
+        layer.addChild(this, 60);
         
         this.schedule(this._tick, 1/60);
 
@@ -20,7 +20,7 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
     _addTimeLabel: function () {
     	this._timeLabel = cc.LabelBMFont.create("" + this._limitedTime, s_Konqa32);
         this._timeLabel.setPosition(this.getTextureRect().width / 2 , this.getTextureRect().height / 2);
-        this.addChild(this._timeLabel, 2);
+        this.addChild(this._timeLabel, 60);
     },
     _tick: function (dt) {
     	if(this._curLayer.getIsStart())
@@ -40,6 +40,6 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
     	return this._curTime;
     },
     setColor: function () {
-        this._timeLabel.setColor(cc.c3(255,0,0));
+        this._timeLabel.setColor(cc.c3(0,0,0));
     }
 });

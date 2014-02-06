@@ -23,6 +23,12 @@ var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
 var s_Beaver = "images/1.png";
 
+var s_gameFrame = "images/gameFrame.png";
+var s_player1Recog = "images/playerRecog.png";
+//var s_player2Recog = "images/playerRecog.png";
+//var s_player3Recog = "images/playerRecog.png";
+//var s_player4Recog = "images/playerRecog.png";
+
 var s_Twig_Normal = "images/Twig_Normal.png";
 var s_Twig_Thorn = "images/Twig_Thorn.png";
 var s_Twig_Normal_Shield = "images/Twig_Normal_Shield.png";
@@ -90,6 +96,9 @@ var g_resources_game = [
 	{src:s_bgReady},
 	{src:s_bgStart},
 	{src:s_bgDuelGameLayer},
+	
+	{src:s_gameFrame},
+	{src:s_player1Recog},
 
 	{src:s_Item_Bullet},
 	{src:s_Item_Shield},

@@ -18,7 +18,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
-        layer.addChild(this, 1);
+        layer.addChild(this, 40);
         this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this.getPosition(),id);
     },
 	
@@ -40,7 +40,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         var body = world.CreateBody(bodyDef);
 
         // Define another box shape for our dynamic body.
-        var dynamicCircle = new b2CircleShape(4);
+        var dynamicCircle = new b2CircleShape((this.getTextureRect().width/ 2) / PTM_RATIO);
 
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();
@@ -73,7 +73,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         var body = world.CreateBody(bodyDef);
 
         // Define another box shape for our dynamic body.
-        var dynamicCircle = new b2CircleShape(3.8);
+        var dynamicCircle = new b2CircleShape(((this.getTextureRect().width / 2) -10) / PTM_RATIO);
 
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();

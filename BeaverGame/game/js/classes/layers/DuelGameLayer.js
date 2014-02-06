@@ -11,8 +11,14 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	init: function() {
 		var that = this;		
 		var size = cc.Director.getInstance().getWinSize();
-		
 		this._super();
+		
+		// Frame creation
+		var gameFrame= cc.Sprite.create(s_gameFrame);
+        gameFrame.setPosition(size.width / 2 , size.height / 2);		
+		this.addChild(gameFrame,50);
+		// Frame creation finish
+		
 		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
@@ -231,7 +237,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
         var bodyDef = new b2BodyDef;
 
+<<<<<<< HEAD
         //create ground //w:60 40, h:33.75 22.5
+=======
+        //create ground //w:40, h:22.5
+        ////w:60, h:33.75
+>>>>>>> d6d43478809ed6fe6d1ed1f0fbaed0b00512e4a0
         bodyDef.type = b2Body.b2_staticBody;
         var wallObject = {name:"wall"};
         
@@ -242,6 +253,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         
         //Creating the wall
         //Vertical Box 
+<<<<<<< HEAD
         fixDef.shape.SetAsBox(1, 4.5);
         //Home1
         bodyDef.position.Set(-1, 33.75);
@@ -270,6 +282,36 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         //Home4
         bodyDef.position.Set(60, -1);
         this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+=======
+        // fixDef.shape.SetAsBox(1, 4.5);
+        // //Home1
+        // bodyDef.position.Set(-1, 33.75);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home2
+        // bodyDef.position.Set(60 +1, 33.75);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home3
+        // bodyDef.position.Set(-1, 0);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+        // //Home4
+        // bodyDef.position.Set(60 +1, 0);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+//         
+        // //horizontal Box 
+        // fixDef.shape.SetAsBox(4.5, 1);
+        // //Home1
+        // bodyDef.position.Set(0, 33.75 +1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home2
+        // bodyDef.position.Set(60, 33.75 +1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+        // //Home3
+        // bodyDef.position.Set(0, -1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+        // //Home4
+        // bodyDef.position.Set(60, -1);
+        // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
+>>>>>>> d6d43478809ed6fe6d1ed1f0fbaed0b00512e4a0
 		
 		
 		this._bgWater = new classes.sprites.BG_Water(this);
@@ -280,10 +322,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 	       
 
-	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(0,size.height), BG.BASECAMP.HOME1);
-	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width,size.height), BG.BASECAMP.HOME2);
-	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(0,0), BG.BASECAMP.HOME3);
-	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width,0), BG.BASECAMP.HOME4);
+	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME1);
+	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH ,size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME2);
+	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME3);
+	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME4);
 	   
 	    this._timer = new classes.sprites.TimerBoard(this);
 

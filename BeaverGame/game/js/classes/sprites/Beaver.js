@@ -64,7 +64,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
    			lightningCount: 0
    		};
    		
-        layer.addChild(this, 1); //z: 0
+        layer.addChild(this, 2); //z: 0
         
         this.schedule(this.update, 1/60);
         
@@ -74,19 +74,19 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	switch(this._id)
     	{
     		case BG.CATEGORY.PLAYER1:
-    			this._homeInPoint= cc.p(0,this._winSize.height/PTM_RATIO);
+    			this._homeInPoint= cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO , (this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT) / PTM_RATIO);
     			this._outAngle = 45;
     			break;
     		case BG.CATEGORY.PLAYER2:
-    			this._homeInPoint= cc.p(this._winSize.width/PTM_RATIO, this._winSize.height/PTM_RATIO);
+    			this._homeInPoint= cc.p((this._winSize.width-BG.GAME_UI.OUTTER_FRAME.WIDTH)/PTM_RATIO, (this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT)/PTM_RATIO);
     			this._outAngle = 135;
     			break;
     		case BG.CATEGORY.PLAYER3:
-    			this._homeInPoint= cc.p(0,0);
+    			this._homeInPoint= cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO ,BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
     			this._outAngle = 225;
     			break;
     		case BG.CATEGORY.PLAYER4:
-    			this._homeInPoint= cc.p(this._winSize.width/PTM_RATIO,0);
+    			this._homeInPoint= cc.p((this._winSize.width - BG.GAME_UI.OUTTER_FRAME.WIDTH) / PTM_RATIO, BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
     			this._outAngle = 315;
     			break;
     	}
@@ -316,21 +316,21 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        }
 	    }
         //case of getting out of screen
-        if((this._curPos.y * PTM_RATIO) > this._winSize.height)
+        if((this._curPos.y * PTM_RATIO) > this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT + 10)
         {
-			this._body.SetPosition(cc.p(this._curPos.x,0));
+			this._body.SetPosition(cc.p(this._curPos.x, BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO));
         }
-        else if((this._curPos.y * PTM_RATIO) < 0)
+        else if((this._curPos.y * PTM_RATIO) < BG.GAME_UI.OUTTER_FRAME.HEIGHT - 10)
         {
-        	this._body.SetPosition(cc.p(this._curPos.x, this._winSize.height / PTM_RATIO));
+        	this._body.SetPosition(cc.p(this._curPos.x, this._winSize.height / PTM_RATIO - (BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO)));
         }        
-        else if((this._curPos.x * PTM_RATIO) > this._winSize.width)
+        else if((this._curPos.x * PTM_RATIO) > this._winSize.width - BG.GAME_UI.OUTTER_FRAME.WIDTH + 10)
         {
-        	this._body.SetPosition(cc.p(0,this._curPos.y));
+        	this._body.SetPosition(cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO,this._curPos.y));
         }        
-        else if((this._curPos.x * PTM_RATIO) < 0)
+        else if((this._curPos.x * PTM_RATIO) < BG.GAME_UI.OUTTER_FRAME.WIDTH - 10)
         {
-        	this._body.SetPosition(cc.p(this._winSize.width / PTM_RATIO,this._curPos.y));
+        	this._body.SetPosition(cc.p(this._winSize.width / PTM_RATIO - (BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO),this._curPos.y));
         }
 
        // count

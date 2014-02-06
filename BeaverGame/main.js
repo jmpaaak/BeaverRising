@@ -64,7 +64,11 @@ var cocos2dApp = cc.Application.extend({
 
 		// var resourceSize = cc.size(1920, 1080);
 		// var designSize = cc.size(960, 540);
+<<<<<<< HEAD
 		// director.setContentScaleFactor(resourceSize.width / designSize.width);
+=======
+		// director.setContentScaleFactor(resourceSize.width / designSize.width);	
+>>>>>>> d6d43478809ed6fe6d1ed1f0fbaed0b00512e4a0
 		//cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
 
         cc.EGLView.getInstance().setDesignResolutionSize(1920, 1080, cc.RESOLUTION_POLICY.SHOW_ALL);
@@ -75,7 +79,8 @@ var cocos2dApp = cc.Application.extend({
         director.setDisplayStats(this.config['showFPS']);
 
         // set FPS. the default value is 1.0/60 if you don't call this
-       director.setAnimationInterval(1.0 / this.config['frameRate']);
+        
+        director.setAnimationInterval(1.0 / this.config['frameRate']);
         
         //load only Menu, Splash sreen resources
         cc.Loader.preload(g_resources_splash, function () {
