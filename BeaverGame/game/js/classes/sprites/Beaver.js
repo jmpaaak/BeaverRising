@@ -37,6 +37,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _isStun: false,
     _goHomeFlag: false,
     
+    //sprite
+	_spriteSheet:null,
+    _beaverAction:null,
+    _beaverSprite:null,
+    
     count: null,
     // count: {
     	// savePosCount: 0
@@ -47,7 +52,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         this._id = id;
         this._curLayer = layer;
         this._categoryPlayer = Math.pow(2, this._id);
-        this.initWithFile(s_Beaver);
         this.addBeaverWithCoords(this._curLayer.world, p);
   		this._itemList = [];
   		this._twigs = [];
@@ -64,10 +68,34 @@ classes.sprites.Beaver = cc.Sprite.extend({
    			lightningCount: 0
    		};
    		
+   		this.initSprite();
+   		
         layer.addChild(this, 2); //z: 0
         
         this.schedule(this.update, 1/60);
         
+    },
+    
+    initSprite : function(){
+    	        // create sprite sheet
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaver1);
+        this._spriteSheet = cc.SpriteBatchNode.create(s_beaver1);
+        this._curLayer.addChild(this._spriteSheet);
+
+        var animFrames = [];
+        for (var i = 1; i < 25; i++) {
+            var str = "beaver_normal" + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+
+        var animation = cc.Animation.create(animFrames, 0.5);
+        this._beaverAction = cc.RepeatForever.create(cc.Animate.create(animation));
+        this._beaverSprite = cc.Sprite.createWithSpriteFrame("beaver_normal1.png");
+        this._beaverSprite.setPosition(cc.p( this._winSize.width /2 ,  this._winSize.height /2));
+        this._beaverSprite.runAction(this._beaverAction);
+        this._spriteSheet.addChild(this._beaverSprite);
+    	
     },
     settingPoint : function(){
     	this._homeInPoint = new cc.Point();

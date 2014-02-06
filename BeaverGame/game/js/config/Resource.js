@@ -21,7 +21,10 @@ var s_Button_Option_Selected = "images/mainmenu/Button_Option_Selected.png";
 var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
-var s_Beaver = "images/1.png";
+
+var s_beaver1 = "images/Beaver/beaver_normal.png";
+var p_beaver1 = "images/Beaver/beaver_normal.plist";
+//var s_Beaver2
 
 var s_gameFrame = "images/gameFrame.png";
 var s_player1Recog = "images/playerRecog.png";
@@ -85,7 +88,6 @@ var g_resources_splash = [
 
 var g_resources_game = [
     {src:s_bgMainMenu},
-	{src:s_Beaver},
 	{src:s_Title1},
 	{src:s_Button_SinglePlay_Normal},
 	{src:s_Button_MultiPlay_Normal},
@@ -136,8 +138,11 @@ var g_resources_game = [
 	{src:bg_Water13},
 	{src:bg_Water14},
 	{src:bg_Water15},
-	
+
+
+	{src:s_beaver1},
     //plist
+    {src:p_beaver1},
 
     //fnt
 	{src:s_Konqa32}

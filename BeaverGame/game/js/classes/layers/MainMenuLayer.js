@@ -54,7 +54,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
         				[howToPlayNormal, howToPlaySelected],
         				[creditNormal, creditSelected],
         				[optionNormal, optionSelected]
-        			  ]
+        			  ];
 
 		singleGameNormal.setPosition((size.width/6) * 1+100, size.height/4);
 		duelGameNormal.setPosition((size.width/6) * 3, size.height/2-100);
