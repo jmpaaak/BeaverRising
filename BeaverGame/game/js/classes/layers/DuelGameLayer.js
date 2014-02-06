@@ -237,12 +237,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
         var bodyDef = new b2BodyDef;
 
-<<<<<<< HEAD
         //create ground //w:60 40, h:33.75 22.5
-=======
         //create ground //w:40, h:22.5
         ////w:60, h:33.75
->>>>>>> d6d43478809ed6fe6d1ed1f0fbaed0b00512e4a0
         bodyDef.type = b2Body.b2_staticBody;
         var wallObject = {name:"wall"};
         
@@ -250,39 +247,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         
         fixDef.shape = new b2PolygonShape;
         
-        
-        //Creating the wall
-        //Vertical Box 
-<<<<<<< HEAD
-        fixDef.shape.SetAsBox(1, 4.5);
-        //Home1
-        bodyDef.position.Set(-1, 33.75);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home2
-        bodyDef.position.Set(61, 33.75);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home3
-        bodyDef.position.Set(-1, 0);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
-        //Home4
-        bodyDef.position.Set(61, 0);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        
-        //horizontal Box 
-        fixDef.shape.SetAsBox(4.5, 1);
-        //Home1
-        bodyDef.position.Set(0, 34.75);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home2
-        bodyDef.position.Set(40, 34.75);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        //Home3
-        bodyDef.position.Set(0, -1);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);    
-        //Home4
-        bodyDef.position.Set(60, -1);
-        this.world.CreateBody(bodyDef).CreateFixture(fixDef);
-=======
         // fixDef.shape.SetAsBox(1, 4.5);
         // //Home1
         // bodyDef.position.Set(-1, 33.75);
@@ -311,8 +275,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         // //Home4
         // bodyDef.position.Set(60, -1);
         // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
->>>>>>> d6d43478809ed6fe6d1ed1f0fbaed0b00512e4a0
-		
 		
 		this._bgWater = new classes.sprites.BG_Water(this);
 	
