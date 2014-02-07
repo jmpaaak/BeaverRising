@@ -79,7 +79,7 @@ var cocos2dApp = cc.Application.extend({
         director.setAnimationInterval(1.0 / this.config['frameRate']);
         
         //load only Menu, Splash sreen resources
-        cc.Loader.preload([g_resources_splash,g_resources_game],function () {
+        cc.Loader.preload([g_resources_splash, g_resources_game],function () {
             director.runWithScene(this.startScene()); //director.replaceScene(this.startScene());
         }, this);
 
