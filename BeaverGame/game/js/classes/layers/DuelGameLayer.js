@@ -88,15 +88,19 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.addItem(target);
 							break;
 						case "Twig":
-							if(!beaver.getIsHome() && !target.getIsShielding() && target.getType() === BG.TWIG_TYPE.WEEK)
+							if(!beaver.getIsHome() && !target.getIsShielding())
+							{
+								
+							if(target.getType() === BG.TWIG_TYPE.WEEK)
 							{
 								var i = target.getBeaverID();
 								that._beavers[i].removeTailAtIndex(target.getTailIndex());
 							}
-							else if(target.getIsShielding() || target.getType() === BG.TWIG_TYPE.NORMAL)
+							else if(target.getType() === BG.TWIG_TYPE.NORMAL)
 							{
+								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) return;
 								beaver.returnToBase();
-								console.log("crash with normal");
+							}
 							}
 							break;
 						case "Home":
@@ -280,7 +284,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	
 
         //Adding Beavers
-        for(var i=1; i<3; i++)
+        for(var i=1; i<4; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 	       
 
@@ -379,7 +383,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.destroyList.length = 0; 
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem();
+			this._itemPopCount = 0, this.popItem(); 
 		this._itemPopCount++;
 		
 		if(this._twigPopCount === 120) //every 2s (p=0.5) 
@@ -411,6 +415,17 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			case cc.KEY.e:
 				this._beavers[2].handleKeyUp(e);
 				break;
+			
+			//player3	
+			case cc.KEY.i:
+				this._beavers[3].handleKeyUp(e);
+				break;
+			case cc.KEY.o:
+				this._beavers[3].handleKeyUp(e);
+				break;
+			case cc.KEY.p:
+				this._beavers[3].handleKeyUp(e);
+				break;
 		}
 	},
 	onKeyDown: function(e) {
@@ -423,7 +438,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			case cc.KEY.right:
 				this._beavers[1].handleKeyDown(e);
 				break;
-			case cc.KEY.ctrl:
+			case cc.KEY.up:
 				this._beavers[1].handleKeyDown(e);
 				break;
 			
@@ -436,6 +451,17 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				break;
 			case cc.KEY.e:
 				this._beavers[2].handleKeyDown(e);
+				break;
+			
+			//player3	
+			case cc.KEY.i:
+				this._beavers[3].handleKeyDown(e);
+				break;
+			case cc.KEY.o:
+				this._beavers[3].handleKeyDown(e);
+				break;
+			case cc.KEY.p:
+				this._beavers[3].handleKeyDown(e);
 				break;
 		}
 	}

@@ -7,465 +7,465 @@
 		<key>width</key>
 		<integer>1024</integer>
 		<key>height</key>
-		<integer>256</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
 		<key>beaver_normal1.png</key>
 		<dict>
 			<key>x</key>
-			<integer>583</integer>
+			<integer>480</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal2.png</key>
 		<dict>
 			<key>x</key>
 			<integer>0</integer>
 			<key>y</key>
-			<integer>160</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
+			<integer>80</integer>
 			<key>y</key>
-			<integer>120</integer>
+			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal4.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
-			<key>y</key>
 			<integer>80</integer>
+			<key>y</key>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal5.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
+			<integer>160</integer>
 			<key>y</key>
-			<integer>40</integer>
+			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>954</integer>
+			<integer>160</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>901</integer>
+			<integer>240</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>848</integer>
+			<integer>240</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal9.png</key>
 		<dict>
 			<key>x</key>
-			<integer>795</integer>
+			<integer>320</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal10.png</key>
 		<dict>
 			<key>x</key>
-			<integer>742</integer>
+			<integer>320</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal11.png</key>
 		<dict>
 			<key>x</key>
-			<integer>689</integer>
+			<integer>400</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal12.png</key>
 		<dict>
 			<key>x</key>
-			<integer>636</integer>
+			<integer>400</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal13.png</key>
 		<dict>
 			<key>x</key>
 			<integer>0</integer>
 			<key>y</key>
-			<integer>200</integer>
+			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal14.png</key>
 		<dict>
 			<key>x</key>
-			<integer>530</integer>
+			<integer>480</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal15.png</key>
 		<dict>
 			<key>x</key>
-			<integer>477</integer>
+			<integer>560</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal16.png</key>
 		<dict>
 			<key>x</key>
-			<integer>424</integer>
+			<integer>560</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal17.png</key>
 		<dict>
 			<key>x</key>
-			<integer>371</integer>
+			<integer>640</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal18.png</key>
 		<dict>
 			<key>x</key>
-			<integer>318</integer>
+			<integer>640</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal19.png</key>
 		<dict>
 			<key>x</key>
-			<integer>265</integer>
+			<integer>720</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal20.png</key>
 		<dict>
 			<key>x</key>
-			<integer>212</integer>
+			<integer>720</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal21.png</key>
 		<dict>
 			<key>x</key>
-			<integer>159</integer>
+			<integer>800</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal22.png</key>
 		<dict>
 			<key>x</key>
-			<integer>106</integer>
+			<integer>800</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal23.png</key>
 		<dict>
 			<key>x</key>
-			<integer>53</integer>
+			<integer>880</integer>
 			<key>y</key>
 			<integer>0</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 		<key>beaver_normal24.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
+			<integer>880</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>59</integer>
 			<key>width</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>59</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>53</integer>
+			<integer>80</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>59</integer>
 		</dict>
 	</dict>
 </dict>

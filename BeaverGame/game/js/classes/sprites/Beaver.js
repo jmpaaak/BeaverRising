@@ -7,10 +7,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _rightKeyDown: false,
     _qKeyDown: false,
     _wKeyDown: false,
+    _iKeyDown: false,
+    _oKeyDown: false,
     _leftKeyUp: false,
     _rightKeyUp: false,
     _qKeyUp: false,
     _wKeyUp: false,
+    _iKeyUp: false,
+    _oKeyUp: false,
     
     _vector: null,
     _currentAngle: 0,
@@ -37,15 +41,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _isStun: false,
     _goHomeFlag: false,
     
+    //meeting obstacles
+
     //sprite
-	_spriteSheet:null,
-    _beaverAction:null,
-    _beaverSprite:null,
+    _beaverInitAction:null,
     
     count: null,
-    // count: {
-    	// savePosCount: 0
-    // },
+
     ctor: function (layer, p, id) {
         this._super();
         this._winSize = cc.Director.getInstance().getWinSize();
@@ -66,7 +68,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
    		this.count = {
    			savePosCount: 0,
    			moveAllowCount: 0,
-   			lightningCount: 0
+   			lightningCount: 0,
+   			turtleSlowCount: 0
    		};
    		
    		
@@ -77,22 +80,38 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     
     initSprite : function(){
-    	        // create sprite sheet
+    	// create beaver init sprite sheet
         cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaver1);
 
         var animFrames = [];
-        for (var i = 1; i < 25; i++) {
+        for(var i = 1; i < 25; i++) {
             var str = "beaver_normal" + i + ".png";
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
 
-        var animation = cc.Animation.create(animFrames, 0.1);
+
+        var animation = cc.Animation.create(animFrames, 0.05);
         this._beaverAction = cc.RepeatForever.create(cc.Animate.create(animation));
         this.initWithSpriteFrameName("beaver_normal1.png");
         this.runAction(this._beaverAction);
 
-    	
+
+    	//this.setTexture();
+    },
+    changeAction: function (str) {
+    	switch(str)
+    	{
+    		case "basic":
+    			this.stopAllActions();
+    			this.runAction(this._beaverInitAction);
+    			break;
+    		// case "add":
+    			// this.stopAllActions();
+    			// this.runAction(this._beaverAddingAction); //TODO: Lightning, lostTail, stun  
+    			// break;
+    	}
+
     },
     settingPoint : function(){
     	this._homeInPoint = new cc.Point();
@@ -108,11 +127,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			break;
     		case BG.CATEGORY.PLAYER3:
     			this._homeInPoint= cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO ,BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
-    			this._outAngle = 225;
+    			this._outAngle = 315;
     			break;
     		case BG.CATEGORY.PLAYER4:
     			this._homeInPoint= cc.p((this._winSize.width - BG.GAME_UI.OUTTER_FRAME.WIDTH) / PTM_RATIO, BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
-    			this._outAngle = 315;
+    			this._outAngle = 225;
     			break;
     	}
     },
@@ -145,12 +164,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._curLayer.destroyList.push(item.getBody());
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     	item = null;
+    	this.changeAction("add");
     },
     addBeaverWithCoords: function (world, p) {
 		/*
          * add Beaver body
          */
         var tex = this;
+        
         tex.setPosition(p.x, p.y);
         // Define the dynamic body.
         var b2Vec2 = Box2D.Common.Math.b2Vec2,
@@ -248,15 +269,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        }
 	        
        		this._showTwigs();
-       		
-	        if(this._lighteningOn){
-	        	if(this.count.lighteningCount == 20){
-	        		this.count.lighteningCount = 0;
-	        		this._lighteningOn = false;
-	        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
-	        	}
-	        	this.count.lighteningCount++;
-	        }
 	    }
 	    else if(this._curLayer.getIsStart())
 	    {
@@ -276,15 +288,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
         //using lightning
         if(this._lightningOn) {
         	
-        	if(this.count.lightningCount == 30) {
-        		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
+        	if(this.count.lightningCount >= 30 && this.count.lightningCount < 40) {
+        		this._curVelocity+= BG.BEAVER_SPEED.SUPERFAST;
         	}
-        	else if(this.count.lightningCount == 40) {
+        	else if(this.count.lightningCount >= 40) {
         		this.count.lightningCount = 0;
         		this._lightningOn = false;
         		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
         	}
-        	else 
+
         	{	//if(Math.random() < 0.5){ //lightning prepare.
         		var lightPrepare = cc.Sprite.create(s_LightningPrepare);
         		
@@ -311,7 +323,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			        var action1 = cc.FadeIn.create(0.1);
 			        var action1Back = action1.reverse();
 	    			var removeLightning = cc.CallFunc.create(function () 
-	    			{this.removeChild(lightPrepare, true);}, this);	
+	    			{this.removeChild(lightPrepare, true);}, this);
         		}
         		else{ //drawing back of beaver //// position based on beaver
         			this._curLayer.addChild(lightPrepare,0);
@@ -324,10 +336,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
             	lightPrepare.runAction(cc.Sequence.create(action1, delay, action1Back, removeLightning));
         	}
         	this.count.lightningCount++;
-        	
         }
-        	
-        	
+ 	
         if(this._id === 1)
         {
 	        if (this._leftKeyDown || this._rightKeyDown)
@@ -370,7 +380,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	            if (e === cc.KEY.left) this._leftKeyDown = true;
 	            else if (e === cc.KEY.right) this._rightKeyDown = true;
 	        }
-	        if(e === cc.KEY.ctrl)
+	        if(e === cc.KEY.up)
 	        	this._useItem();
 	    }
 	    else if(this._id === 2)
@@ -382,6 +392,17 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	            else if (e === cc.KEY.w) this._wKeyDown = true;
 	        }
 	        if(e === cc.KEY.e)
+	        	this._useItem();
+	    }
+	    else if(this._id === 3)
+	    {
+	    	this._leftKeyUp = false;
+        	this._rightKeyUp = false;
+	    	if (!this._iKeyDown || !this._oKeyDown) {
+	            if (e === cc.KEY.i) this._iKeyDown = true;
+	            else if (e === cc.KEY.o) this._oKeyDown = true;
+	        }
+	        if(e === cc.KEY.p)
 	        	this._useItem();
 	    }
     },
@@ -402,6 +423,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
        		if (!this._qKeyUp || !this._wKeyUp) {
 	            if (e === cc.KEY.q) this._qKeyUp = true;
 	            else if (e === cc.KEY.w) this._wKeyUp = true;
+	        }
+        }
+        else if(this._id === 3)
+        {
+       		this._iKeyDown = false;
+       		this._oKeyDown = false;
+       		if (!this._oKeyUp || !this._iKeyUp) {
+	            if (e === cc.KEY.i) this._iKeyUp = true;
+	            else if (e === cc.KEY.o) this._oKeyUp = true;
 	        }
         }
     },
@@ -439,6 +469,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
 		        if(this._qKeyUp);
 		        if(this._wKeyUp);
+		    }
+		    else if(this._id === 3)
+		    {
+		    	if(this._iKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._oKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._iKeyUp);
+		        if(this._oKeyUp);
 		    }
 			if(curAngle < 0) curAngle = 355;
 			if(curAngle > 360) curAngle = 5;
@@ -522,6 +559,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getIsShielding: function () {
     	return this._isShielding;
     },
+
     settingIn : function(bool){
     	this._setInFlag = bool;
     },
@@ -539,12 +577,18 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	return this._isHome;
     },
     
-    _settingHomeIn : function(){
+    _settingHomeIn : function () {
     	if(this._lightningOn == true) this._lightningOn = false;
     	this._body.SetPosition(this._homeInPoint);
     	this._curVelocity = 0;
+	    var curVector = {x:0,y:0};
+	    curVector.x = this._curVelocity;
+	    curVector.y = this._curVelocity;
+	    
+	    this._vector = curVector;
+	    this._body.SetLinearVelocity(this._vector);
     },
-    _settingHomeOut : function(){
+    _settingHomeOut : function () {
 	    var curVector = this._vector;
 	    var curAngle = this._outAngle;
 		if(this._curVelocity == 0) this._curVelocity = BG.BEAVER_SPEED.NORMAL;

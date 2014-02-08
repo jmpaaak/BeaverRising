@@ -72,6 +72,9 @@ var bg_Water13 = "images/BG_water/sea013.png";
 var bg_Water14 = "images/BG_water/sea014.png";
 var bg_Water15 = "images/BG_water/sea015.png";
 
+//obstacle
+var s_turtle = "images/obstacle_turtle.png";
+
 //Font
 var s_Konqa32 = "fonts/konqa32.fnt";
 
@@ -138,6 +141,9 @@ var g_resources_game = [
 	{src:bg_Water13},
 	{src:bg_Water14},
 	{src:bg_Water15},
+	
+	//obstacle
+	{src:s_turtle},
 
 
 	{src:s_beaver1},
