@@ -105,7 +105,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	},
 	spriteChanger: function(){
 			this.initWithFile(s_BaseCamp[this._homeLevel]);
-			this._targetHome+= 5;
+			this._targetHome+= 10;
 			this._homeLevel++;
 	},
 	setColor: function () {

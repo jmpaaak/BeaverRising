@@ -116,15 +116,19 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.addItem(target);
 							break;
 						case "Twig":
-							if(!beaver.getIsHome() && !target.getIsShielding() && target.getType() === BG.TWIG_TYPE.WEEK)
+							if(!beaver.getIsHome() && !target.getIsShielding())
+							{
+								
+							if(target.getType() === BG.TWIG_TYPE.WEEK)
 							{
 								var i = target.getBeaverID();
 								that._beavers[i].removeTailAtIndex(target.getTailIndex());
 							}
-							else if(target.getIsShielding() || target.getType() === BG.TWIG_TYPE.NORMAL)
+							else if(target.getType() === BG.TWIG_TYPE.NORMAL)
 							{
+								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) return;
 								beaver.returnToBase();
-								console.log("crash with normal");
+							}
 							}
 							break;
 						case "Home":
@@ -418,8 +422,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//Reset the array
 		this.destroyList.length = 0; 
 		
-		if(this._itemPopCount === 60) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem();
+		if(this._itemPopCount === 300) //every 2s (p=0.5) 
+			this._itemPopCount = 0, this.popItem(); 
 		this._itemPopCount++;
 		
 		if(this._twigPopCount === 120) //every 2s (p=0.5) 

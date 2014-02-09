@@ -51,6 +51,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _willDevil: false,
     _isDevil: false,
     
+    //meeting obstacles
+
     //sprite
     _curAction: null,
     _beaverInitAction: null,
@@ -78,7 +80,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
    		this.count = {
    			savePosCount: 0,
    			moveAllowCount: 0,
-   			lightningCount: 0
+   			lightningCount: 0,
+   			turtleSlowCount: 0
    		};
    		
         layer.addChild(this, 2); //z: 0
@@ -110,7 +113,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
         var animation = cc.Animation.create(animFrames, 0.5);
         this._beaverDevilAction = cc.RepeatForever.create(cc.Animate.create(animation));
         
-        
         this.initWithSpriteFrameName("beaver_normal1.png");
         this.runAction(this._beaverInitAction);
         this._curAction = this._beaverInitAction;
@@ -130,6 +132,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			//this.runAction(this._beaverAddingAction); //TODO: Lightning, lostTail, stun  
     			break;
     	}
+
     },
     settingPoint : function(){
     	this._homeInPoint = new cc.Point();
@@ -145,11 +148,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			break;
     		case BG.CATEGORY.PLAYER3:
     			this._homeInPoint= cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO ,BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
-    			this._outAngle = 225;
+    			this._outAngle = 315;
     			break;
     		case BG.CATEGORY.PLAYER4:
     			this._homeInPoint= cc.p((this._winSize.width - BG.GAME_UI.OUTTER_FRAME.WIDTH) / PTM_RATIO, BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
-    			this._outAngle = 315;
+    			this._outAngle = 225;
     			break;
     	}
     },
@@ -378,15 +381,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        }
 	        
        		this._showTwigs();
-       		
-	        if(this._lighteningOn){
-	        	if(this.count.lighteningCount == 20){
-	        		this.count.lighteningCount = 0;
-	        		this._lighteningOn = false;
-	        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
-	        	}
-	        	this.count.lighteningCount++;
-	        }
 	    }
 	    else if(this._curLayer.getIsStart())
 	    {
@@ -406,15 +400,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
         //using lightning
         if(this._lightningOn) {
         	
-        	if(this.count.lightningCount == 30) {
-        		this._curVelocity = BG.BEAVER_SPEED.SUPERFAST;
+        	if(this.count.lightningCount >= 30 && this.count.lightningCount < 40) {
+        		this._curVelocity+= BG.BEAVER_SPEED.SUPERFAST;
         	}
-        	else if(this.count.lightningCount == 40) {
+        	else if(this.count.lightningCount >= 40) {
         		this.count.lightningCount = 0;
         		this._lightningOn = false;
         		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
         	}
-        	else 
+
         	{	//if(Math.random() < 0.5){ //lightning prepare.
         		var lightPrepare = cc.Sprite.create(s_LightningPrepare);
         		
@@ -455,8 +449,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this.count.lightningCount++;
         }
-        	
-        	
+ 	
         if(this._id === 1)
         {
 	        if (this._leftKeyDown || this._rightKeyDown)
@@ -638,7 +631,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
 			//console.log(this._id+" "+this._twigs.length);
 			this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
-			if (this._positions.length >= ((this._twigs.length + 3) * 5) + 6)
+			if (this._positions.length >= ((this._twigs.length + 3) * 5) + 6) //origin
 				this._positions.pop();
 				
         	if(this._isHome)
@@ -654,7 +647,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 					newTwig.setTailIndex(i);
 					this._twigs[i] = newTwig;
 				}
-				var p = this._positions[(i*5)+4];
+				var p = this._positions[(i*2)+2];
 				// console.log(this._id+" "+p.x+" "+p.y);
 				this._twigs[i].getBody().SetPosition(p);
 				this._twigs[i].setRotate();
@@ -710,6 +703,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getIsShielding: function () {
     	return this._isShielding;
     },
+
     settingIn : function(bool){
     	this._setInFlag = bool;
     },
@@ -731,6 +725,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	if(this._lightningOn == true) this._lightningOn = false;
     	this._body.SetPosition(this._homeInPoint);
     	this._curVelocity = 0;
+	    var curVector = {x:0,y:0};
+	    curVector.x = this._curVelocity;
+	    curVector.y = this._curVelocity;
+	    
+	    this._vector = curVector;
+	    this._body.SetLinearVelocity(this._vector);
     },
     _settingHomeOut : function () {
 	    var curVector = this._vector;

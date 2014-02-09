@@ -10,7 +10,7 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
         this._curLayer = layer;
         this.initWithFile(s_TimerBoard);
        	this.setPosition(cc.p(size.width/2, size.height - (BG.GAME_UI.OUTTER_FRAME.HEIGHT / 2) ) );
-       	this._limitedTime = 100;
+       	this._limitedTime = 300;
    		this._addTimeLabel();
         layer.addChild(this, 60);
         

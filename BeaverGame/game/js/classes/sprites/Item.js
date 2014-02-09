@@ -55,7 +55,7 @@ classes.sprites.Item = cc.Sprite.extend({
 		        break;
         	case 2:
 		        tex.setPosition(p.x, -tex.getTextureRect().height/2);
-		        x = p.x, y = -tex.getTextureRect().height/2
+		        x = p.x, y = -tex.getTextureRect().height/2;
 		        break;
         	case 3:
 		        tex.setPosition(-tex.getTextureRect().width/2, p.y);

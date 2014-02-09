@@ -73,9 +73,12 @@ var bg_Water13 = "images/BG_water/sea013.png";
 var bg_Water14 = "images/BG_water/sea014.png";
 var bg_Water15 = "images/BG_water/sea015.png";
 
+//obstacle
+var s_turtle = "images/obstacle_turtle.png";
+
 //Font
 var s_Konqa32 = "fonts/konqa32.fnt";
-
+var s_TempMenu = "images/temp.png"//TODO:REMOVE
 
 //var s_BaseCamp2 = "BaseCamp2.png";
 //var s_BaseCamp3 = "BaseCamp3.png";
@@ -95,6 +98,7 @@ var g_resources_game = [
 	{src:s_Button_HowToPlay_Normal},
 	{src:s_Button_Credit_Normal},
 	{src:s_Button_Option_Normal},
+	{src:s_TempMenu},//TODO:REMOVE
     //image
 	{src:s_bgReady},
 	{src:s_bgStart},
@@ -140,6 +144,9 @@ var g_resources_game = [
 	{src:bg_Water14},
 	{src:bg_Water15},
 	{src:s_Item_Devil},
+	
+	//obstacle
+	{src:s_turtle},
 	
     //plist
     {src:p_beaver1},

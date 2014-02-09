@@ -51,15 +51,15 @@ BG.ITEM_TYPE = {
     //TODO
 };
 
-BG.OBSTACLE_TYPE = {
-	//TODO
+BG.OBSTACLE = {
+	TURTLE:1
 };
 
 BG.BEAVER_SPEED ={
-	SLOW : 0.5,
-	NORMAL :6.7,
+	SLOW : 5,
+	NORMAL :9,
 	FAST : 10,
-	SUPERFAST : 40
+	SUPERFAST : 30
 };
 
 //branch types
@@ -67,6 +67,8 @@ BG.TWIG_TYPE = {
     NORMAL:1,
     WEEK:2
 };
+
+
 
 BG.CATEGORY = {
 	PLAYER1:1,

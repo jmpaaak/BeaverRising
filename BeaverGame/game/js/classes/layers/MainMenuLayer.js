@@ -21,6 +21,10 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
         this._bg.setPosition(size.width/2, size.height/2);
         this.addChild(this._bg);
         
+        // var temp = cc.Sprite.create(s_TempMenu);
+        // temp.setPosition(size.width/2, size.height/2);
+        // this.addChild(temp, 5);
+        
         this._logo = cc.Sprite.create(s_Title1);
         this._logo.setScaleX(0.4);//TODO
         this._logo.setScaleY(0.4);//TODO
