@@ -47,6 +47,7 @@ BG.ITEM_TYPE = {
     BULLET:1,
     SHIELD:2,
     LIGHTNING:3,
+    DEVIL:4
     //TODO
 };
 
@@ -97,4 +98,27 @@ BG.CONTAINER = {
     BRANCHES:[],
     ITEMS:[],
     OBSTACLES:[]
+};
+
+BG.EVENT = {
+	PLAYER1: {
+		RIGHT:[39,1001],
+		LEFT:[37,1002],
+		ITEM:[38,1003],
+	},
+	PLAYER2: {
+		RIGHT:[87,1011],
+		LEFT:[81,1012],
+		ITEM:[69,1013]
+	},
+	PLAYER3: {
+		RIGHT:[66,1021],
+		LEFT:[86,1022],
+		ITEM:[78,1023]
+	},
+	PLAYER4: {
+		RIGHT:[79,1031],
+		LEFT:[73,1032],
+		ITEM:[80,1033]
+	}
 };

@@ -22,9 +22,9 @@ var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
 
-var s_beaver1 = "images/Beaver/beaver_normal.png";
+// var s_beaver1 = "images/Beaver/beaver_normal.png";
 var p_beaver1 = "images/Beaver/beaver_normal.plist";
-//var s_Beaver2
+var p_beaverDevil = "images/Beaver/beaver_devil.plist";
 
 var s_gameFrame = "images/gameFrame.png";
 var s_player1Recog = "images/playerRecog.png";
@@ -51,6 +51,7 @@ s_BaseCamp[4] = "images/BaseCamp5.png";
 var s_Item_Bullet = "images/Item_Bullet.png";
 var s_Item_Shield = "images/Item_Shield.png";
 var s_Item_Lightning = "images/Item_Lightning.png";
+var s_Item_Devil = "images/Item_Devil.png"
 var s_LightningPrepare = "images/Lightning_Prepare.png";
 
 var s_TimerBoard = "images/TimerBoard.png";
@@ -138,11 +139,11 @@ var g_resources_game = [
 	{src:bg_Water13},
 	{src:bg_Water14},
 	{src:bg_Water15},
-
-
-	{src:s_beaver1},
+	{src:s_Item_Devil},
+	
     //plist
     {src:p_beaver1},
+    {src:p_beaverDevil},
 
     //fnt
 	{src:s_Konqa32}

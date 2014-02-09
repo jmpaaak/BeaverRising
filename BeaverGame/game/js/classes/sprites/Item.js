@@ -24,6 +24,10 @@ classes.sprites.Item = cc.Sprite.extend({
         	case BG.ITEM_TYPE.LIGHTNING:
         		this.initWithFile(s_Item_Lightning);
         		break;
+        	case BG.ITEM_TYPE.DEVIL:
+        		this._curLayer.setDevilItemOn(true);
+        		this.initWithFile(s_Item_Devil);
+        		break;
         }
       	var rand = Math.random();
       	if(rand <= 0.25)
@@ -96,6 +100,7 @@ classes.sprites.Item = cc.Sprite.extend({
     	return this._body;
     },
     destroy: function (layer) {
+    	if(this._type === BG.ITEM_TYPE.DEVIL) this._curLayer.setDevilItemOn(false);
     	layer.removeChild(this);
     	layer.destroyList.push(this._body);
     },

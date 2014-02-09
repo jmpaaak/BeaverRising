@@ -3,14 +3,26 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	_id: 0,
     
     //Key Event
+    //1p
     _leftKeyDown: false,
     _rightKeyDown: false,
-    _qKeyDown: false,
-    _wKeyDown: false,
     _leftKeyUp: false,
     _rightKeyUp: false,
+    //2p
+    _qKeyDown: false,
+    _wKeyDown: false,
     _qKeyUp: false,
     _wKeyUp: false,
+    //3p
+    _vKeyDown: false,
+    _bKeyDown: false,
+    _vKeyUp: false,
+    _bKeyUp: false,    
+    //4p
+    _iKeyDown: false,
+    _oKeyDown: false,
+    _iKeyUp: false,
+    _oKeyUp: false,
     
     _vector: null,
     _currentAngle: 0,
@@ -36,9 +48,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _shieldingOn : false,
     _isStun: false,
     _goHomeFlag: false,
+    _willDevil: false,
+    _isDevil: false,
     
     //sprite
-    _beaverInitAction:null,
+    _curAction: null,
+    _beaverInitAction: null,
+    _beaverDevilAction: null,
     
     count: null,
 
@@ -65,7 +81,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
    			lightningCount: 0
    		};
    		
-   		
         layer.addChild(this, 2); //z: 0
         
         this.schedule(this.update, 1/60);
@@ -75,34 +90,45 @@ classes.sprites.Beaver = cc.Sprite.extend({
     initSprite : function(){
     	// create beaver init sprite sheet
         cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaver1);
-
         var animFrames = [];
         for(var i = 1; i < 25; i++) {
             var str = "beaver_normal" + i + ".png";
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
-
         var animation = cc.Animation.create(animFrames, 0.5);
         this._beaverInitAction = cc.RepeatForever.create(cc.Animate.create(animation));
-        this.initWithSpriteFrameName("beaver_normal1.png");
-        //this._beaverSprite.setPosition(cc.p( this._winSize.width /2 ,  this._winSize.height /2));
-        this.runAction(this._beaverInitAction);
-        //this._spriteSheet.addChild(this._beaverSprite);
         
-    	//this.setTexture();
+        // create beaver devil sprite sheet
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaverDevil);
+        var animFrames = [];
+        for(var i = 1; i < 25; i++) {
+            var str = "beaver_devil" + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+        var animation = cc.Animation.create(animFrames, 0.5);
+        this._beaverDevilAction = cc.RepeatForever.create(cc.Animate.create(animation));
+        
+        
+        this.initWithSpriteFrameName("beaver_normal1.png");
+        this.runAction(this._beaverInitAction);
+        this._curAction = this._beaverInitAction;
     },
     changeAction: function (str) {
+    	this.stopAction(this._curAction);
     	switch(str)
     	{
     		case "basic":
-    			this.stopAllActions();
     			this.runAction(this._beaverInitAction);
+    			this._curAction = this._beaverInitAction;
     			break;
-    		// case "add":
-    			// this.stopAllActions();
-    			// this.runAction(this._beaverAddingAction); //TODO: Lightning, lostTail, stun  
-    			// break;
+    		case "devil":
+    			this.runAction(this._beaverDevilAction);
+    			this._curAction = this._beaverDevilAction;
+    			//this.initWithFile(s_Devil);
+    			//this.runAction(this._beaverAddingAction); //TODO: Lightning, lostTail, stun  
+    			break;
     	}
     },
     settingPoint : function(){
@@ -128,35 +154,51 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	}
     },
     addTwig: function(twig) {
-	    this._twigs[this._twigs.length] = twig;
-	    this._curLayer.removeChild(twig);
-	    this._curLayer.destroyList.push(twig.getBody());
-    	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
-    	twig = null;
-    	
-    	var willGetScore = cc.LabelBMFont.create("+" + this._twigs.length, s_Konqa32);
-    	if(this._twigs.length >= 5) willGetScore.setColor(cc.c3(255,0,0));
-    	else willGetScore.setColor(cc.c3(255,255,255));
-        willGetScore.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO+20);
-        this._curLayer.addChild(willGetScore,2);
-        //Actions
-        willGetScore.runAction(cc.Sequence.create(cc.MoveBy.create(0.5, cc.p(0,20))));
-	    willGetScore.runAction(cc.Sequence.create(
-	    	cc.FadeIn.create(0.3),
-	    	cc.DelayTime.create(0.2),
-	    	cc.CallFunc.create(function () {
-	    		this._curLayer.removeChild(willGetScore, true);
-	    	}, this)
-	    ));
+    	if(!this._isDevil && !this._willDevil)
+    	{
+		    this._twigs[this._twigs.length] = twig;
+		    this._curLayer.removeChild(twig);
+		    this._curLayer.destroyList.push(twig.getBody());
+	    	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
+	    	twig = null;
+	    	
+	    	var willGetScore = cc.LabelBMFont.create("+" + this._twigs.length, s_Konqa32);
+	    	if(this._twigs.length >= 5) willGetScore.setColor(cc.c3(255,0,0));
+	    	else willGetScore.setColor(cc.c3(255,255,255));
+	        willGetScore.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO+20);
+	        this._curLayer.addChild(willGetScore,2);
+	        //Actions
+	        willGetScore.runAction(cc.Sequence.create(cc.MoveBy.create(0.5, cc.p(0,20))));
+		    willGetScore.runAction(cc.Sequence.create(
+		    	cc.FadeIn.create(0.3),
+		    	cc.DelayTime.create(0.2),
+		    	cc.CallFunc.create(function () {
+		    		this._curLayer.removeChild(willGetScore, true);
+		    	}, this)
+		    ));
+		}
+		else
+		{
+			this._curLayer.removeChild(twig);
+		    this._curLayer.destroyList.push(twig.getBody());
+		}
     },
-    addItem: function(item) { //TODO
+    addItem: function(item) {
+    	if(item.getType() === BG.ITEM_TYPE.DEVIL)
+    	{
+    		this._curLayer.setDevilOn(true);
+    		this.beDevil();
+    		this._curLayer.removeChild(item);
+    		this._curLayer.destroyList.push(item.getBody());
+    		return;
+    	}
     	if(this._itemList.length === 2) return;
     	this._itemList[this._itemList.length] = item;
     	this._curLayer.removeChild(item);
     	this._curLayer.destroyList.push(item.getBody());
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     	item = null;
-    	this.changeAction("add");
+    	//this.changeAction("add");
     },
     addBeaverWithCoords: function (world, p) {
 		/*
@@ -198,22 +240,22 @@ classes.sprites.Beaver = cc.Sprite.extend({
         
         this._body = body;
     },
-    stun: function () {
-    	if(!this._isStun)
-    	{
-	    	this._isStun = true;
-	    	this._curVelocity = 0;
-	    	console.log("stun 2s beaver: "+this._id);
-	    	this.runAction(cc.Sequence.create(
-	    		cc.Blink.create(1.5, 5),
-	    		cc.CallFunc.create(function () {
-	    			this._curVelocity = BG.BEAVER_SPEED.NORMAL;
-	    			this.setOpacity(255);
-	    			this._isStun = false;
-	    			this._move();
-	    		}, this)
-	    	));
-	    }
+    stun: function (str) {
+	    if(!this._isStun)
+	    {
+			this._isStun = true;
+			this._curVelocity = 0;
+			console.log("stun 2s beaver: " + this._id);
+			this.runAction(cc.Sequence.create(
+			//TODO: ADD SPRITE
+			cc.DelayTime.create(1.5, 5), cc.CallFunc.create(function() {
+				if(str === "manual") return;				
+				this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+				this._isStun = false;
+				this._move(); 
+			}, this))); 
+		 }
+		 
     },
     removeTailAtIndex: function (index) {
     	for(var at = index; at<this._twigs.length; at++)
@@ -229,6 +271,81 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._goHomeFlag = true;
     	this.removeTailAtIndex(0);
     },
+    beDevil: function () {
+    	this.stun("manual");
+    	this._willDevil = true;
+    	var that = this;
+    	var devil = function(){that.initWithSpriteFrameName("beaver_devil1.png");};
+    	var normal = function(){that.initWithSpriteFrameName("beaver_normal1.png");};
+    	this.runAction(cc.Sequence.create(
+	  		cc.DelayTime.create(0.8), //
+	  		cc.CallFunc.create(devil),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.6), //
+	  		cc.CallFunc.create(devil),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.3), //
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1), //
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(devil),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1), //
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(devil),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1), //
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(that.changeAction("devil")),
+	  		cc.CallFunc.create(function () {
+	  			//for removeing manual stun
+		    	that._curVelocity = BG.BEAVER_SPEED.NORMAL;
+				that._isStun = false;
+				that._move();
+				that._isDevil = true;
+				that.removeTailAtIndex(0);
+	  		})
+    	));
+    },
+    turnNormalAndRun: function () {
+    	if(this._willDevil && this._isDevil) 
+    	{
+    		this._willDevil = false; 
+    		this._isDevil = false;
+    		this.changeAction("basic");
+    	}
+    	// var curVector = this._vector;
+	    // var curAngle = this._body.GetAngle()+Math.PI;
+// 	    
+		// if(this._curVelocity == 0) this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+	    // this._body.SetAngle(curAngle*(Math.PI/180));
+// 	    
+	    // curVector.x = this._curVelocity * Math.cos(-curAngle*(Math.PI/180));
+	    // curVector.y = this._curVelocity * Math.sin(-curAngle*(Math.PI/180));
+// 	    
+	    // this._vector = curVector;
+	    // this._currentAngle = curAngle;
+	    // this._body.SetLinearVelocity(this._vector);
+    },
     update: function () {
     	if(this._startFlag)
     	{	
@@ -241,7 +358,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        {
 	        	if(this.count.moveAllowCount >= 20) {
 	        		this.settingOut(false); 
-	        		this.setIsHome(false);	
+	        		this.setIsHome(false);
 	        	}
 	        	this._settingHomeOut();
 	        	this.count.moveAllowCount++;
@@ -337,7 +454,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
             	lightPrepare.runAction(cc.Sequence.create(action1, delay, action1Back, removeLightning));
         	}
         	this.count.lightningCount++;
-        	
         }
         	
         	
@@ -377,49 +493,89 @@ classes.sprites.Beaver = cc.Sprite.extend({
     handleKeyDown: function (e) {
     	if(this._id === 1)
     	{
-    		this._leftKeyUp = false;
-        	this._rightKeyUp = false;
 	        if (!this._leftKeyDown || !this._rightKeyDown) {
-	            if (e === cc.KEY.left) this._leftKeyDown = true;
-	            else if (e === cc.KEY.right) this._rightKeyDown = true;
+	            if (e === BG.EVENT.PLAYER1.LEFT[0] || 
+		            e === BG.EVENT.PLAYER1.LEFT[1]) this._leftKeyDown = true, this._leftKeyUp = false;
+		        else if (e === BG.EVENT.PLAYER1.RIGHT[0] ||
+		            	 e === BG.EVENT.PLAYER1.RIGHT[1]) this._rightKeyDown = true, this._rightKeyUp = false;
 	        }
-	        if(e === cc.KEY.ctrl)
+	        if(e === BG.EVENT.PLAYER1.ITEM[0] || e === BG.EVENT.PLAYER1.ITEM[1])
 	        	this._useItem();
 	    }
 	    else if(this._id === 2)
 	    {
-	    	this._leftKeyUp = false;
-        	this._rightKeyUp = false;
 	    	if (!this._qKeyDown || !this._wKeyDown) {
-	            if (e === cc.KEY.q) this._qKeyDown = true;
-	            else if (e === cc.KEY.w) this._wKeyDown = true;
+	            if (e === BG.EVENT.PLAYER2.LEFT[0] || 
+		            e === BG.EVENT.PLAYER2.LEFT[1]) this._qKeyDown = true, this._qKeyUp = false;
+		        else if (e === BG.EVENT.PLAYER2.RIGHT[0] ||
+		            	 e === BG.EVENT.PLAYER2.RIGHT[1]) this._wKeyDown = true, this._wKeyUp = false;
 	        }
-	        if(e === cc.KEY.e)
+	        if(e === BG.EVENT.PLAYER2.ITEM[0] || e === BG.EVENT.PLAYER2.ITEM[1])
+	        	this._useItem();
+	    }
+	    else if(this._id === 3)
+	    {
+	    	if (!this._vKeyDown || !this._bKeyDown) {
+	            if (e === BG.EVENT.PLAYER3.LEFT[0] || 
+		            e === BG.EVENT.PLAYER3.LEFT[1]) this._vKeyDown = true, this._vKeyUp = false;
+		        else if (e === BG.EVENT.PLAYER3.RIGHT[0] ||
+		            	 e === BG.EVENT.PLAYER3.RIGHT[1]) this._bKeyDown = true, this._bKeyUp = false;
+	        }
+	        if(e === BG.EVENT.PLAYER3.ITEM[0] || e === BG.EVENT.PLAYER3.ITEM[1])
+	        	this._useItem();
+	    }
+	    else if(this._id === 4)
+	    {
+	    	if (!this._iKeyDown || !this._oKeyDown) {
+	            if (e === BG.EVENT.PLAYER4.LEFT[0] || 
+		            e === BG.EVENT.PLAYER4.LEFT[1]) this._iKeyDown = true, this._iKeyUp = false;
+		        else if (e === BG.EVENT.PLAYER4.RIGHT[0] ||
+		            	 e === BG.EVENT.PLAYER4.RIGHT[1]) this._oKeyDown = true, this._oKeyUp = false;
+	        }
+	        if(e === BG.EVENT.PLAYER4.ITEM[0] || e === BG.EVENT.PLAYER4.ITEM[1])
 	        	this._useItem();
 	    }
     },
     handleKeyUp: function (e) {
     	if(this._id === 1)
     	{
-        	this._leftKeyDown = false;
-        	this._rightKeyDown = false;
         	if (!this._leftKeyUp || !this._rightKeyUp) {
-	            if (e === cc.KEY.left) this._leftKeyUp = true;
-	            else if (e === cc.KEY.right) this._rightKeyUp = true;
+	            if (e === BG.EVENT.PLAYER1.LEFT[0] || 
+	            	e === BG.EVENT.PLAYER1.LEFT[1]) this._leftKeyUp = true, this._leftKeyDown = false;
+	            else if (e === BG.EVENT.PLAYER1.RIGHT[0] ||
+	            		 e === BG.EVENT.PLAYER1.RIGHT[1]) this._rightKeyUp = true, this._rightKeyDown = false;
 	        }
         }
         else if(this._id === 2)
         {
-       		this._qKeyDown = false;
-       		this._wKeyDown = false;
        		if (!this._qKeyUp || !this._wKeyUp) {
-	            if (e === cc.KEY.q) this._qKeyUp = true;
-	            else if (e === cc.KEY.w) this._wKeyUp = true;
+	            if (e === BG.EVENT.PLAYER2.LEFT[0] || 
+	            	e === BG.EVENT.PLAYER2.LEFT[1]) this._qKeyUp = true, this._qKeyDown = false;
+	            else if (e === BG.EVENT.PLAYER2.RIGHT[0] ||
+	            		 e === BG.EVENT.PLAYER2.RIGHT[1]) this._wKeyUp = true, this._wKeyDown = false;
+	        }
+        }
+        else if(this._id === 3)
+		{
+       		if (!this._vKeyUp || !this._bKeyUp) {
+	       		if (e === BG.EVENT.PLAYER3.LEFT[0] || 
+		            e === BG.EVENT.PLAYER3.LEFT[1]) this._vKeyUp = true, this._vKeyDown = false;
+		        else if (e === BG.EVENT.PLAYER3.RIGHT[0] ||
+		            	 e === BG.EVENT.PLAYER3.RIGHT[1]) this._bKeyUp = true, this._bKeyDown = false;
+		    }
+        }
+        else if(this._id === 4)
+        {
+       		if (!this._iKeyUp || !this._oKeyUp) {
+	            if (e === BG.EVENT.PLAYER4.LEFT[0] || 
+		            e === BG.EVENT.PLAYER4.LEFT[1]) this._iKeyUp = true, this._iKeyDown = false;
+		        else if (e === BG.EVENT.PLAYER4.RIGHT[0] ||
+		            	 e === BG.EVENT.PLAYER4.RIGHT[1]) this._oKeyUp = true, this._oKeyDown = false;
 	        }
         }
     },
     _useItem: function () {
-    	if(this._itemList.length === 0) return;
+    	if(this._itemList.length === 0 || this._isStun) return;
     	switch(this._itemList[0].getType())
     	{
     		case BG.ITEM_TYPE.BULLET:
@@ -453,6 +609,20 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		        if(this._qKeyUp);
 		        if(this._wKeyUp);
 		    }
+		    else if(this._id === 3)
+		    {
+		    	if(this._vKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._bKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._vKeyUp);
+		        if(this._bKeyUp);
+		    }
+		    else if(this._id === 4)
+		    {
+		    	if(this._iKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._oKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
+		        if(this._iKeyUp);
+		        if(this._oKeyUp);
+		    }
 			if(curAngle < 0) curAngle = 355;
 			if(curAngle > 360) curAngle = 5;
 	        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180));
@@ -462,7 +632,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        this._currentAngle = curAngle;
 	        this._body.SetLinearVelocity(this._vector);
     },
-    
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isStun)
 	    {
@@ -528,6 +697,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     getIsStart: function () {
     	return this._starFlag;
+    },
+    getIsDevil: function () {
+    	return this._isDevil;
+    },
+    getWillDevil: function () {
+    	return this._willDevil;
     },
     getTwigs : function () {
     	return this._twigs;
