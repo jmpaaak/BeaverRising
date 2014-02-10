@@ -99,13 +99,13 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     twigBecomeScore : function(tailIndex) {
     	this._scoreBoard.addScore(tailIndex+1); //each twig: 1 2 3 4 5
 		console.log(this._homeLevel);
-		if(this._scoreBoard.getScore() > this._targetHome && this._homeLevel <= 4 ) {
+		if(this._scoreBoard.getScore() > this._targetHome && this._homeLevel <= 5 ) {
 			this.spriteChanger();
 		}
 	},
 	spriteChanger: function(){
 			this.initWithFile(s_BaseCamp[this._homeLevel]);
-			this._targetHome+= 10;
+			this._targetHome+= 5;
 			this._homeLevel++;
 	},
 	setColor: function () {

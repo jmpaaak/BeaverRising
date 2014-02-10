@@ -32,10 +32,11 @@ var p_fishMotion = "images/fishMotion.plist";
 var p_waterBomb = "images/waterBomb.plist";
 
 var s_gameFrame = "images/gameFrame.png";
-var s_player1Recog = "images/playerRecog.png";
-//var s_player2Recog = "images/playerRecog.png";
-//var s_player3Recog = "images/playerRecog.png";
-//var s_player4Recog = "images/playerRecog.png";
+
+var s_player1Recog = "images/game_frame/playerRecog1.png";
+var s_player2Recog = "images/game_frame/playerRecog2.png";
+var s_player3Recog = "images/game_frame/playerRecog3.png";
+var s_player4Recog = "images/game_frame/playerRecog4.png";
 
 var s_Twig_Weak = "images/Twig_Weak.png";
 var s_Twig_Thorn = "images/Twig_Thorn.png";
@@ -49,7 +50,7 @@ s_BaseCamp[1] = "images/BaseCamp2.png";
 s_BaseCamp[2] = "images/BaseCamp3.png";
 s_BaseCamp[3] = "images/BaseCamp4.png";
 s_BaseCamp[4] = "images/BaseCamp5.png";
-//var s_BaseCamp6 = "images/BaseCamp6.png";
+s_BaseCamp[5] = "images/BaseCamp6.png";
 //var s_BaseCamp1 = "images/BaseCamp1.png";
 //var s_BaseCamp1 = "images/BaseCamp1.png";
 
@@ -111,6 +112,9 @@ var g_resources_game = [
 	
 	{src:s_gameFrame},
 	{src:s_player1Recog},
+	{src:s_player2Recog},
+	{src:s_player3Recog},
+	{src:s_player4Recog},
 
 	{src:s_Item_Bullet},
 	{src:s_Item_Shield},
@@ -129,7 +133,7 @@ var g_resources_game = [
 	{src:s_BaseCamp[2]},
 	{src:s_BaseCamp[3]},
 	{src:s_BaseCamp[4]},
-	
+	{src:s_BaseCamp[5]},
 //	{src:s_BaseCamp6},
 
     //background Img
