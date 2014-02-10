@@ -118,19 +118,19 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 						case "Twig":
 							if(!beaver.getIsHome() && !target.getIsShielding())
 							{
-								
-							if(target.getType() === BG.TWIG_TYPE.WEEK)
-							{
-								var i = target.getBeaverID();
-								that._beavers[i].removeTailAtIndex(target.getTailIndex());
-							}
-							else if(target.getType() === BG.TWIG_TYPE.NORMAL)
-							{
 								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0 ||
 								target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1
 								) return;
-								beaver.returnToBase();
-							}
+								
+								if(target.getType() === BG.TWIG_TYPE.WEEK)
+								{
+									var i = target.getBeaverID();
+									that._beavers[i].removeTailAtIndex(target.getTailIndex());
+								}
+								else if(target.getType() === BG.TWIG_TYPE.NORMAL)
+								{
+									beaver.returnToBase();
+								}
 							}
 							break;
 						case "Home":
@@ -406,7 +406,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this._devilItemOn = bool;
 	},
 	update: function(dt) {
-		if(this._timer.getTime() === 100)
+		if(this._timer.getTime() === 300)
 		{
 			this._baseCamp[0].setColor();
 			this._baseCamp[1].setColor();

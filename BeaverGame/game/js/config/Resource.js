@@ -25,6 +25,7 @@ var s_bgStart = "images/bgStart.png";
 // var s_beaver1 = "images/Beaver/beaver_normal.png";
 var p_beaver1 = "images/Beaver/beaver_normal.plist";
 var p_beaverDevil = "images/Beaver/beaver_devil.plist";
+var p_Twig_Normal = "images/Twig_Normal.plist";
 var p_Twig_Normal_Broken = "images/Twig_Thorn_Broken.plist";
 var p_Twig_Week_Broken = "images/Twig_Week_Broken.plist";
 var p_fishMotion = "images/fishMotion.plist";
@@ -36,7 +37,7 @@ var s_player1Recog = "images/playerRecog.png";
 //var s_player3Recog = "images/playerRecog.png";
 //var s_player4Recog = "images/playerRecog.png";
 
-var s_Twig_Normal = "images/Twig_Normal.png";
+var s_Twig_Weak = "images/Twig_Weak.png";
 var s_Twig_Thorn = "images/Twig_Thorn.png";
 var s_Twig_Normal_Shield = "images/Twig_Normal_Shield.png";
 var s_Twig_Thorn_Shield = "images/Twig_Thorn_Shield.png";
@@ -116,7 +117,7 @@ var g_resources_game = [
 	{src:s_Item_Lightning},
 	{src:s_LightningPrepare},
 
-	{src:s_Twig_Normal},
+	{src:s_Twig_Weak},
 	{src:s_Twig_Thorn},
 	{src:s_Twig_Normal_Shield},
 	{src:s_Twig_Thorn_Shield},
@@ -158,6 +159,7 @@ var g_resources_game = [
     {src:p_Twig_Week_Broken},
 	{src:p_waterBomb},
 	{src:p_fishMotion},
+	{src:p_Twig_Normal},
 
     //fnt
 	{src:s_Konqa32}

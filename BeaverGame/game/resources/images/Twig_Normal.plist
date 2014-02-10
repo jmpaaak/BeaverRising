@@ -11,18 +11,56 @@
 	</dict>
 	<key>frames</key>
 	<dict>
-		<key>brokenBranch_001.png</key>
+		<key>Branch_001.png</key>
 		<dict>
 			<key>x</key>
-			<integer>90</integer>
+			<integer>1</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>30</integer>
+			<integer>34</integer>
 			<key>height</key>
-			<integer>36</integer>
+			<integer>39</integer>
 			<key>offsetX</key>
-			<real>1</real>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-0.5</real>
+			<key>originalWidth</key>
+			<integer>40</integer>
+			<key>originalHeight</key>
+			<integer>40</integer>
+		</dict>
+		<key>Branch_002.png</key>
+		<dict>
+			<key>x</key>
+			<integer>36</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>34</integer>
+			<key>height</key>
+			<integer>39</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-0.5</real>
+			<key>originalWidth</key>
+			<integer>40</integer>
+			<key>originalHeight</key>
+			<integer>40</integer>
+		</dict>
+		<key>Branch_003.png</key>
+		<dict>
+			<key>x</key>
+			<integer>71</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>34</integer>
+			<key>height</key>
+			<integer>40</integer>
+			<key>offsetX</key>
+			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
@@ -30,58 +68,58 @@
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
-		<key>brokenBranch_002.png</key>
+		<key>Branch_004.png</key>
 		<dict>
 			<key>x</key>
-			<integer>60</integer>
+			<integer>106</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>29</integer>
+			<integer>34</integer>
 			<key>height</key>
-			<integer>35</integer>
+			<integer>40</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
 			<integer>40</integer>
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
-		<key>brokenBranch_003.png</key>
+		<key>Branch_005.png</key>
 		<dict>
 			<key>x</key>
-			<integer>33</integer>
+			<integer>141</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>26</integer>
+			<integer>34</integer>
 			<key>height</key>
-			<integer>36</integer>
+			<integer>40</integer>
 			<key>offsetX</key>
-			<real>2</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>1</real>
+			<real>0</real>
 			<key>originalWidth</key>
 			<integer>40</integer>
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
-		<key>brokenBranch_004.png</key>
+		<key>Branch_006.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>176</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>31</integer>
+			<integer>34</integer>
 			<key>height</key>
-			<integer>38</integer>
+			<integer>39</integer>
 			<key>offsetX</key>
-			<real>2.5</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>1</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>40</integer>
 			<key>originalHeight</key>

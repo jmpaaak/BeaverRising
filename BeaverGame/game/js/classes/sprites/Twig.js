@@ -7,6 +7,7 @@ classes.sprites.Twig = cc.Sprite.extend({
     _angle : 0,
     _curLayer: null,
 	_destroyAction: null,
+	_initAction: null,
     _isShielding: false,
     beaverID: 0,
     
@@ -18,6 +19,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         this._isStuck = isStuck;
         this._beaverID = beaverID;
         this._curLayer = layer;
+        this.initSprite();
         this.initDestroySprite();
         switch(type)
         {
@@ -25,7 +27,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         		this.initWithFile(s_Twig_Thorn);
         		break;
         	case BG.TWIG_TYPE.WEEK:
-        		this.initWithFile(s_Twig_Normal);
+        		this.initWithFile(s_Twig_Weak);
         		break;
         }
         //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
@@ -96,7 +98,37 @@ classes.sprites.Twig = cc.Sprite.extend({
         
         this._body = body;
     },
-    initDestroySprite: function(){
+    initSprite: function () {
+    	if(this._type === BG.TWIG_TYPE.NORMAL)
+    	{
+	    	// create twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Normal);
+	        var animFrames = [];
+	        for(var i = 1; i < 7; i++) {
+	            var str = "Branch_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.5);
+	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
+		    this.runAction(this._initAction); //TODO: Divide with cases
+        }
+        // else if(this._type === BG.TWIG_TYPE.WEEK)
+        // {
+	        // // create weak twig sprite sheet
+	        // cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Week_Broken);
+	        // var animFrames = [];
+	        // for(var i = 1; i < 6; i++) {
+	            // var str = "weak_00" + i + ".png";
+	            // var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            // animFrames.push(frame);
+	        // }
+	        // var animation = cc.Animation.create(animFrames, 0.2);
+	        // this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
+	    // }
+	    
+    },
+    initDestroySprite: function () {
     	if(this._type === BG.TWIG_TYPE.NORMAL)
     	{
 	    	// create broken twig sprite sheet
@@ -115,8 +147,8 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        // create broken week twig sprite sheet
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Week_Broken);
 	        var animFrames = [];
-	        for(var i = 1; i < 5; i++) {
-	            var str = "brokenBranch2_00" + i + ".png";
+	        for(var i = 1; i < 6; i++) {
+	            var str = "weak_00" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -129,6 +161,7 @@ classes.sprites.Twig = cc.Sprite.extend({
     	this._curLayer.destroyList.push(this._body);
 		this.runAction(cc.Sequence.create(
 			that._destroyAction,
+			that.stopAction(that._initAction),
 			cc.FadeOut.create(0.2),
 			cc.CallFunc.create(function () {
 				that._curLayer.removeChild(that);
