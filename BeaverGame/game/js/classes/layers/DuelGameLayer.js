@@ -7,6 +7,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	_twigPopCount: 0,
 	destroyList: [],
 	_isStart: false,
+	_devilOn: false,
+	_devilItemOn: false,
 	
 	init: function() {
 		var that = this;		
@@ -70,8 +72,34 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.addTwig(target);
 							break;
 						case "Beaver":
-							beaver.stun();
-							target.stun();
+							if(beaver.getWillDevil() && !beaver.getIsDevil()) 
+							{
+								target.turnNormalAndRun();
+								return;
+							}
+							if(target.getWillDevil() && !target.getIsDevil()) 
+							{
+								beaver.turnNormalAndRun();
+								return;
+							}
+							
+							if(beaver.getIsDevil())
+							{
+								console.log("cg devil!!");
+								target.beDevil();
+								beaver.turnNormalAndRun();
+							}
+							else if(target.getIsDevil())
+							{
+								console.log("cg devil!!");
+								beaver.beDevil();
+								target.turnNormalAndRun();
+							}
+							else
+							{
+								beaver.stun();
+								target.stun();
+							}
 							break;
 					}
 				} 
@@ -285,10 +313,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         // this.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		
 		this._bgWater = new classes.sprites.BG_Water(this);
-	
-
+		
         //Adding Beavers
-        for(var i=1; i<4; i++)
+        for(var i=1; i<5; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
 	       
 
@@ -312,7 +339,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			} while( ((0.25 >= randX || randX >= 0.85) ||
 					  (0.25 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
-			var itemChoice = Math.floor((Math.random()*10 % 3) + 1);
+			var itemChoice = Math.floor((Math.random()*10 % 4) + 1);
 			switch(itemChoice) 
 			{
 				case BG.ITEM_TYPE.BULLET:
@@ -323,6 +350,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					break;
 				case BG.ITEM_TYPE.LIGHTNING:
 					new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.LIGHTNING);
+					break;
+				case BG.ITEM_TYPE.DEVIL:
+					if(!this._devilOn && !this._devilItemOn)
+					{
+						console.log("devil coming!!!");
+						new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.DEVIL);
+					}
 					break;
 			}
 		}
@@ -359,6 +393,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	},
 	getIsStart: function () {
 		return this._isStart;
+	},
+	setDevilItemOn: function (bool) {
+		this._devilItemOn = bool;
+	},
+	setDevilOn: function (bool) {
+		this._devilItemOn = bool;
 	},
 	update: function(dt) {
 		if(this._timer.getTime() === 100)
@@ -408,77 +448,15 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		
 	},
 	onKeyUp: function(e) {
-		switch(e)
-		{
-			//player1
-			case cc.KEY.left:
-				this._beavers[1].handleKeyUp(e);
-				break;
-			case cc.KEY.right:
-				this._beavers[1].handleKeyUp(e);
-				break;
-			case cc.KEY.ctrl:
-				this._beavers[1].handleKeyUp(e);
-				break;
-			
-			//player2	
-			case cc.KEY.q:
-				this._beavers[2].handleKeyUp(e);
-				break;
-			case cc.KEY.w:
-				this._beavers[2].handleKeyUp(e);
-				break;
-			case cc.KEY.e:
-				this._beavers[2].handleKeyUp(e);
-				break;
-			
-			//player3	
-			case cc.KEY.i:
-				this._beavers[3].handleKeyUp(e);
-				break;
-			case cc.KEY.o:
-				this._beavers[3].handleKeyUp(e);
-				break;
-			case cc.KEY.p:
-				this._beavers[3].handleKeyUp(e);
-				break;
-		}
+		this._beavers[1].handleKeyUp(e);
+		this._beavers[2].handleKeyUp(e);
+		this._beavers[3].handleKeyUp(e);
+		this._beavers[4].handleKeyUp(e);
 	},
 	onKeyDown: function(e) {
-		switch(e)
-		{
-			//player1
-			case cc.KEY.left:
-				this._beavers[1].handleKeyDown(e);
-				break;
-			case cc.KEY.right:
-				this._beavers[1].handleKeyDown(e);
-				break;
-			case cc.KEY.up:
-				this._beavers[1].handleKeyDown(e);
-				break;
-			
-			//player2	
-			case cc.KEY.q:
-				this._beavers[2].handleKeyDown(e);
-				break;
-			case cc.KEY.w:
-				this._beavers[2].handleKeyDown(e);
-				break;
-			case cc.KEY.e:
-				this._beavers[2].handleKeyDown(e);
-				break;
-			
-			//player3	
-			case cc.KEY.i:
-				this._beavers[3].handleKeyDown(e);
-				break;
-			case cc.KEY.o:
-				this._beavers[3].handleKeyDown(e);
-				break;
-			case cc.KEY.p:
-				this._beavers[3].handleKeyDown(e);
-				break;
-		}
+		this._beavers[1].handleKeyDown(e);
+		this._beavers[2].handleKeyDown(e);
+		this._beavers[3].handleKeyDown(e);
+		this._beavers[4].handleKeyDown(e);
 	}
 });

@@ -72,14 +72,14 @@ var cocos2dApp = cc.Application.extend({
 
         
         // turn on display FPS
-        director.setDisplayStats(this.config['showFPS']);
+        //director.setDisplayStats(this.config['showFPS']);
 
         // set FPS. the default value is 1.0/60 if you don't call this
         
         director.setAnimationInterval(1.0 / this.config['frameRate']);
         
         //load only Menu, Splash sreen resources
-        cc.Loader.preload([g_resources_splash, g_resources_game],function () {
+        cc.Loader.preload([g_resources_splash],function () {
             director.runWithScene(this.startScene()); //director.replaceScene(this.startScene());
         }, this);
 
@@ -87,4 +87,4 @@ var cocos2dApp = cc.Application.extend({
     }
 });
 
-var myApp = new cocos2dApp(classes.scenes.DuelGameScene.getInstance);  //classes.scenes.DuelGameScene.getInstance
+var myApp = new cocos2dApp(classes.scenes.SplashScreenScene.getInstance);  //classes.scenes.DuelGameScene.getInstance

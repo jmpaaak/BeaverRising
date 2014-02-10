@@ -22,9 +22,9 @@ var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
 
-var s_beaver1 = "images/Beaver/beaver_normal.png";
+// var s_beaver1 = "images/Beaver/beaver_normal.png";
 var p_beaver1 = "images/Beaver/beaver_normal.plist";
-//var s_Beaver2
+var p_beaverDevil = "images/Beaver/beaver_devil.plist";
 
 var s_gameFrame = "images/gameFrame.png";
 var s_player1Recog = "images/playerRecog.png";
@@ -51,6 +51,7 @@ s_BaseCamp[4] = "images/BaseCamp5.png";
 var s_Item_Bullet = "images/Item_Bullet.png";
 var s_Item_Shield = "images/Item_Shield.png";
 var s_Item_Lightning = "images/Item_Lightning.png";
+var s_Item_Devil = "images/Item_Devil.png"
 var s_LightningPrepare = "images/Lightning_Prepare.png";
 
 var s_TimerBoard = "images/TimerBoard.png";
@@ -77,7 +78,7 @@ var s_turtle = "images/obstacle_turtle.png";
 
 //Font
 var s_Konqa32 = "fonts/konqa32.fnt";
-
+var s_TempMenu = "images/temp.png"//TODO:REMOVE
 
 //var s_BaseCamp2 = "BaseCamp2.png";
 //var s_BaseCamp3 = "BaseCamp3.png";
@@ -97,6 +98,7 @@ var g_resources_game = [
 	{src:s_Button_HowToPlay_Normal},
 	{src:s_Button_Credit_Normal},
 	{src:s_Button_Option_Normal},
+	{src:s_TempMenu},//TODO:REMOVE
     //image
 	{src:s_bgReady},
 	{src:s_bgStart},
@@ -141,14 +143,14 @@ var g_resources_game = [
 	{src:bg_Water13},
 	{src:bg_Water14},
 	{src:bg_Water15},
+	{src:s_Item_Devil},
 	
 	//obstacle
 	{src:s_turtle},
-
-
-	{src:s_beaver1},
+	
     //plist
     {src:p_beaver1},
+    {src:p_beaverDevil},
 
     //fnt
 	{src:s_Konqa32}
