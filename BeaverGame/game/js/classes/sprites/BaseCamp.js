@@ -47,7 +47,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         fixtureDef.shape = dynamicCircle;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
-        fixtureDef.restitution = 10;
+        fixtureDef.restitution = 5;
         fixtureDef.filter.categoryBits = this._categoryPlayer;
         fixtureDef.filter.maskBits = ~(this._categoryPlayer);
     

@@ -51,7 +51,7 @@ s_BaseCamp[4] = "images/BaseCamp5.png";
 var s_Item_Bullet = "images/Item_Bullet.png";
 var s_Item_Shield = "images/Item_Shield.png";
 var s_Item_Lightning = "images/Item_Lightning.png";
-var s_Item_Devil = "images/Item_Devil.png"
+var s_Item_Devil = "images/Item_Devil.png";
 var s_LightningPrepare = "images/Lightning_Prepare.png";
 
 var s_TimerBoard = "images/TimerBoard.png";
@@ -74,11 +74,11 @@ var bg_Water14 = "images/BG_water/sea014.png";
 var bg_Water15 = "images/BG_water/sea015.png";
 
 //obstacle
-var s_turtle = "images/obstacle_turtle.png";
+var p_turtle = "images/Obstacles/turtle.plist";
 
 //Font
 var s_Konqa32 = "fonts/konqa32.fnt";
-var s_TempMenu = "images/temp.png"//TODO:REMOVE
+var s_TempMenu = "images/temp.png";//TODO:REMOVE
 
 //var s_BaseCamp2 = "BaseCamp2.png";
 //var s_BaseCamp3 = "BaseCamp3.png";
@@ -146,7 +146,7 @@ var g_resources_game = [
 	{src:s_Item_Devil},
 	
 	//obstacle
-	{src:s_turtle},
+	{src:p_turtle},
 	
     //plist
     {src:p_beaver1},

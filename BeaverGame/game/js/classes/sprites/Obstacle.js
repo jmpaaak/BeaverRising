@@ -6,6 +6,12 @@ classes.sprites.Obstacle = cc.Sprite.extend({
     _curLayer: null,
     _curPos: null,
     _angle: null,
+    _turtleSpeed: null,
+    _animationSpeed: null,
+    
+    //sprite
+    _turtleInitAction: null,
+    
     
 	ctor: function (layer, p, type){
         this._super();
@@ -13,48 +19,75 @@ classes.sprites.Obstacle = cc.Sprite.extend({
         switch(type)
         {
         	case BG.OBSTACLE.TURTLE:
-        		this.initWithFile(s_turtle);
         		this._addTurtle(layer.world, p);
         		this.name = "Turtle";
         		break;
         }
+   		this.initSprite();
         this._curLayer = layer;
 		var size = cc.Director.getInstance().getWinSize();
         this._curPos = this._body.GetPosition();
         layer.addChild(this, 0); //z: 0
         this.schedule(this.update, 1/60);
     },
-    
+    initSprite : function(){
+    	// create beaver init sprite sheet
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_turtle);
+        var animFrames = [];
+        for(var i = 1; i < 5; i++) {
+            var str = "turtle0" + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+        var animation = cc.Animation.create(animFrames, this._animationSpeed);
+        this._turtleInitAction = cc.RepeatForever.create(cc.Animate.create(animation));
+
+        this.initWithSpriteFrameName("turtle01.png");
+        this.runAction(this._turtleInitAction);
+
+    },
     _addTurtle: function (world, p) {
         var tex = this;
         var x , y = null;
         this._direction =   Math.floor((Math.random()*10 % 4) + 1);
+        var turtleChoice = Math.floor((Math.random()*10 % 2));
+        if(turtleChoice == 0) //fast turtle
+        {
+        	this._turtleSpeed = 5;
+        	this._animationSpeed = 0.05;
+        }
+        else
+        {
+        	this._turtleSpeed = 3;
+        	this._animationSpeed = 0.15;
+        }
+        
         switch(this._direction){
         	case 1:
         		tex.setPosition(p.x, BG.GAME_UI.INNER_FRAME.HEIGHT);
         		x = p.x;
         		y = BG.GAME_UI.INNER_FRAME.HEIGHT;
-        		this._velocity = cc.p(0, -3);
+        		this._velocity = cc.p(0, -this._turtleSpeed );
         		this._angle = 90 ;
         		break;
         	case 2:
         		tex.setPosition(p.x, BG.GAME_UI.OUTTER_FRAME.HEIGHT);
         		x = p.x;
         		y = BG.GAME_UI.OUTTER_FRAME.HEIGHT;
-        		this._velocity = cc.p(0, 3);
+        		this._velocity = cc.p(0, this._turtleSpeed );
         		this._angle = -90;
         		break;
         	case 3:
         		tex.setPosition(BG.GAME_UI.OUTTER_FRAME.WIDTH, p.y);
         		x = BG.GAME_UI.OUTTER_FRAME.WIDTH;
         		y = p.y;
-        		this._velocity = cc.p(3, 0);
+        		this._velocity = cc.p(this._turtleSpeed , 0);
         		break;
         	case 4: 
         		tex.setPosition(BG.GAME_UI.INNER_FRAME.WIDTH, p.y);
         		x = BG.GAME_UI.INNER_FRAME.WIDTH;
         		y = p.y;
-        		this._velocity = cc.p(-3, 0);
+        		this._velocity = cc.p(-this._turtleSpeed , 0);
         		this._angle = 180;
         		break;
         }

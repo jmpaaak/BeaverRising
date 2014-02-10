@@ -99,7 +99,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
-        var animation = cc.Animation.create(animFrames, 0.5);
+        var animation = cc.Animation.create(animFrames, 0.05);
         this._beaverInitAction = cc.RepeatForever.create(cc.Animate.create(animation));
         
         // create beaver devil sprite sheet
@@ -110,7 +110,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
-        var animation = cc.Animation.create(animFrames, 0.5);
+        var animation = cc.Animation.create(animFrames, 0.05);
         this._beaverDevilAction = cc.RepeatForever.create(cc.Animate.create(animation));
         
         this.initWithSpriteFrameName("beaver_normal1.png");
@@ -379,8 +379,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				this._body.SetAwake(true);
 	        	this.count.moveAllowCount = 0;
 	        }
-	        
-       		this._showTwigs();
 	    }
 	    else if(this._curLayer.getIsStart())
 	    {
@@ -636,8 +634,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isStun)
 	    {
-			//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
-			//console.log(this._id+" "+this._twigs.length);
+
 			this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
 			if (this._positions.length >= ((this._twigs.length + 3) * 5) + 6) //origin
 				this._positions.pop();
@@ -754,7 +751,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._body.SetLinearVelocity(this._vector);
     },
     meetingTurtle : function(){
-    	this._curVelocity = BG.BEAVER_SPEED.SLOW;
+    	if(!this._isDevil)this._curVelocity = BG.BEAVER_SPEED.SLOW;
     	this._turtleCountFlag = true;
     }
 

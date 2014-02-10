@@ -89,7 +89,7 @@ classes.sprites.Item = cc.Sprite.extend({
         fixtureDef.friction = 0;
         fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
-        
+        body.SetLinearVelocity(this._velocity);
         this._body = body;
     },
     getType: function () {

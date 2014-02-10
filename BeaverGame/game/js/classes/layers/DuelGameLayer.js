@@ -126,7 +126,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							}
 							else if(target.getType() === BG.TWIG_TYPE.NORMAL)
 							{
-								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) return;
+								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0 ||
+								target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1
+								) return;
 								beaver.returnToBase();
 							}
 							}
@@ -443,7 +445,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this._itemPopCount++;
 		
 		if(this._twigPopCount === 120) //every 2s (p=0.5) 
-			this._twigPopCount = 0, this.popTwig(), this.popObstacle();
+			this._twigPopCount = 0, this.popTwig();
 		this._twigPopCount++;		
 		
 	},
