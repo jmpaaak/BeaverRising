@@ -264,9 +264,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	for(var at = index; at<this._twigs.length; at++)
     	{
     		console.log("remove: "+at);
-    		this._curLayer.removeChild(this._twigs[at]);
-    		this._curLayer.destroyList.push(this._twigs[at].getBody());
-    		this._twigs[at] = null;
+    		this._twigs[at].destroy();
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
@@ -369,9 +367,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        else if(this._goHomeFlag)
 	        {
 	        	this._body.SetPosition(this._homeInPoint);
-	        	this.runAction(cc.Blink.create(2, 7));
-	        	this.setOpacity(255);
-				this._goHomeFlag = false;	        	
+				this._goHomeFlag = false;       	
 	        }
 	        else
 	        {
@@ -687,6 +683,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     getVector: function () {
     	return this._vector;
+    },
+    getAngle: function () {
+    	return this._currentAngle;
     },
     getIsStart: function () {
     	return this._starFlag;

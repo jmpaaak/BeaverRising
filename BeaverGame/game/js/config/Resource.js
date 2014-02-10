@@ -25,6 +25,10 @@ var s_bgStart = "images/bgStart.png";
 // var s_beaver1 = "images/Beaver/beaver_normal.png";
 var p_beaver1 = "images/Beaver/beaver_normal.plist";
 var p_beaverDevil = "images/Beaver/beaver_devil.plist";
+var p_Twig_Normal_Broken = "images/Twig_Thorn_Broken.plist";
+var p_Twig_Week_Broken = "images/Twig_Week_Broken.plist";
+var p_fishMotion = "images/fishMotion.plist";
+var p_waterBomb = "images/waterBomb.plist";
 
 var s_gameFrame = "images/gameFrame.png";
 var s_player1Recog = "images/playerRecog.png";
@@ -144,13 +148,16 @@ var g_resources_game = [
 	{src:bg_Water14},
 	{src:bg_Water15},
 	{src:s_Item_Devil},
-	
 	//obstacle
 	{src:s_turtle},
 	
     //plist
     {src:p_beaver1},
     {src:p_beaverDevil},
+    {src:p_Twig_Normal_Broken},
+    {src:p_Twig_Week_Broken},
+	{src:p_waterBomb},
+	{src:p_fishMotion},
 
     //fnt
 	{src:s_Konqa32}

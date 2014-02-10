@@ -378,6 +378,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	getIsStart: function () {
 		return this._isStart;
 	},
+	getBeavers: function () {
+		return this._beavers;
+	},
 	setDevilItemOn: function (bool) {
 		this._devilItemOn = bool;
 	},
@@ -422,7 +425,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//Reset the array
 		this.destroyList.length = 0; 
 		
-		if(this._itemPopCount === 300) //every 2s (p=0.5) 
+		if(this._itemPopCount === 100) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem(); 
 		this._itemPopCount++;
 		

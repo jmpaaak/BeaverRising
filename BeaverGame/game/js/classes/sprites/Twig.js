@@ -5,7 +5,8 @@ classes.sprites.Twig = cc.Sprite.extend({
     _isStuck: false,
     _tailIndex: 0,
     _angle : 0,
-
+    _curLayer: null,
+	_destroyAction: null,
     _isShielding: false,
     beaverID: 0,
     
@@ -16,6 +17,8 @@ classes.sprites.Twig = cc.Sprite.extend({
         this._type = type;
         this._isStuck = isStuck;
         this._beaverID = beaverID;
+        this._curLayer = layer;
+        this.initDestroySprite();
         switch(type)
         {
         	case BG.TWIG_TYPE.NORMAL:
@@ -94,6 +97,45 @@ classes.sprites.Twig = cc.Sprite.extend({
         body.CreateFixture(fixtureDef);
         
         this._body = body;
+    },
+    initDestroySprite: function(){
+    	if(this._type === BG.TWIG_TYPE.NORMAL)
+    	{
+	    	// create broken twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Normal_Broken);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "brokenBranch_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.2);
+	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
+        }
+        else if(this._type === BG.TWIG_TYPE.WEEK)
+        {
+	        // create broken week twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Week_Broken);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "brokenBranch2_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.2);
+	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
+	    }
+    },
+    destroy: function () {
+    	var that = this;
+    	this._curLayer.destroyList.push(this._body);
+		this.runAction(cc.Sequence.create(
+			that._destroyAction,
+			cc.FadeOut.create(0.2),
+			cc.CallFunc.create(function () {
+				that._curLayer.removeChild(that);
+			}))
+		);
     },
     setTailIndex: function (index) {
     	this._tailIndex = index;

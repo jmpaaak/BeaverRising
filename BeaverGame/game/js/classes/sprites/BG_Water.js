@@ -32,7 +32,7 @@ classes.sprites.BG_Water = cc.Sprite.extend({
 		var frame = [];
 		for(var i =0; i < 15; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(BG_texture[i],cc.rect(0,0,1280,720));
+			frame[i] = cc.SpriteFrame.createWithTexture(BG_texture[i],cc.rect(0,0,1920,1080));
 		}
 
 		this._bgSprite = cc.Sprite.createWithSpriteFrame(frame[0]);
