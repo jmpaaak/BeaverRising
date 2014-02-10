@@ -34,7 +34,7 @@ BG.GAME_UI = {
 		WIDTH : 30,
 		HEIGHT : 70
 	},
-	INNER_WINDOW : {
+	INNER_FRAME : {
 		WIDTH : 1860,
 		HEIGHT : 940
 	}

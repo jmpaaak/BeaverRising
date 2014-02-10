@@ -52,7 +52,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _isDevil: false,
     
     //meeting obstacles
-
+	_turtleCountFlag : false,
     //sprite
     _curAction: null,
     _beaverInitAction: null,
@@ -81,7 +81,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
    			savePosCount: 0,
    			moveAllowCount: 0,
    			lightningCount: 0,
-   			turtleSlowCount: 0
+   			turtleCount: 0
    		};
    		
         layer.addChild(this, 2); //z: 0
@@ -99,7 +99,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
-        var animation = cc.Animation.create(animFrames, 0.5);
+        var animation = cc.Animation.create(animFrames, 0.05);
         this._beaverInitAction = cc.RepeatForever.create(cc.Animate.create(animation));
         
         // create beaver devil sprite sheet
@@ -110,7 +110,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
-        var animation = cc.Animation.create(animFrames, 0.5);
+        var animation = cc.Animation.create(animFrames, 0.05);
         this._beaverDevilAction = cc.RepeatForever.create(cc.Animate.create(animation));
         
         this.initWithSpriteFrameName("beaver_normal1.png");
@@ -375,8 +375,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				this._body.SetAwake(true);
 	        	this.count.moveAllowCount = 0;
 	        }
-	        
-       		this._showTwigs();
 	    }
 	    else if(this._curLayer.getIsStart())
 	    {
@@ -444,6 +442,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
             	lightPrepare.runAction(cc.Sequence.create(action1, delay, action1Back, removeLightning));
         	}
         	this.count.lightningCount++;
+        }
+        if(this._turtleCountFlag){
+        	if(this.count.turtleCount >= 120){
+        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+        		this._turtleCountFlag = false;
+        		this.count.turtleCount = 0;
+        	}
+        	this.count.turtleCount++;
         }
  	
         if(this._id === 1)
@@ -624,8 +630,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _showTwigs: function () {
     	if(this.count.savePosCount >= 4 && !this._isStun)
 	    {
-			//console.log("p "+this._id+" "+this._curPos.x+" "+this._curPos.y);
-			//console.log(this._id+" "+this._twigs.length);
+
 			this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
 			if (this._positions.length >= ((this._twigs.length + 3) * 5) + 6) //origin
 				this._positions.pop();
@@ -743,6 +748,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._vector = curVector;
 	    this._currentAngle = curAngle;
 	    this._body.SetLinearVelocity(this._vector);
+    },
+    meetingTurtle : function(){
+    	if(!this._isDevil)this._curVelocity = BG.BEAVER_SPEED.SLOW;
+    	this._turtleCountFlag = true;
     }
 
 });

@@ -76,7 +76,7 @@ classes.sprites.Twig = cc.Sprite.extend({
         var b2BodyDef = Box2D.Dynamics.b2BodyDef,
             b2Body = Box2D.Dynamics.b2Body,
             b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
-            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+            b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 
         var bodyDef = new b2BodyDef();
         bodyDef.type = b2Body.b2_dynamicBody; //type
@@ -85,12 +85,10 @@ classes.sprites.Twig = cc.Sprite.extend({
         var body = world.CreateBody(bodyDef);
 
         // Define another box shape for our dynamic body.
-        var dynamicBox = new b2PolygonShape();
-        dynamicBox.SetAsBox(tex.getTextureRect().width / (PTM_RATIO*2), tex.getTextureRect().height / (PTM_RATIO*2));
-
+        var dynamicCircle = new b2CircleShape((this.getTextureRect().width/ 2) / PTM_RATIO);
         // Define the dynamic body fixture.
         var fixtureDef = new b2FixtureDef();
-        fixtureDef.shape = dynamicBox;
+        fixtureDef.shape = dynamicCircle;
         fixtureDef.density = 0;
         fixtureDef.friction = 0;
         fixtureDef.isSensor = true;
