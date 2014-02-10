@@ -25,15 +25,6 @@ classes.sprites.Item = cc.Sprite.extend({
         		this.initWithFile(s_Item_Lightning);
         		break;
         }
-      	var rand = Math.random();
-      	if(rand <= 0.25)
-      		this._direction = 1;
-      	else if(rand <= 0.5)
-      		this._direction = 2;      	
-      	else if(rand <= 0.75)
-      		this._direction = 3;
-      	else
-      		this._direction = 4;
 
         this.addItemWithType(layer.world, p);
         layer.addChild(this, 0); //z: 0
@@ -43,25 +34,33 @@ classes.sprites.Item = cc.Sprite.extend({
     addItemWithType: function (world, p) {
         var tex = this;
         var x, y;
-        switch(this._direction)
-        {
+        this._direction =   Math.floor((Math.random()*10 % 4) + 1);
+        switch(this._direction){
         	case 1:
-		        tex.setPosition(p.x, 1080+tex.getTextureRect().height/2);
-		        x = p.x, y = 1080+tex.getTextureRect().height/2;
-		        break;
+        		tex.setPosition(p.x, BG.GAME_UI.INNER_FRAME.HEIGHT);
+        		x = p.x;
+        		y = BG.GAME_UI.INNER_FRAME.HEIGHT;
+        		this._velocity = cc.p(0, -4);
+        		break;
         	case 2:
-		        tex.setPosition(p.x, -tex.getTextureRect().height/2);
-		        x = p.x, y = -tex.getTextureRect().height/2;
-		        break;
+        		tex.setPosition(p.x, BG.GAME_UI.OUTTER_FRAME.HEIGHT);
+        		x = p.x;
+        		y = BG.GAME_UI.OUTTER_FRAME.HEIGHT;
+        		this._velocity = cc.p(0, 4);
+        		break;
         	case 3:
-		        tex.setPosition(-tex.getTextureRect().width/2, p.y);
-		        y = p.y, x = -tex.getTextureRect().width/2;
-		        break;
-        	case 4:
-		        tex.setPosition(1920+tex.getTextureRect().width/2, p.y);
-		        y = p.y, x = 1920+tex.getTextureRect().width/2;
-		        break;
-	    }
+        		tex.setPosition(BG.GAME_UI.OUTTER_FRAME.WIDTH, p.y);
+        		x = BG.GAME_UI.OUTTER_FRAME.WIDTH;
+        		y = p.y;
+        		this._velocity = cc.p(4, 0);
+        		break;
+        	case 4: 
+        		tex.setPosition(BG.GAME_UI.INNER_FRAME.WIDTH, p.y);
+        		x = BG.GAME_UI.INNER_FRAME.WIDTH;
+        		y = p.y;
+        		this._velocity = cc.p(-4, 0);
+        		break;
+        }
 
         // Define the body.
         var b2BodyDef = Box2D.Dynamics.b2BodyDef,
@@ -111,31 +110,20 @@ classes.sprites.Item = cc.Sprite.extend({
     		this._angle -= 3;
     		
 		this.setRotation(this._angle);
-    		
-    	switch(this._direction)
-        {
-        	case 1:
-		        this._body.SetLinearVelocity(cc.p(0, -5));
-		        break;
-        	case 2:
-		        this._body.SetLinearVelocity(cc.p(0, 5));
-		        break;
-        	case 3:
-		        this._body.SetLinearVelocity(cc.p(5, 0));
-		        break;
-        	case 4:
-		        this._body.SetLinearVelocity(cc.p(-5, 0));
-		        break;
-	    }
+
     	
     	//case of getting out of screen
-        if((this._curPos.y * PTM_RATIO) > 1080+50)
-			this.destroy(this._curLayer);
-        else if((this._curPos.y * PTM_RATIO) < 0-50)
+        if((this._curPos.y * PTM_RATIO) > BG.GAME_UI.INNER_FRAME.HEIGHT + (BG.GAME_UI.OUTTER_FRAME.HEIGHT * 2)){
         	this.destroy(this._curLayer);
-        else if((this._curPos.x * PTM_RATIO) > 1920+50)
-        	this.destroy(this._curLayer);        
-        else if((this._curPos.x * PTM_RATIO) < 0-50)
+        }
+        else if((this._curPos.y * PTM_RATIO) < 0){
         	this.destroy(this._curLayer);
+        }
+        else if((this._curPos.x * PTM_RATIO) > BG.GAME_UI.INNER_FRAME.WIDTH + (BG.GAME_UI.OUTTER_FRAME.WIDTH * 2)){
+        	this.destroy(this._curLayer);
+        }
+        else if((this._curPos.x * PTM_RATIO) < 0){
+        	this.destroy(this._curLayer);  
+        }
     }
 });

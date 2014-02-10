@@ -42,7 +42,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _goHomeFlag: false,
     
     //meeting obstacles
-
+	_turtleCountFlag : false,
     //sprite
     _beaverInitAction:null,
     
@@ -69,7 +69,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
    			savePosCount: 0,
    			moveAllowCount: 0,
    			lightningCount: 0,
-   			turtleSlowCount: 0
+   			turtleCount: 0
    		};
    		
    		
@@ -337,6 +337,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this.count.lightningCount++;
         }
+        if(this._turtleCountFlag){
+        	if(this.count.turtleCount >= 120){
+        		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
+        		this._turtleCountFlag = false;
+        		this.count.turtleCount = 0;
+        	}
+        	this.count.turtleCount++;
+        }
  	
         if(this._id === 1)
         {
@@ -600,6 +608,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._vector = curVector;
 	    this._currentAngle = curAngle;
 	    this._body.SetLinearVelocity(this._vector);
+    },
+    meetingTurtle : function(){
+    	this._curVelocity = BG.BEAVER_SPEED.SLOW;
+    	this._turtleCountFlag = true;
     }
 
 });

@@ -119,6 +119,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								beaver.setIsHome(true);
 							}
 							break;
+						case "Turtle":
+							beaver.meetingTurtle();
+							console.log("hi turtle");
+							break;
 					}
 				}
 			}
@@ -338,6 +342,18 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			else new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.WEEK, false);
 		}
 	},
+	popObstacle: function(){
+		if(Math.random() <= 0.9){
+		var size = cc.Director.getInstance().getWinSize();
+		do {
+			var randX = Math.random();
+			var randY = Math.random();
+		} while( ((0.25 >= randX || randX >= 0.85) ||
+					  (0.25 >= randY || randY >= 0.85)) );
+		var x = randX * size.width, y = randY * size.height;
+		new classes.sprites.Obstacle(this, cc.p(x, y), BG.OBSTACLE.TURTLE);
+		}
+	},
 	start: function () {
 		this._isStart = true;
 	},
@@ -383,11 +399,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.destroyList.length = 0; 
 		
 		if(this._itemPopCount === 300) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem(); 
+			this._itemPopCount = 0, this.popItem(), this.popObstacle();
 		this._itemPopCount++;
 		
 		if(this._twigPopCount === 120) //every 2s (p=0.5) 
-			this._twigPopCount = 0, this.popTwig();
+			this._twigPopCount = 0, this.popTwig(), this.popObstacle();
 		this._twigPopCount++;		
 		
 	},
