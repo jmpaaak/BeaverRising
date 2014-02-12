@@ -43,16 +43,10 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 			})	
 				));
 		}, this)));
-<<<<<<< HEAD
 		mask.runAction(cc.Sequence.create(
 			cc.DelayTime.create(2.0),
 			cc.FadeOut.create(1.5)
 		));
-		
-=======
-
-
->>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
 		return true;
 	},
 	update : function(dt) {

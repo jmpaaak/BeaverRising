@@ -26,12 +26,14 @@ var s_bgStart = "images/bgStart.png";
 // var s_beaver1 = "images/Beaver/beaver_normal.png";
 var p_beaver1 = "images/Beaver/beaver_normal.plist";
 var p_beaverDevil = "images/Beaver/beaver_devil.plist";
-var p_Twig_Normal = "images/Twig_Normal.plist";
-var p_Twig_Weak = "images/Twig_Weak.plist"
-var p_Twig_Normal_Broken = "images/Twig_Thorn_Broken.plist";
-var p_Twig_Week_Broken = "images/Twig_Week_Broken.plist";
+var p_woodSmall_Broken = "images/Twig_Week_Broken.plist";
+var p_woodMedium_Broken = "images/Twig_Thorn_Broken.plist";
+var p_woodBig_Broken = "images/Twig_Thorn_Broken.plist";
 var p_fishMotion = "images/fishMotion.plist";
 var p_waterBomb = "images/waterBomb.plist";
+var p_woodSmall = "images/Twig_Weak.plist";
+var p_woodMedium = "images/Twig_Normal.plist";
+var p_woodBig = "images/Twig_Normal.plist";
 
 var s_gameFrame = "images/gameFrame.png";
 
@@ -40,16 +42,7 @@ var s_player2Recog = "images/game_frame/playerRecog2.png";
 var s_player3Recog = "images/game_frame/playerRecog3.png";
 var s_player4Recog = "images/game_frame/playerRecog4.png";
 
-<<<<<<< HEAD
-var s_woodSmall = "images/woodSmall.png";
-var s_woodMedium = "images/woodMedium.png";
-var s_woodBig = "images/woodBig.png";
-=======
-var s_Twig_Weak = "images/Twig_Weak.png";
-var s_Twig_Thorn = "images/Twig_Thorn.png";
->>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
-var s_Twig_Normal_Shield = "images/Twig_Normal_Shield.png";
-var s_Twig_Thorn_Shield = "images/Twig_Thorn_Shield.png";
+
 var s_ScoreBoard = "images/ScoreBoard.png";
 
 var s_BaseCamp = [];
@@ -160,21 +153,7 @@ var g_resources_game = [
 	{src:s_Shield},
 	{src:s_Item_Lightning},
 	{src:s_LightningPrepare},
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-	{src:s_woodSmall},
-	{src:s_woodMedium},
-	{src:s_woodBig},
 	
-=======
-	{src:s_Twig_Weak},
-	{src:s_Twig_Thorn},
->>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
-	{src:s_Twig_Normal_Shield},
-	{src:s_Twig_Thorn_Shield},
->>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
 	{src:s_ScoreBoard},
 	{src:s_TimerBoard},
 
@@ -207,14 +186,16 @@ var g_resources_game = [
 	{src:p_turtle},
 	
     //plist
+	{src:p_woodSmall},
+	{src:p_woodMedium},
+	{src:p_woodBig},
     {src:p_beaver1},
     {src:p_beaverDevil},
-    {src:p_Twig_Normal_Broken},
-    {src:p_Twig_Week_Broken},
+    {src:p_woodSmall_Broken},
+    {src:p_woodMedium_Broken},
+    {src:p_woodBig_Broken},
 	{src:p_waterBomb},
 	{src:p_fishMotion},
-	{src:p_Twig_Normal},
-	{src:p_Twig_Weak},
 
     //fnt
 	{src:s_Konqa32},

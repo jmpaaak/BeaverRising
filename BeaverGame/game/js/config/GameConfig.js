@@ -67,8 +67,6 @@ BG.WOOD_TYPE = {
     BIG:3
 };
 
-
-
 BG.CATEGORY = {
 	PLAYER1:1,
 	PLAYER2:2,

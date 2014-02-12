@@ -25,28 +25,14 @@ classes.sprites.Twig = cc.Sprite.extend({
         this.initDestroySprite();
         switch(type)
         {
-<<<<<<< HEAD
-        	case BG.TWIG_TYPE.NORMAL:
-        		this.initWithSpriteFrameName("Branch_001.png");
-=======
         	case BG.WOOD_TYPE.SMALL:
-        		this.initWithFile(s_woodSmall);
+        		this.initWithSpriteFrameName("weak_001.png");
         		break;
-<<<<<<< HEAD
         	case BG.WOOD_TYPE.MEDIUM:
-        		this.initWithFile(s_woodMedium);
->>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
+        		this.initWithSpriteFrameName("Branch_001.png");
         		break;
         	case BG.WOOD_TYPE.BIG:
-        		this.initWithFile(s_woodBig);
-=======
-        	case BG.TWIG_TYPE.WEEK:
-<<<<<<< HEAD
-        		this.initWithSpriteFrameName("weak_001.png");
-=======
-        		this.initWithFile(s_Twig_Weak);
->>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
->>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
+        		this.initWithSpriteFrameName("Branch_001.png");
         		break;
         }
 		this._shieldTex = cc.Sprite.create(s_Shield);
@@ -122,24 +108,10 @@ classes.sprites.Twig = cc.Sprite.extend({
         this._body = body;
     },
     initSprite: function () {
-    	if(this._type === BG.TWIG_TYPE.NORMAL)
+    	if(this._type === BG.WOOD_TYPE.SMALL)
     	{
 	    	// create twig sprite sheet
-	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Normal);
-	        var animFrames = [];
-	        for(var i = 1; i < 7; i++) {
-	            var str = "Branch_00" + i + ".png";
-	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
-	            animFrames.push(frame);
-	        }
-	        var animation = cc.Animation.create(animFrames, 0.5);
-	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
-		    this.runAction(this._initAction);
-        }
-        else if(this._type === BG.TWIG_TYPE.WEEK)
-        {
-	        // create weak twig sprite sheet
-	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Weak);
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodSmall);
 	        var animFrames = [];
 	        for(var i = 1; i < 5; i++) {
 	            var str = "weak_00" + i + ".png";
@@ -149,26 +121,41 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        var animation = cc.Animation.create(animFrames, 0.5);
 	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
 		    this.runAction(this._initAction);
-	    }
-    },
-    initDestroySprite: function () {
-    	if(this._type === BG.TWIG_TYPE.NORMAL)
-    	{
-	    	// create broken twig sprite sheet
-	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Normal_Broken);
+        }
+        else if(this._type === BG.WOOD_TYPE.MEDIUM)
+        {
+	        // create weak twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodMedium);
 	        var animFrames = [];
-	        for(var i = 1; i < 5; i++) {
-	            var str = "brokenBranch_00" + i + ".png";
+	        for(var i = 1; i < 7; i++) {
+	            var str = "Branch_00" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
-	        var animation = cc.Animation.create(animFrames, 0.2);
-	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
-        }
-        else if(this._type === BG.TWIG_TYPE.WEEK)
+	        var animation = cc.Animation.create(animFrames, 0.5);
+	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
+		    this.runAction(this._initAction);
+	    }
+	    else if(this._type === BG.WOOD_TYPE.BIG)
         {
-	        // create broken week twig sprite sheet
-	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Week_Broken);
+	        // create weak twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodBig);
+	        var animFrames = [];
+	        for(var i = 1; i < 7; i++) {
+	            var str = "Branch_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.5);
+	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
+		    this.runAction(this._initAction);
+	    }
+    },
+    initDestroySprite: function () {
+    	if(this._type === BG.WOOD_TYPE.SMALL)
+    	{
+	    	// create broken twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodSmall_Broken);
 	        var animFrames = [];
 	        for(var i = 1; i < 6; i++) {
 	            var str = "brokenWeak_00" + i + ".png";
@@ -177,7 +164,34 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        }
 	        var animation = cc.Animation.create(animFrames, 0.2);
 	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
+        }
+        else if(this._type === BG.WOOD_TYPE.MEDIUM)
+        {
+	        // create broken week twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodMedium_Broken);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "brokenBranch_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.2);
+	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
 	    }
+	    else if(this._type === BG.WOOD_TYPE.BIG)
+        {
+	        // create broken week twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodBig_Broken);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "brokenBranch_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.2);
+	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
+	    }
+
     },
     destroy: function () {
     	if(this._isShielding) this.unshield();

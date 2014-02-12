@@ -151,41 +151,17 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							}
 							break;
 						case "Twig":
-							if(!beaver.getIsHome() && !target.getIsShielding())
+							if(!beaver.getIsHome())
 							{
 								if((target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) ||
 								(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1)
 								) return;
-<<<<<<< HEAD
-								beaver.returnToBase();
+
 								//sound effect
 								if(BG.SOUND){
 									cc.AudioEngine.getInstance().playEffect(se_beaverOver);    	
 								}
-							}
-=======
-								
-								// if(target.getType() === BG.TWIG_TYPE.WEEK)
-								// {
-									// var i = target.getBeaverID();
-									// that._beavers[i].removeTailAtIndex(target.getTailIndex());
-								// }
-								// else if(target.getType() === BG.TWIG_TYPE.NORMAL)
-								// {
-									beaver.returnToBase();
-<<<<<<< HEAD
-								// }
-							}
-							else if(!beaver.getIsHome() && target.getIsShielding())
-							{
-								if((target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) ||
-								(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1)
-								) return;
 								beaver.returnToBase();
-=======
-								}
->>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
->>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
 							}
 							break;
 						case "Home":
@@ -194,7 +170,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								if(!beaver.getIsStart());
 								else
 								{
-<<<<<<< HEAD
 									if(beaver._twigs.length == 0)
 									{
 										beaver.settingOut(true);
@@ -206,14 +181,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 										beaver.settingIn(true);
 									}
 									beaver.shielding();
-=======
-									target.setTwigsLength(beaver.getTwigs());
-									beaver.settingIn(true);
+
 									//sound effect
 									if (BG.SOUND) {
 										cc.AudioEngine.getInstance().playEffect(se_enteringHome);
 									}
->>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
+
 								}
 							}
 							break;
@@ -449,9 +422,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			} while( ((0.15 >= randX || randX >= 0.85) ||
 			          (0.15 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
-			var twigProb = Math.random(); 
-			if(twigProb < 0.9) new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.NORMAL, false); 
-			else new classes.sprites.Twig(this, cc.p(x, y), BG.TWIG_TYPE.WEEK, false);
+			new classes.sprites.Twig(this, cc.p(x, y), BG.WOOD_TYPE.SMALL, false); //TODO: CHANGE
 		}
 	},
 	popObstacle: function(){
