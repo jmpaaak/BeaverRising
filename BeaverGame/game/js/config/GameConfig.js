@@ -38,8 +38,6 @@ BG.GAME_UI = {
 		WIDTH : 1860,
 		HEIGHT : 940
 	}
-	
-	
 };
 
 //item types

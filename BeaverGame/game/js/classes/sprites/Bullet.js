@@ -19,7 +19,7 @@ classes.sprites.Bullet = cc.Sprite.extend({
         this._vector = beaver.getVector();
         this.filterGroup();
         this.addBulletBody(layer.world, p); //add Body
-        layer.addChild(this, 0);
+        layer.addChild(this, 5);
         this._curPos = this._body.GetPosition();
         this._curLayer = layer;
         this.initSprite();

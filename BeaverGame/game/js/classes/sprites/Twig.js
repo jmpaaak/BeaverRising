@@ -2,6 +2,8 @@ classes.sprites.Twig = cc.Sprite.extend({
 	name : "Twig",
 	_type: 0,
     _body: null,
+    _curPos: null,
+	_shieldTex: null,
     _isStuck: false,
     _tailIndex: 0,
     _angle : 0,
@@ -24,18 +26,19 @@ classes.sprites.Twig = cc.Sprite.extend({
         switch(type)
         {
         	case BG.TWIG_TYPE.NORMAL:
-        		this.initWithFile(s_Twig_Thorn);
+        		this.initWithSpriteFrameName("Branch_001.png");
         		break;
         	case BG.TWIG_TYPE.WEEK:
-        		this.initWithFile(s_Twig_Weak);
+        		this.initWithSpriteFrameName("weak_001.png");
         		break;
         }
-        //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+		this._shieldTex = cc.Sprite.create(s_Shield);
         if(this._isStuck === false)
         	this._addTwigWithType(layer.world, p);
         else if(this._isStuck === true)
         	this._addTailTwig(layer.world, p);
-        layer.addChild(this, 0); //z: 0
+        layer.addChild(this, 1); //z: 1
+        this._curPos = this._body.GetPosition();
     },
     _addTwigWithType: function (world, p) {
         var tex = this;
@@ -69,6 +72,9 @@ classes.sprites.Twig = cc.Sprite.extend({
         body.CreateFixture(fixtureDef);
         
         this._body = body;
+        var rand = 360*Math.random();
+        
+        this._body.SetAngle(rand);
     },
     _addTailTwig: function (world, p) {
     	var tex = this;
@@ -111,22 +117,22 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        }
 	        var animation = cc.Animation.create(animFrames, 0.5);
 	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
-		    this.runAction(this._initAction); //TODO: Divide with cases
+		    this.runAction(this._initAction);
         }
-        // else if(this._type === BG.TWIG_TYPE.WEEK)
-        // {
-	        // // create weak twig sprite sheet
-	        // cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Week_Broken);
-	        // var animFrames = [];
-	        // for(var i = 1; i < 6; i++) {
-	            // var str = "weak_00" + i + ".png";
-	            // var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
-	            // animFrames.push(frame);
-	        // }
-	        // var animation = cc.Animation.create(animFrames, 0.2);
-	        // this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
-	    // }
-	    
+        else if(this._type === BG.TWIG_TYPE.WEEK)
+        {
+	        // create weak twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Weak);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "weak_00" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.5);
+	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
+		    this.runAction(this._initAction);
+	    }
     },
     initDestroySprite: function () {
     	if(this._type === BG.TWIG_TYPE.NORMAL)
@@ -148,7 +154,7 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_Twig_Week_Broken);
 	        var animFrames = [];
 	        for(var i = 1; i < 6; i++) {
-	            var str = "weak_00" + i + ".png";
+	            var str = "brokenWeak_00" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -157,6 +163,7 @@ classes.sprites.Twig = cc.Sprite.extend({
 	    }
     },
     destroy: function () {
+    	if(this._isShielding) this.unshield();
     	var that = this;
     	this._curLayer.destroyList.push(this._body);
 		this.runAction(cc.Sequence.create(
@@ -176,26 +183,15 @@ classes.sprites.Twig = cc.Sprite.extend({
     },
     shield: function () {
     	this._isShielding = true;
-    	switch(this._type)
-        {
-        	case BG.TWIG_TYPE.NORMAL:
-        		this.initWithFile(s_Twig_Thorn_Shield);
-        		break;
-        	case BG.TWIG_TYPE.WEEK:
-        		this.initWithFile(s_Twig_Normal_Shield);
-        		break;
-        }
+    	if(this._isStuck)
+    	{
+			this._shieldTex.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO);
+			this._curLayer.addChild(this._shieldTex);
+    	}			
     },
     unshield: function () {
     	this._isShielding = false;
-		switch(this._type) {
-			case BG.TWIG_TYPE.NORMAL:
-				this.initWithFile(s_Twig_Thorn);
-				break;
-			case BG.TWIG_TYPE.WEEK:
-				this.initWithFile(s_Twig_Normal);
-				break;
-		}
+		this._curLayer.removeChild(this._shieldTex);
     },
     getType: function () {
     	return this._type;

@@ -118,35 +118,46 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 						case "Twig":
 							if(!beaver.getIsHome() && !target.getIsShielding())
 							{
-								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0 ||
-								target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1
+								if((target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) ||
+								(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1)
 								) return;
 								
-								if(target.getType() === BG.TWIG_TYPE.WEEK)
-								{
-									var i = target.getBeaverID();
-									that._beavers[i].removeTailAtIndex(target.getTailIndex());
-								}
-								else if(target.getType() === BG.TWIG_TYPE.NORMAL)
-								{
+								// if(target.getType() === BG.TWIG_TYPE.WEEK)
+								// {
+									// var i = target.getBeaverID();
+									// that._beavers[i].removeTailAtIndex(target.getTailIndex());
+								// }
+								// else if(target.getType() === BG.TWIG_TYPE.NORMAL)
+								// {
 									beaver.returnToBase();
-								}
+								// }
+							}
+							else if(!beaver.getIsHome() && target.getIsShielding())
+							{
+								if((target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) ||
+								(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1)
+								) return;
+								beaver.returnToBase();
 							}
 							break;
 						case "Home":
-							if(!beaver.getIsHome()) {
-								console.log("hey");
-								if(beaver._twigs.length == 0)
-								{
-									beaver.settingOut(true);
-								}
+							if(!beaver.getIsHome()) 
+							{
+								if(!beaver.getIsStart());
 								else
 								{
-									target.setTwigsLength(beaver.getTwigs());
-									beaver.settingIn(true);
+									if(beaver._twigs.length == 0)
+									{
+										beaver.settingOut(true);
+										return;
+									}
+									else
+									{
+										target.setTwigsLength(beaver.getTwigs());
+										beaver.settingIn(true);
+									}
+									beaver.shielding();
 								}
-								beaver.shielding();
-								beaver.setIsHome(true);
 							}
 							break;
 						case "Turtle":
@@ -201,7 +212,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					} 
 				}
 			}
-			
 			
 			/* 
 			 * Home Listener
@@ -318,7 +328,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		
         //Adding Beavers
         for(var i=1; i<5; i++)
-	       this._beavers[i] = new classes.sprites.Beaver(this, cc.p(300,100+150*i), i);
+	       this._beavers[i] = new classes.sprites.Beaver(this, i);
 	       
 
 	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME1);
@@ -332,7 +342,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
 	},
 	popItem: function() {
-		if(Math.random() <= 0.9)
+		if(Math.random() <= 1)
 		{
 			var size = cc.Director.getInstance().getWinSize();
 			do {
@@ -443,11 +453,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//Reset the array
 		this.destroyList.length = 0; 
 		
-		if(this._itemPopCount === 300) //every 2s (p=0.5) 
+		if(this._itemPopCount === 60) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem(), this.popObstacle();
 		this._itemPopCount++;
 		
-		if(this._twigPopCount === 120) //every 2s (p=0.5) 
+		if(this._twigPopCount === 60) //every 2s (p=0.5) 
 			this._twigPopCount = 0, this.popTwig();
 		this._twigPopCount++;		
 		

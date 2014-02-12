@@ -4,7 +4,10 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 	_baseCampPos : null,
 	_spriteWidth_half : null,
 	_spriteWHeight_half : null,
-
+	
+	_bar: null,
+	_barSprite: null,
+	_percentage: 0,
 	ctor: function (layer,Pos,id) {
         this._super();
 		this._baseCampPos = Pos;
@@ -51,8 +54,15 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 
     init : function () {
     	this._labelScore = cc.LabelBMFont.create("Score :" + this._totalScore, s_Konqa32);
-        this._labelScore.setPosition(this._spriteWidth_half , this._spriteHeight_half);
-        this.addChild(this._labelScore,2);
+        this._labelScore.setPosition(this._spriteWidth_half, this._spriteHeight_half);
+        this.addChild(this._labelScore, 2);
+        this._barSprite = new cc.Sprite.create(s_Bar);
+        this._bar = cc.ProgressTimer.create(this._barSprite);
+        this._bar.setType(cc.PROGRESS_TIMER_TYPE_BAR);
+        this._bar.setPosition(this._spriteWidth_half, this._spriteHeight_half);
+        // this._bar.barChangeRate = cc.p(0,this._barSprite.getTextureRect().height);
+        this._bar.midpoint = cc.p(0, this._barSprite.getTextureRect().height);
+        this.addChild(this._bar, 2);
         //this._labelScore.setColor(cc.c3(255,0,0));
     },
 
@@ -60,9 +70,10 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 			return this._totalScore;
 	},
 	
-	addScore : function (num) {
+	addScore : function (num) { //TODO: CASES
+		this._percentage += num;
+		this._bar.setPercentage(this._percentage);
 		this._totalScore+=num;
-		console.log("total is "+this._totalScore);
     	this._labelScore.setString("Score :" + this._totalScore); 	
 	},
 	_subScore : function (num) {

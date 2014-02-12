@@ -60,18 +60,18 @@ classes.sprites.Beaver = cc.Sprite.extend({
     
     count: null,
 
-    ctor: function (layer, p, id) {
+    ctor: function (layer, id) {
         this._super();
         this._winSize = cc.Director.getInstance().getWinSize();
         this._id = id;
         this._curLayer = layer;
         this._categoryPlayer = Math.pow(2, this._id);
+  		this.settingPoint();
    		this.initSprite();
-        this.addBeaverWithCoords(this._curLayer.world, p);
+        this.addBeaverWithCoords(this._curLayer.world, this._homeInPoint);
   		this._itemList = [];
   		this._twigs = [];
   		this._positions = [];
-  		this.settingPoint();
   		this._curPos = this._body.GetPosition();
         for(var i=0; i<100; i++)
         	this._positions[i] = cc.p(0,0);
@@ -86,11 +86,11 @@ classes.sprites.Beaver = cc.Sprite.extend({
    		
         layer.addChild(this, 2); //z: 0
         
+  		this._settingHomeIn();
         this.schedule(this.update, 1/60);
         
     },
-    
-    initSprite : function(){
+    initSprite : function () {
     	// create beaver init sprite sheet
         cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaver1);
         var animFrames = [];
@@ -139,19 +139,19 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	switch(this._id)
     	{
     		case BG.CATEGORY.PLAYER1:
-    			this._homeInPoint= cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO , (this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT) / PTM_RATIO);
+    			this._homeInPoint = cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO , (this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT) / PTM_RATIO);
     			this._outAngle = 45;
     			break;
     		case BG.CATEGORY.PLAYER2:
-    			this._homeInPoint= cc.p((this._winSize.width-BG.GAME_UI.OUTTER_FRAME.WIDTH)/PTM_RATIO, (this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT)/PTM_RATIO);
+    			this._homeInPoint = cc.p((this._winSize.width-BG.GAME_UI.OUTTER_FRAME.WIDTH)/PTM_RATIO, (this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT)/PTM_RATIO);
     			this._outAngle = 135;
     			break;
     		case BG.CATEGORY.PLAYER3:
-    			this._homeInPoint= cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO ,BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
+    			this._homeInPoint = cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH / PTM_RATIO ,BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
     			this._outAngle = 315;
     			break;
     		case BG.CATEGORY.PLAYER4:
-    			this._homeInPoint= cc.p((this._winSize.width - BG.GAME_UI.OUTTER_FRAME.WIDTH) / PTM_RATIO, BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
+    			this._homeInPoint = cc.p((this._winSize.width - BG.GAME_UI.OUTTER_FRAME.WIDTH) / PTM_RATIO, BG.GAME_UI.OUTTER_FRAME.HEIGHT / PTM_RATIO);
     			this._outAngle = 225;
     			break;
     	}
@@ -182,8 +182,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		}
 		else
 		{
-			this._curLayer.removeChild(twig);
-		    this._curLayer.destroyList.push(twig.getBody());
+			twig.destroy();
 		}
     },
     addItem: function(item) {
@@ -367,21 +366,24 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        else if(this._goHomeFlag)
 	        {
 	        	this._body.SetPosition(this._homeInPoint);
-				this._goHomeFlag = false;       	
+				this._goHomeFlag = false;
 	        }
 	        else
 	        {
 	        	this._move();
-				this._body.SetAwake(true);
 	        	this.count.moveAllowCount = 0;
+				this._body.SetAwake(true);
 	        }
 	    }
+	    //game start callback
 	    else if(this._curLayer.getIsStart())
 	    {
-	    	this.stun();
-	    	this._startFlag = true;
+			this._body.SetAwake(true);
+	        this._startFlag = true;
+	        this._setOutFlag = true;
 	    }
-
+	    else if(!this._curLayer.getIsStart()){}
+		
         this._showTwigs();
         
         if(this._shieldingOn) {
@@ -443,8 +445,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this.count.lightningCount++;
         }
-        if(this._turtleCountFlag){
-        	if(this.count.turtleCount >= 120){
+        if(this._turtleCountFlag) {
+        	if(this.count.turtleCount >= 120) {
         		this._curVelocity = BG.BEAVER_SPEED.NORMAL;
         		this._turtleCountFlag = false;
         		this.count.turtleCount = 0;
@@ -693,7 +695,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	return this._currentAngle;
     },
     getIsStart: function () {
-    	return this._starFlag;
+    	return this._startFlag;
     },
     getIsDevil: function () {
     	return this._isDevil;
@@ -726,6 +728,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     
     _settingHomeIn : function () {
+    	if(!this._isHome) this._isHome = true;
     	if(this._lightningOn == true) this._lightningOn = false;
     	this._body.SetPosition(this._homeInPoint);
     	this._curVelocity = 0;
@@ -750,7 +753,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._body.SetLinearVelocity(this._vector);
     },
     meetingTurtle : function(){
-    	if(!this._isDevil)this._curVelocity = BG.BEAVER_SPEED.SLOW;
+    	if(!this._isDevil) this._curVelocity = BG.BEAVER_SPEED.SLOW;
     	this._turtleCountFlag = true;
     }
 

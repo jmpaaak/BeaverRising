@@ -18,6 +18,7 @@ var s_Button_Credit_Selected = "images/mainmenu/Button_Credit_Selected.png";
 var s_Button_Option_Selected = "images/mainmenu/Button_Option_Selected.png";
 
 //GameLayer
+var s_Mask = "images/Mask.png"
 var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
@@ -26,6 +27,7 @@ var s_bgStart = "images/bgStart.png";
 var p_beaver1 = "images/Beaver/beaver_normal.plist";
 var p_beaverDevil = "images/Beaver/beaver_devil.plist";
 var p_Twig_Normal = "images/Twig_Normal.plist";
+var p_Twig_Weak = "images/Twig_Weak.plist"
 var p_Twig_Normal_Broken = "images/Twig_Thorn_Broken.plist";
 var p_Twig_Week_Broken = "images/Twig_Week_Broken.plist";
 var p_fishMotion = "images/fishMotion.plist";
@@ -56,10 +58,11 @@ s_BaseCamp[5] = "images/BaseCamp6.png";
 
 var s_Item_Bullet = "images/Item_Bullet.png";
 var s_Item_Shield = "images/Item_Shield.png";
+var s_Shield = "images/Shield.png";
 var s_Item_Lightning = "images/Item_Lightning.png";
 var s_Item_Devil = "images/Item_Devil.png";
 var s_LightningPrepare = "images/Lightning_Prepare.png";
-
+var s_Bar = "images/Bar.png";
 var s_TimerBoard = "images/TimerBoard.png";
 
 //GameBackground
@@ -109,6 +112,7 @@ var g_resources_game = [
 	{src:s_bgReady},
 	{src:s_bgStart},
 	{src:s_bgDuelGameLayer},
+	{src:s_Mask},
 	
 	{src:s_gameFrame},
 	{src:s_player1Recog},
@@ -118,13 +122,10 @@ var g_resources_game = [
 
 	{src:s_Item_Bullet},
 	{src:s_Item_Shield},
+	{src:s_Shield},
 	{src:s_Item_Lightning},
 	{src:s_LightningPrepare},
 
-	{src:s_Twig_Weak},
-	{src:s_Twig_Thorn},
-	{src:s_Twig_Normal_Shield},
-	{src:s_Twig_Thorn_Shield},
 	{src:s_ScoreBoard},
 	{src:s_TimerBoard},
 
@@ -134,7 +135,6 @@ var g_resources_game = [
 	{src:s_BaseCamp[3]},
 	{src:s_BaseCamp[4]},
 	{src:s_BaseCamp[5]},
-//	{src:s_BaseCamp6},
 
     //background Img
 	{src:bg_Water01},
@@ -153,6 +153,7 @@ var g_resources_game = [
 	{src:bg_Water14},
 	{src:bg_Water15},
 	{src:s_Item_Devil},
+	{src:s_Bar},
 	//obstacle
 	{src:p_turtle},
 	
@@ -164,6 +165,7 @@ var g_resources_game = [
 	{src:p_waterBomb},
 	{src:p_fishMotion},
 	{src:p_Twig_Normal},
+	{src:p_Twig_Weak},
 
     //fnt
 	{src:s_Konqa32}

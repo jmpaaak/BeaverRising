@@ -11,14 +11,18 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 		this._bgReady.setPosition(size.width / 2, size.height / 2);
 		this._bgStart = cc.Sprite.create(s_bgStart);
 		this._bgStart.setPosition(size.width / 2, size.height / 2);
-
-		this.addChild(this._bgReady, 1);
+		
+		var mask = cc.Sprite.create(s_Mask);
+        mask.setPosition(size.width / 2 , size.height / 2);	
+        	
+		this.addChild(mask,1);
+		this.addChild(this._bgReady, 2);
 
 		this._bgReady.runAction(cc.Sequence.create(
 			cc.FadeOut.create(2.0), 
 			cc.CallFunc.create(function() {
 				this.removeChild(this._bgReady);
-				this.addChild(this._bgStart, 1);
+				this.addChild(this._bgStart, 2);
 				this._bgStart.runAction(cc.Sequence.create(
 					cc.Blink.create(1.5, 5),
 					cc.CallFunc.create(function() {
@@ -29,6 +33,10 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 					})
 				));
 		}, this)));
+		mask.runAction(cc.Sequence.create(
+			cc.DelayTime.create(2.0),
+			cc.FadeOut.create(1.5)
+		));
 		
 		return true;
 	},
