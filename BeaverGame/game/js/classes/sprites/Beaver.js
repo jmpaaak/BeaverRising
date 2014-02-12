@@ -318,7 +318,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	  		cc.DelayTime.create(0.1),
 	  		cc.CallFunc.create(that.changeAction("devil")),
 	  		cc.CallFunc.create(function () {
-	  			//for removeing manual stun
+	  			//for removing manual stun
 		    	that._curVelocity = BG.BEAVER_SPEED.NORMAL;
 				that._isStun = false;
 				that._move();

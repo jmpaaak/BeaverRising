@@ -153,23 +153,28 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 						case "Twig":
 							if(!beaver.getIsHome() && !target.getIsShielding())
 							{
-								
-							if(target.getType() === BG.TWIG_TYPE.WEEK)
-							{
-								var i = target.getBeaverID();
-								that._beavers[i].removeTailAtIndex(target.getTailIndex());
-							}
-							else if(target.getType() === BG.TWIG_TYPE.NORMAL)
-							{
 								if(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0 ||
 								target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1
 								) return;
+<<<<<<< HEAD
 								beaver.returnToBase();
 								//sound effect
 								if(BG.SOUND){
 									cc.AudioEngine.getInstance().playEffect(se_beaverOver);    	
 								}
 							}
+=======
+								
+								if(target.getType() === BG.TWIG_TYPE.WEEK)
+								{
+									var i = target.getBeaverID();
+									that._beavers[i].removeTailAtIndex(target.getTailIndex());
+								}
+								else if(target.getType() === BG.TWIG_TYPE.NORMAL)
+								{
+									beaver.returnToBase();
+								}
+>>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
 							}
 							break;
 						case "Home":
