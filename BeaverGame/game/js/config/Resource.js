@@ -40,8 +40,14 @@ var s_player2Recog = "images/game_frame/playerRecog2.png";
 var s_player3Recog = "images/game_frame/playerRecog3.png";
 var s_player4Recog = "images/game_frame/playerRecog4.png";
 
+<<<<<<< HEAD
+var s_woodSmall = "images/woodSmall.png";
+var s_woodMedium = "images/woodMedium.png";
+var s_woodBig = "images/woodBig.png";
+=======
 var s_Twig_Weak = "images/Twig_Weak.png";
 var s_Twig_Thorn = "images/Twig_Thorn.png";
+>>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
 var s_Twig_Normal_Shield = "images/Twig_Normal_Shield.png";
 var s_Twig_Thorn_Shield = "images/Twig_Thorn_Shield.png";
 var s_ScoreBoard = "images/ScoreBoard.png";
@@ -93,6 +99,35 @@ var s_TempMenu = "images/temp.png";//TODO:REMOVE
 //var s_BaseCamp3 = "BaseCamp3.png";
 //var s_BaseCamp4 = "BaseCamp4.png";
 
+//sound
+	//BGM
+var bgm_gameBGM = "game/resources/sounds/bgm/gameBGM.mp3";
+	//effectSound
+var se_beaverGetShot = "game/resources/sounds/effectSound/beaverGetShot.mp3";
+var se_beaverMeetTurtle = "game/resources/sounds/effectSound/beaverMeetTurtle.mp3";
+var se_beaverOver = "game/resources/sounds/effectSound/beaverOver.mp3";
+var se_beaverStart = "game/resources/sounds/effectSound/beaverStart.mp3";
+var se_beaverStun = "game/resources/sounds/effectSound/beaverStun.mp3";
+var se_beaverTagger = "game/resources/sounds/effectSound/beaverTagger.mp3";
+var se_breakTwig = "game/resources/sounds/effectSound/breakTwig.mp3";
+var se_crocsComing = "game/resources/sounds/effectSound/crocsComing.mp3";
+var se_enteringHome = "game/resources/sounds/effectSound/enteringHome.mp3";
+var se_gameResult = "game/resources/sounds/effectSound/gameResult.mp3";
+var se_gameStart = "game/resources/sounds/effectSound/gameStart.mp3";
+var se_getItem = "game/resources/sounds/effectSound/getItem.mp3";
+var se_getTwig = "game/resources/sounds/effectSound/getTwig.mp3";
+var se_houseBuilding = "game/resources/sounds/effectSound/houseBuilding.mp3";
+var se_itemDevil = "game/resources/sounds/effectSound/itemDevil.mp3"; //TODO : not item yet
+var se_itemLightning = "game/resources/sounds/effectSound/itemLightning.mp3";
+var se_itemPopUp = "game/resources/sounds/effectSound/itemPopUp.mp3";
+var se_itemShield = "game/resources/sounds/effectSound/itemShield.mp3";
+var se_itemShooting = "game/resources/sounds/effectSound/itemShooting.mp3";
+var se_itemThunder = "game/resources/sounds/effectSound/itemThunder.mp3"; //TODO : not item yet
+var se_timeRunShort = "game/resources/sounds/effectSound/timeRunShort.mp3";
+var se_timeShortMessage = "game/resources/sounds/effectSound/timeShortMessage.mp3";
+var se_turtleComing = "game/resources/sounds/effectSound/turtleComing.mp3";
+//var se_ = "sounds/effectSound/.wav";
+
 
 var g_resources_splash = [
 	{src:s_SplashScreen1},
@@ -126,6 +161,20 @@ var g_resources_game = [
 	{src:s_Item_Lightning},
 	{src:s_LightningPrepare},
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	{src:s_woodSmall},
+	{src:s_woodMedium},
+	{src:s_woodBig},
+	
+=======
+	{src:s_Twig_Weak},
+	{src:s_Twig_Thorn},
+>>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
+	{src:s_Twig_Normal_Shield},
+	{src:s_Twig_Thorn_Shield},
+>>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
 	{src:s_ScoreBoard},
 	{src:s_TimerBoard},
 
@@ -168,11 +217,33 @@ var g_resources_game = [
 	{src:p_Twig_Weak},
 
     //fnt
-	{src:s_Konqa32}
+	{src:s_Konqa32},
 	
     //tmx
 
     //bgm
-
+	{src:bgm_gameBGM},
     //effect
+	{src:se_beaverGetShot},
+	{src:se_beaverMeetTurtle},
+	{src:se_beaverOver},
+	{src:se_beaverStart},
+	{src:se_beaverStun}, 
+	{src:se_beaverTagger},
+	{src:se_breakTwig},
+	{src:se_crocsComing},
+	{src:se_enteringHome},
+	{src:se_gameResult},
+	{src:se_gameStart},
+	{src:se_getItem},
+	{src:se_getTwig},
+	{src:se_houseBuilding},
+	{src:se_itemLightning},
+	{src:se_itemPopUp},
+	{src:se_itemShield},
+	{src:se_itemShooting},
+	{src:se_timeRunShort},
+	{src:se_timeShortMessage},
+	{src:se_turtleComing}
+    
 ];

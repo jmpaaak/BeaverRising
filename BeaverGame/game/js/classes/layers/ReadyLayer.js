@@ -19,7 +19,12 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 		this.addChild(this._bgReady, 2);
 
 		this._bgReady.runAction(cc.Sequence.create(
-			cc.FadeOut.create(2.0), 
+			cc.FadeOut.create(2.0),
+			cc.CallFunc.create(function() {
+				if (BG.SOUND) {
+					cc.AudioEngine.getInstance().playEffect(se_gameStart);
+				}
+			}),
 			cc.CallFunc.create(function() {
 				this.removeChild(this._bgReady);
 				this.addChild(this._bgStart, 2);
@@ -30,14 +35,24 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 						parent.removeChild(that);
 						var gameLayer = parent.getChildren();
 						gameLayer[0].start();
-					})
+			}),
+			cc.CallFunc.create(function(){
+				if (BG.SOUND) {
+					cc.AudioEngine.getInstance().playEffect(se_beaverStart);
+				}
+			})	
 				));
 		}, this)));
+<<<<<<< HEAD
 		mask.runAction(cc.Sequence.create(
 			cc.DelayTime.create(2.0),
 			cc.FadeOut.create(1.5)
 		));
 		
+=======
+
+
+>>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
 		return true;
 	},
 	update : function(dt) {

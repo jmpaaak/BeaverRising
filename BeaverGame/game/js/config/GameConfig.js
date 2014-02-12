@@ -61,9 +61,10 @@ BG.BEAVER_SPEED ={
 };
 
 //branch types
-BG.TWIG_TYPE = {
-    NORMAL:1,
-    WEEK:2
+BG.WOOD_TYPE = {
+    SMALL:1,
+    MEDIUM:2,
+    BIG:3
 };
 
 

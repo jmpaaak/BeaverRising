@@ -25,11 +25,28 @@ classes.sprites.Twig = cc.Sprite.extend({
         this.initDestroySprite();
         switch(type)
         {
+<<<<<<< HEAD
         	case BG.TWIG_TYPE.NORMAL:
         		this.initWithSpriteFrameName("Branch_001.png");
+=======
+        	case BG.WOOD_TYPE.SMALL:
+        		this.initWithFile(s_woodSmall);
         		break;
+<<<<<<< HEAD
+        	case BG.WOOD_TYPE.MEDIUM:
+        		this.initWithFile(s_woodMedium);
+>>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
+        		break;
+        	case BG.WOOD_TYPE.BIG:
+        		this.initWithFile(s_woodBig);
+=======
         	case BG.TWIG_TYPE.WEEK:
+<<<<<<< HEAD
         		this.initWithSpriteFrameName("weak_001.png");
+=======
+        		this.initWithFile(s_Twig_Weak);
+>>>>>>> ce703108632ca78bae10a29a4bcf91908412f1ff
+>>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
         		break;
         }
 		this._shieldTex = cc.Sprite.create(s_Shield);
@@ -165,6 +182,12 @@ classes.sprites.Twig = cc.Sprite.extend({
     destroy: function () {
     	if(this._isShielding) this.unshield();
     	var that = this;
+
+		//sound effect
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_breakTwig);
+		}
+
     	this._curLayer.destroyList.push(this._body);
 		this.runAction(cc.Sequence.create(
 			that._destroyAction,

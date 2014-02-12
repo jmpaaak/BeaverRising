@@ -69,10 +69,15 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 	getScore : function(){
 			return this._totalScore;
 	},
+<<<<<<< HEAD
 	
 	addScore : function (num) { //TODO: CASES
 		this._percentage += num;
 		this._bar.setPercentage(this._percentage);
+=======
+
+	addScore : function (num) {
+>>>>>>> 4a3088f21f32a700a2d824dad50d18081895bbb4
 		this._totalScore+=num;
     	this._labelScore.setString("Score :" + this._totalScore); 	
 	},
