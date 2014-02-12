@@ -8,14 +8,16 @@ classes.sprites.Obstacle = cc.Sprite.extend({
     _angle: null,
     _turtleSpeed: null,
     _animationSpeed: null,
-    
     //sprite
     _turtleInitAction: null,
     
-    
+    //sound
+
+
 	ctor: function (layer, p, type){
         this._super();
         this._type = type;
+        this._curLayer = layer;
         switch(type)
         {
         	case BG.OBSTACLE.TURTLE:
@@ -24,7 +26,6 @@ classes.sprites.Obstacle = cc.Sprite.extend({
         		break;
         }
    		this.initSprite();
-        this._curLayer = layer;
 		var size = cc.Director.getInstance().getWinSize();
         this._curPos = this._body.GetPosition();
         layer.addChild(this, 0); //z: 0
@@ -116,7 +117,6 @@ classes.sprites.Obstacle = cc.Sprite.extend({
         var fixtureDef = new b2FixtureDef();
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 0;
-        fixtureDef.friction = 0;
         fixtureDef.restitution = 0;
         fixtureDef.isSensor = true;
         body.CreateFixture(fixtureDef);
@@ -125,7 +125,13 @@ classes.sprites.Obstacle = cc.Sprite.extend({
         
         this._body = body;
     },
+
     destroy: function (layer) {
+    	this._curLayer.turtleCount--;
+    	if(this._curLayer.turtleCount <= 0 ){
+    		cc.AudioEngine.getInstance().stopEffect(this._curLayer._turtleSoundId);
+    		this._curLayer.setTurtleSound(false);
+    	}
     	layer.removeChild(this);
     	layer.destroyList.push(this._body);
     },

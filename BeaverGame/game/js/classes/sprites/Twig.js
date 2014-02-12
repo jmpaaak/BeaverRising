@@ -21,11 +21,14 @@ classes.sprites.Twig = cc.Sprite.extend({
         this.initDestroySprite();
         switch(type)
         {
-        	case BG.TWIG_TYPE.NORMAL:
-        		this.initWithFile(s_Twig_Thorn);
+        	case BG.WOOD_TYPE.SMALL:
+        		this.initWithFile(s_woodSmall);
         		break;
-        	case BG.TWIG_TYPE.WEEK:
-        		this.initWithFile(s_Twig_Normal);
+        	case BG.WOOD_TYPE.MEDIUM:
+        		this.initWithFile(s_woodMedium);
+        		break;
+        	case BG.WOOD_TYPE.BIG:
+        		this.initWithFile(s_woodBig);
         		break;
         }
         //this.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
@@ -126,6 +129,12 @@ classes.sprites.Twig = cc.Sprite.extend({
     },
     destroy: function () {
     	var that = this;
+
+		//sound effect
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_breakTwig);
+		}
+
     	this._curLayer.destroyList.push(this._body);
 		this.runAction(cc.Sequence.create(
 			that._destroyAction,

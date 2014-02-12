@@ -59,7 +59,7 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 	getScore : function(){
 			return this._totalScore;
 	},
-	
+
 	addScore : function (num) {
 		this._totalScore+=num;
 		console.log("total is "+this._totalScore);

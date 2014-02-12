@@ -191,14 +191,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	{
     		this._curLayer.setDevilOn(true);
     		this.beDevil();
-    		this._curLayer.removeChild(item);
-    		this._curLayer.destroyList.push(item.getBody());
+    		item.destroy(this._curLayer);
     		return;
     	}
     	if(this._itemList.length === 2) return;
     	this._itemList[this._itemList.length] = item;
-    	this._curLayer.removeChild(item);
-    	this._curLayer.destroyList.push(item.getBody());
+    	item.destroy(this._curLayer);
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     	item = null;
     	//this.changeAction("add");
@@ -257,6 +255,8 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				this._isStun = false;
 				this._move(); 
 			}, this))); 
+
+
 		 }
 		 
     },
@@ -571,18 +571,27 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     _useItem: function () {
     	if(this._itemList.length === 0 || this._isStun) return;
+    	var itemSound;
     	switch(this._itemList[0].getType())
     	{
     		case BG.ITEM_TYPE.BULLET:
     			this._shoot();
+    			itemSound = se_itemShooting;
     			break;
     		case BG.ITEM_TYPE.SHIELD:
     			this.shielding();
+    			itemSound = se_itemShield;
     			break;
     		case BG.ITEM_TYPE.LIGHTNING:
     			this._lightningOn = true;
+    			itemSound = se_itemLightning;
     			break;
     	}
+		//sound effect
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(itemSound);
+		}
+		
     	this._itemList.splice(0,1);
     },
     _move: function () {
@@ -682,6 +691,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		    	}
     		})
     	));
+
 	},
 	getID: function () {
     	return this._id;

@@ -15,7 +15,12 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 		this.addChild(this._bgReady, 1);
 
 		this._bgReady.runAction(cc.Sequence.create(
-			cc.FadeOut.create(2.0), 
+			cc.FadeOut.create(2.0),
+			cc.CallFunc.create(function() {
+				if (BG.SOUND) {
+					cc.AudioEngine.getInstance().playEffect(se_gameStart);
+				}
+			}),
 			cc.CallFunc.create(function() {
 				this.removeChild(this._bgReady);
 				this.addChild(this._bgStart, 1);
@@ -26,10 +31,16 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 						parent.removeChild(that);
 						var gameLayer = parent.getChildren();
 						gameLayer[0].start();
-					})
+			}),
+			cc.CallFunc.create(function(){
+				if (BG.SOUND) {
+					cc.AudioEngine.getInstance().playEffect(se_beaverStart);
+				}
+			})	
 				));
 		}, this)));
-		
+
+
 		return true;
 	},
 	update : function(dt) {
