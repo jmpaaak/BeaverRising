@@ -254,8 +254,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				this._isStun = false;
 				this._move(); 
 			}, this))); 
-
-
 		 }
 		 
     },
@@ -704,6 +702,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getAngle: function () {
     	return this._currentAngle;
     },
+    setIsStart: function (bool) {
+    	this._startFlag = bool;
+    },
     getIsStart: function () {
     	return this._startFlag;
     },
@@ -766,7 +767,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	if(!this._isDevil) this._curVelocity = BG.BEAVER_SPEED.SLOW;
     	this._turtleCountFlag = true;
     }
-
+	
 });
 
 

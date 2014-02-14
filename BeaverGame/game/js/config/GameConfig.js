@@ -67,6 +67,12 @@ BG.WOOD_TYPE = {
     BIG:3
 };
 
+BG.WOOD_PERCENT = {
+	SMA:20,
+	MED:20,
+	BIG:40
+};
+
 BG.CATEGORY = {
 	PLAYER1:1,
 	PLAYER2:2,

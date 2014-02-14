@@ -17,8 +17,18 @@ var s_Button_HowToPlay_Selected = "images/mainmenu/Button_HowToPlay_Selected.png
 var s_Button_Credit_Selected = "images/mainmenu/Button_Credit_Selected.png";
 var s_Button_Option_Selected = "images/mainmenu/Button_Option_Selected.png";
 
+var s_Restart_Normal = "images/Restart_Normal.png";
+var s_Restart_Selected = "images/Restart_Selected.png";
+var s_Home_Normal = "images/Home_Normal.png";
+var s_Home_Selected = "images/Home_Selected.png";
+var s_Over = "images/GameOver.png";
+
+var s_Trophy_Gold = "images/Trophy_Gold.png";
+var s_Trophy_Silver = "images/Trophy_Silver.png";
+var s_Trophy_Bronze = "images/Trophy_Bronze.png";
+
 //GameLayer
-var s_Mask = "images/Mask.png"
+var s_Mask = "images/Mask.png";
 var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
@@ -46,12 +56,31 @@ var s_player4Recog = "images/game_frame/playerRecog4.png";
 var s_ScoreBoard = "images/ScoreBoard.png";
 
 var s_BaseCamp = [];
+// var s_BaseCamp_White = [];
 s_BaseCamp[0] = "images/BaseCamp1.png";
 s_BaseCamp[1] = "images/BaseCamp2.png";
 s_BaseCamp[2] = "images/BaseCamp3.png";
 s_BaseCamp[3] = "images/BaseCamp4.png";
 s_BaseCamp[4] = "images/BaseCamp5.png";
 s_BaseCamp[5] = "images/BaseCamp6.png";
+
+// s_BaseCamp_White[0] = "images/BaseCamp1_White.png";
+// s_BaseCamp_White[1] = "images/BaseCamp2_White.png";
+// s_BaseCamp_White[2] = "images/BaseCamp3_White.png";
+// s_BaseCamp_White[3] = "images/BaseCamp4_White.png";
+// s_BaseCamp_White[4] = "images/BaseCamp5_White.png";
+// s_BaseCamp_White[5] = "images/BaseCamp6_White.png";
+
+var s_ResultBoard = "images/ResultBoard.png";
+var s_ResultRect = "images/ResultRect.png";
+var s_Bar = [];
+s_Bar[0] = "images/Bar.png";
+s_Bar[1] = "images/Bar_2.png";
+s_Bar[2] = "images/Bar_3.png";
+s_Bar[3] = "images/Bar_4.png";
+s_Bar[4] = "images/Bar_5.png";
+var s_DecoBeaver = "images/Deco_beaver.png";
+var s_bgResult = "images/bgResult.png";
 //var s_BaseCamp1 = "images/BaseCamp1.png";
 //var s_BaseCamp1 = "images/BaseCamp1.png";
 
@@ -61,7 +90,6 @@ var s_Shield = "images/Shield.png";
 var s_Item_Lightning = "images/Item_Lightning.png";
 var s_Item_Devil = "images/Item_Devil.png";
 var s_LightningPrepare = "images/Lightning_Prepare.png";
-var s_Bar = "images/Bar.png";
 var s_TimerBoard = "images/TimerBoard.png";
 
 //GameBackground
@@ -153,6 +181,13 @@ var g_resources_game = [
 	{src:s_Shield},
 	{src:s_Item_Lightning},
 	{src:s_LightningPrepare},
+	{src:s_Restart_Normal},
+	{src:s_Restart_Selected},
+	{src:s_Home_Normal},
+	{src:s_Home_Selected},
+	{src:s_Trophy_Gold},
+	{src:s_Trophy_Silver},
+	{src:s_Trophy_Bronze},
 	
 	{src:s_ScoreBoard},
 	{src:s_TimerBoard},
@@ -163,6 +198,11 @@ var g_resources_game = [
 	{src:s_BaseCamp[3]},
 	{src:s_BaseCamp[4]},
 	{src:s_BaseCamp[5]},
+	{src:s_Bar[0]},
+	{src:s_Bar[1]},
+	{src:s_Bar[2]},
+	{src:s_Bar[3]},
+	{src:s_Bar[4]},
 
     //background Img
 	{src:bg_Water01},
@@ -181,7 +221,8 @@ var g_resources_game = [
 	{src:bg_Water14},
 	{src:bg_Water15},
 	{src:s_Item_Devil},
-	{src:s_Bar},
+	{src:s_Over},
+
 	//obstacle
 	{src:p_turtle},
 	
@@ -225,6 +266,9 @@ var g_resources_game = [
 	{src:se_itemShooting},
 	{src:se_timeRunShort},
 	{src:se_timeShortMessage},
-	{src:se_turtleComing}
-    
+	{src:se_turtleComing},
+    {src:s_DecoBeaver},
+    //result layer
+    {src:s_ResultBoard},
+    {src:s_ResultRect}
 ];

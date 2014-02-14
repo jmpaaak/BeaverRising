@@ -9,17 +9,26 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_homeLevel : 0,
 	_targetHome : 5,
 	_finalTailIndex : 0,
-
+	_woodCount: null,
+	_prePercent: 0,
+	_addedPercent: 0,
 	ctor: function (layer, p, id) {
         this._super();
         this._id = id;
         this._curLayer = layer;
-      	this.spriteChanger();
+        this._woodCount = {
+        	small: 0,
+        	medium: 0,
+        	big: 0
+        }
+      	this.initWithFile(s_BaseCamp[0]);
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
         layer.addChild(this, 40);
-        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this.getPosition(),id);
+        this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this,id);
+        
+        this.schedule(this.update, 1/60);
     },
 	
 	addBaseCampWithType : function (world, p) {
@@ -90,27 +99,71 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
     	console.log("the category home is " + this._id + "-  " + this._categoryPlayer);
     	console.log("the ~ category home is " + this._id + "-  " + (~(this._categoryPlayer)));
     },
-    getId : function(){
+    getId : function () {
     	return this._id;
     },
-    setTwigsLength : function(twigs){
+    getLevel: function () {
+    	return this._homeLevel;
+    },
+    getWoodCount: function () {
+    	return this._woodCount;
+    },
+    setTwigsLength : function(twigs) {
     	this._finalTailIndex = twigs.length - 1; // _twigs[0].
     },    
-    twigBecomeScore : function(tailIndex) {
-    	this._scoreBoard.addScore(tailIndex+1); //each twig: 1 2 3 4 5
-		console.log(this._homeLevel);
-		if(this._scoreBoard.getScore() > this._targetHome && this._homeLevel <= 5 ) {
-			this.spriteChanger();
-		}
+    addingPercent: function(type) {
+    	var per;
+    	switch(type)
+    	{
+    		case BG.WOOD_TYPE.SMALL:
+    			per = BG.WOOD_PERCENT.SMA;
+    			this._woodCount.small++;
+    			break;
+    		case BG.WOOD_TYPE.MEDIUM: 
+    			per = BG.WOOD_PERCENT.MED;
+    			this._woodCount.medium++;
+    			break;
+    		case BG.WOOD_TYPE.BIG: 
+    			per = BG.WOOD_PERCENT.BIG;
+    			this._woodCount.big++;
+    			break;
+    	}
+		this._prePercent += per;
 	},
-	spriteChanger: function(){
-			this.initWithFile(s_BaseCamp[this._homeLevel]);
-			this._targetHome+= 5;
+	realAdding: function () {
+		var that = this;
+		this.runAction(cc.Sequence.create(
+			cc.DelayTime.create(0.5),
+			cc.CallFunc.create(function () {
+				that._addFlag = true;
+			})
+		));
+	},
+	levelUp: function(){
 			this._homeLevel++;
+			if(this._homeLevel === 5) 
+			{
+				this._curLayer.gameEnd();
+				return;
+			}
+			this.initWithFile(s_BaseCamp[this._homeLevel]);
 	},
 	setColor: function () {
 		this._scoreBoard.setColor();
 	},
+	update: function () {
+		if(this._addFlag)
+		{
+			this._scoreBoard.realAdd(1);
+			this._addedPercent += 1;
+			if(this._prePercent === this._addedPercent) 
+			{
+				this._prePercent = 0;
+				this._addedPercent = 0;
+				this._addFlag = false;
+			}
+		}
+	}
 
 	
 	

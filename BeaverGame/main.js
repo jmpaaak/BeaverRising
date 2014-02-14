@@ -86,4 +86,4 @@ var cocos2dApp = cc.Application.extend({
     }
 });
 
-var myApp = new cocos2dApp(classes.scenes.DuelGameScene.getInstance);  //classes.scenes.DuelGameScene.getInstance
+var myApp = new cocos2dApp(classes.scenes.SplashScreenScene.getInstance);  //classes.scenes.DuelGameScene.getInstance
