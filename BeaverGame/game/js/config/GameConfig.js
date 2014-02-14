@@ -37,7 +37,8 @@ BG.GAME_UI = {
 	INNER_FRAME : {
 		WIDTH : 1860,
 		HEIGHT : 940
-	}
+	},
+	
 };
 
 //item types
@@ -62,10 +63,16 @@ BG.BEAVER_SPEED ={
 
 //branch types
 BG.WOOD_TYPE = {
+	BOX:0,
     SMALL:1,
     MEDIUM:2,
     BIG:3
 };
+BG.WOOD_LENGTH = {
+    SMALL:0,
+    MEDIUM:5,
+    BIG: 15
+},
 
 BG.CATEGORY = {
 	PLAYER1:1,

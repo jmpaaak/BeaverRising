@@ -19,7 +19,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	turtleCount: 0,
 	
 	init: function() {
-		console.log(cc.AudioEngine.getInstance().isFormatSupported("wav"));
 		var that = this;		
 		var size = cc.Director.getInstance().getWinSize();
 		this._super();
@@ -33,7 +32,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
-		this.schedule(this.update, 1/60);
 		//this.scheduleUpdate(); //update 60fps in Layer
 		//box2d  (32px === 1m !!)
 		var PTM_RATIO = 32;
@@ -75,10 +73,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					switch(target.name) {
 						case "Home":
 							beaver.stun();
-							//sound effect
-							if (BG.SOUND) {
-								cc.AudioEngine.getInstance().playEffect(se_beaverStun);
-							}
 							break;
 						case "Twig":
 							beaver.addTwig(target);
@@ -89,20 +83,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 
 							break;
 						case "Beaver":
-							if(beaver.getWillDevil() && !beaver.getIsDevil()) 
-							{
-								target.turnNormalAndRun();
-								return;
-							}
-							if(target.getWillDevil() && !target.getIsDevil()) 
-							{
-								beaver.turnNormalAndRun();
-								return;
-							}
-							
 							if(beaver.getIsDevil())
 							{
-								console.log("cg devil!!");
 								target.beDevil();
 								//sound effect
 								if (BG.SOUND) {
@@ -112,7 +94,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							}
 							else if(target.getIsDevil())
 							{
-								console.log("cg devil!!");
 								beaver.beDevil();
 								target.turnNormalAndRun();
 							}
@@ -120,10 +101,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							{
 								beaver.stun();
 								target.stun();
-								//sound effect
-								if (BG.SOUND) {
-									cc.AudioEngine.getInstance().playEffect(se_beaverStun);
-								}
 							}
 							break;
 					}
@@ -137,11 +114,8 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.stun();
 							target.destroy(that);
 
-							//sound effect
-							if (BG.SOUND) {
-								cc.AudioEngine.getInstance().playEffect(se_beaverGetShot);
-							}
-
+							beaver.GetShotSound();
+							beaver.cryAction();
 							break;
 						case "Item":
 							beaver.addItem(target);
@@ -156,11 +130,9 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								if((target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) ||
 								(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1)
 								) return;
-
 								//sound effect
-								if(BG.SOUND){
-									cc.AudioEngine.getInstance().playEffect(se_beaverOver);    	
-								}
+								beaver.cryAction();
+								beaver.cryingSound();
 								beaver.returnToBase();
 							}
 							break;
@@ -196,7 +168,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								cc.AudioEngine.getInstance().playEffect(se_beaverMeetTurtle);    	
 							}
 							beaver.meetingTurtle();
-							console.log("hi turtle");
 							break;
 					}
 				}
@@ -234,13 +205,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							if(!target.getIsShielding())
 							{
 								//sound effect
-								if(BG.SOUND){
-									cc.AudioEngine.getInstance().playEffect(se_beaverGetShot);    	
-								}
 								var i = target.getBeaverID();
-								console.log(contact.IsSensor());
 								that._beavers[i].removeTailAtIndex(target.getTailIndex());
 								bullet.destroy(that);
+								
+								//beaver crying sprite on
+								that._beavers[i].GetShotSound(); 
+								that._beavers[i].cryAction();
 							}
 							else
 							{
@@ -376,12 +347,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME4);
 	   
 	    this._timer = new classes.sprites.TimerBoard(this);
-
+	    
+		this.schedule(this.update, 1/60);
 		return true;
 
 	},
 	popItem: function() {
-		if(Math.random() <= 1)
+		if(Math.random() <= 0.5)
 		{
 			var size = cc.Director.getInstance().getWinSize();
 			do {
@@ -391,6 +363,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					  (0.25 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
 			var itemChoice = Math.floor((Math.random()*10 % 4) + 1);
+			if(!this._devilOn) itemChoice =  BG.ITEM_TYPE.DEVIL;
 			switch(itemChoice) 
 			{
 				case BG.ITEM_TYPE.BULLET:
@@ -405,7 +378,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 				case BG.ITEM_TYPE.DEVIL:
 					if(!this._devilOn && !this._devilItemOn)
 					{
-						console.log("devil coming!!!");
 						new classes.sprites.Item(this, cc.p(x, y), BG.ITEM_TYPE.DEVIL);
 					}
 					break;
@@ -422,11 +394,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			} while( ((0.15 >= randX || randX >= 0.85) ||
 			          (0.15 >= randY || randY >= 0.85)) );
 			var x = randX * size.width, y = randY * size.height;
-			new classes.sprites.Twig(this, cc.p(x, y), BG.WOOD_TYPE.SMALL, false); //TODO: CHANGE
+			new classes.sprites.Twig(this, cc.p(x, y), BG.WOOD_TYPE.BOX, false); //TODO: CHANGE
 		}
 	},
 	popObstacle: function(){
-		if (Math.random() <= 0.5) {
+		if (Math.random() <= 0.3) {
 			if(this.turtleCount >= 2) return;
 			else{
 					var size = cc.Director.getInstance().getWinSize();
@@ -437,7 +409,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					(0.25 >= randY || randY >= 0.85)) );
 					var x = randX * size.width, y = randY * size.height;
 					new classes.sprites.Obstacle(this, cc.p(x, y), BG.OBSTACLE.TURTLE);
-					
+
 					this.turtleCount++;
 					if (BG.SOUND && !this._turtleSoundOn) {
 					this._turtleSoundId = cc.AudioEngine.getInstance().playEffect(se_turtleComing,true);
@@ -461,7 +433,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this._devilItemOn = bool;
 	},
 	setDevilOn: function (bool) {
-		this._devilItemOn = bool;
+		this._devilOn = bool;
 	},
 	setTurtleSound: function(bool){
 		this._turtleSoundOn = bool;
@@ -495,8 +467,16 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			this._timerWarningOn = true;
 		}
 		
-		if(this._timer.getTime() === 0){
-    		cc.AudioEngine.getInstance().stopEffect(this._timerSoundID);
+		if(this._timer.getTime() <= 0){			
+			if(!this.raceFinish){				
+				for (var i = 1; i < 5; i++) {
+					this._beavers[i].setStartFlag(false);
+				}
+				cc.AudioEngine.getInstance().stopEffect(this._timerSoundID);
+				cc.AudioEngine.getInstance().stopMusic(this._bgmID);
+				this.raceFinish = true; 
+				this._timer.timeOver(true);
+			}
 		}
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
@@ -527,13 +507,16 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//Reset the array
 		this.destroyList.length = 0; 
 		
-		if(this._itemPopCount === 60) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem(), this.popObstacle();
-		this._itemPopCount++;
 		
-		if(this._twigPopCount === 60) //every 2s (p=0.5) 
-			this._twigPopCount = 0, this.popTwig();
-		this._twigPopCount++;		
+		if(this._timer.getTime() <= this._timer.getTotalTime() - 3){
+			if(this._itemPopCount === 120) //every 2s (p=0.5) 
+				this._itemPopCount = 0, this.popItem(), this.popObstacle();
+			this._itemPopCount++;
+			
+			if(this._twigPopCount === 60) //every 2s (p=0.5) 
+				this._twigPopCount = 0, this.popTwig();
+			this._twigPopCount++;		
+		}
 		
 	},
 	onKeyUp: function(e) {

@@ -1,6 +1,34 @@
 //SplashScreen
 var s_SplashScreen1 = "images/BeaverGame_splashscreen.png";
 var s_SplashScreen2 = "images/DigitalMedia_splashscreen.png";
+//story
+var s_story101 = "images/Story/101.png";
+var s_story102 = "images/Story/102.png";
+var s_story103 = "images/Story/103.png";
+var s_story104 = "images/Story/104.png";
+var s_story105 = "images/Story/105.png";
+var s_story106 = "images/Story/106.png";
+var s_story107 = "images/Story/107.png";
+var s_story108 = "images/Story/108.png";
+
+var s_story201 = "images/Story/201.png";
+var s_story202 = "images/Story/202.png";
+var s_story203 = "images/Story/203.png";
+var s_story204 = "images/Story/204.png";
+
+
+var s_story301 = "images/Story/301.png";
+var s_story302 = "images/Story/302.png";
+var s_story303 = "images/Story/303.png";
+var s_story304 = "images/Story/304.png";
+var s_story305 = "images/Story/305.png";
+
+var s_story401 = "images/Story/401.png";
+var s_story402 = "images/Story/402.png";
+var s_story403 = "images/Story/403.png";
+var s_story404 = "images/Story/404.png";
+var s_story405 = "images/Story/405.png";
+var s_story406 = "images/Story/406.png";
 
 //MainMenu
 var s_bgMainMenu = "images/mainmenu/bgMainMenu.png";
@@ -18,22 +46,36 @@ var s_Button_Credit_Selected = "images/mainmenu/Button_Credit_Selected.png";
 var s_Button_Option_Selected = "images/mainmenu/Button_Option_Selected.png";
 
 //GameLayer
-var s_Mask = "images/Mask.png"
+var s_Mask = "images/Mask.png";
 var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
 
 // var s_beaver1 = "images/Beaver/beaver_normal.png";
-var p_beaver1 = "images/Beaver/beaver_normal.plist";
-var p_beaverDevil = "images/Beaver/beaver_devil.plist";
-var p_woodSmall_Broken = "images/Twig_Week_Broken.plist";
-var p_woodMedium_Broken = "images/Twig_Thorn_Broken.plist";
-var p_woodBig_Broken = "images/Twig_Thorn_Broken.plist";
-var p_fishMotion = "images/fishMotion.plist";
-var p_waterBomb = "images/waterBomb.plist";
-var p_woodSmall = "images/Twig_Weak.plist";
-var p_woodMedium = "images/Twig_Normal.plist";
-var p_woodBig = "images/Twig_Normal.plist";
+var p_beaver1p = "images/Beaver/beaver1p_normal.plist";
+var p_beaver2p = "images/Beaver/beaver2p_normal.plist";
+var p_beaver3p = "images/Beaver/beaver3p_normal.plist";
+var p_beaver4p = "images/Beaver/beaver4p_normal.plist";
+var p_beaver1pCry = "images/Beaver/beaver1p_cry.plist";
+var p_beaver2pCry = "images/Beaver/beaver2p_cry.plist";
+var p_beaver3pCry = "images/Beaver/beaver3p_cry.plist";
+var p_beaver4pCry = "images/Beaver/beaver4p_cry.plist";
+var p_beaver1pStun = "images/Beaver/beaver1p_stun.plist";
+var p_beaver2pStun = "images/Beaver/beaver2p_stun.plist";
+var p_beaver3pStun = "images/Beaver/beaver3p_stun.plist";
+var p_beaver4pStun = "images/Beaver/beaver4p_stun.plist";
+var p_beaverDevil = "images/Beaver/beaverDevil.plist";
+var p_beaverDevilStun = "images/Beaver/beaverDevil_stun.plist";
+var p_beaverDevilCry = "images/Beaver/beaverDevil_cry.plist";
+
+var p_woodBox = "images/wood/woodBox.plist";
+var p_woodSmall = "images/wood/woodSmall.plist";
+var p_woodMedium = "images/wood/woodMedium.plist";
+var p_woodBig = "images/wood/woodBig.plist";
+var p_woodBox_Broken = "images/wood/woodBox_Broken.plist";
+var p_woodSmall_Broken = "images/wood/woodSmall_Broken.plist";
+var p_woodMedium_Broken = "images/wood/woodMedium_Broken.plist";
+var p_woodBig_Broken = "images/wood/woodBig_Broken.plist";
 
 var s_gameFrame = "images/gameFrame.png";
 
@@ -55,12 +97,14 @@ s_BaseCamp[5] = "images/BaseCamp6.png";
 //var s_BaseCamp1 = "images/BaseCamp1.png";
 //var s_BaseCamp1 = "images/BaseCamp1.png";
 
-var s_Item_Bullet = "images/Item_Bullet.png";
-var s_Item_Shield = "images/Item_Shield.png";
-var s_Shield = "images/Shield.png";
-var s_Item_Lightning = "images/Item_Lightning.png";
-var s_Item_Devil = "images/Item_Devil.png";
-var s_LightningPrepare = "images/Lightning_Prepare.png";
+var s_Item_Bullet = "images/Item/Item_Bullet.png";
+var s_Item_Shield = "images/Item/Item_Shield.png";
+var s_Shield = "images/Item/Shield.png";
+var s_Item_Lightning = "images/Item/Item_Lightning.png";
+var s_Item_Devil = "images/Item/Item_Crocs.plist";
+var s_LightningPrepare = "images/Item/Lightning_Prepare.png";
+var p_fishMotion = "images/Item/fishMotion.plist";
+var p_waterBomb = "images/Item/waterBomb.plist";
 var s_Bar = "images/Bar.png";
 var s_TimerBoard = "images/TimerBoard.png";
 
@@ -94,7 +138,12 @@ var s_TempMenu = "images/temp.png";//TODO:REMOVE
 
 //sound
 	//BGM
+var bgm_mainBGM = "game/resources/sounds/bgm/mainBGM.mp3";
 var bgm_gameBGM = "game/resources/sounds/bgm/gameBGM.mp3";
+var bgm_storyBGM = "game/resources/sounds/bgm/storyBGM.mp3";
+	//button Sound
+var se_buttonMove = "game/resources/sounds/etc/button_move.mp3";
+var se_buttonSelect = "game/resources/sounds/etc/button_select.mp3";
 	//effectSound
 var se_beaverGetShot = "game/resources/sounds/effectSound/beaverGetShot.mp3";
 var se_beaverMeetTurtle = "game/resources/sounds/effectSound/beaverMeetTurtle.mp3";
@@ -125,6 +174,36 @@ var se_turtleComing = "game/resources/sounds/effectSound/turtleComing.mp3";
 var g_resources_splash = [
 	{src:s_SplashScreen1},
 	{src:s_SplashScreen2}
+];
+
+var g_resources_story = [
+	{src:s_story101},
+	{src:s_story102},
+	{src:s_story103},
+	{src:s_story104},
+	{src:s_story105},
+	{src:s_story106},
+	{src:s_story107},
+	{src:s_story108},
+	
+	{src:s_story201},
+	{src:s_story202},
+	{src:s_story203},
+	{src:s_story204},
+	
+	{src:s_story301},
+	{src:s_story302},
+	{src:s_story303},
+	{src:s_story304},
+	{src:s_story305},
+	
+	{src:s_story401},
+	{src:s_story402},
+	{src:s_story403},
+	{src:s_story404},
+	{src:s_story405},
+	{src:s_story406},
+	
 ];
 
 var g_resources_game = [
@@ -186,17 +265,32 @@ var g_resources_game = [
 	{src:p_turtle},
 	
     //plist
+    {src:p_beaver1p},
+    {src:p_beaver2p},
+    {src:p_beaver3p},
+    {src:p_beaver4p},
+    {src:p_beaver1pCry},
+    {src:p_beaver2pCry},
+    {src:p_beaver3pCry},
+    {src:p_beaver4pCry},
+    {src:p_beaver1pStun},
+    {src:p_beaver2pStun},
+    {src:p_beaver3pStun},
+    {src:p_beaver4pStun},
+    {src:p_beaverDevil},
+    {src:p_beaverDevilStun},
+	{src:p_beaverDevilCry},
+	{src:p_waterBomb},
+    {src:p_woodBox},
 	{src:p_woodSmall},
 	{src:p_woodMedium},
 	{src:p_woodBig},
-    {src:p_beaver1},
-    {src:p_beaverDevil},
+	{src:p_woodBox_Broken},
     {src:p_woodSmall_Broken},
     {src:p_woodMedium_Broken},
     {src:p_woodBig_Broken},
-	{src:p_waterBomb},
-	{src:p_fishMotion},
 
+	{src:p_fishMotion},
     //fnt
 	{src:s_Konqa32},
 	
@@ -204,6 +298,11 @@ var g_resources_game = [
 
     //bgm
 	{src:bgm_gameBGM},
+	{src:bgm_mainBGM},
+	{src:bgm_storyBGM},
+	//button sound
+	{src:se_buttonMove},
+	{src:se_buttonSelect},
     //effect
 	{src:se_beaverGetShot},
 	{src:se_beaverMeetTurtle},

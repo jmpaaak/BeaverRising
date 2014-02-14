@@ -3,6 +3,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 	_logo: null,
 	_menus: null,
 	_curMenu: 0,
+	_mainSoundID: null,
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
 		this._super();
@@ -10,7 +11,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
 		this.setColor(cc.c3b(255,255,255));
-		
+		this.playBgmSound("on");
 		//TESTING TITLE
 		// var label = cc.LabelTTF.create("MainMenuScreen Test:", "Marker Felt", 32);
         // this.addChild(label, 1);
@@ -26,9 +27,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
         // this.addChild(temp, 5);
         
         this._logo = cc.Sprite.create(s_Title1);
-        this._logo.setScaleX(0.4);//TODO
-        this._logo.setScaleY(0.4);//TODO
-        this._logo.setPosition(size.width/2, size.height - 200);
+        this._logo.setPosition(size.width/2, (size.height/10) * 8);
         this.addChild(this._logo);
         
         var bigger = cc.ScaleBy.create(0.5, 1.2, 0.9);
@@ -60,11 +59,11 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
         				[optionNormal, optionSelected]
         			  ];
 
-		singleGameNormal.setPosition((size.width/6) * 1+100, size.height/4);
-		duelGameNormal.setPosition((size.width/6) * 3, size.height/2-100);
-		howToPlayNormal.setPosition((size.width/6) * 3+400, size.height/4);
-		creditNormal.setPosition((size.width/6) * 4+200, size.height/2);
-		optionNormal.setPosition((size.width/6) * 5+200, size.height/3);
+		singleGameNormal.setPosition((size.width/10) * 2, (size.height/10) * 3);
+		duelGameNormal.setPosition((size.width/10) * 5 - 50, (size.height/10) * 3);
+		howToPlayNormal.setPosition((size.width/10) * 7, (size.height/10) * 3);
+		creditNormal.setPosition((size.width/10) * 8, (size.height/10) * 5);
+		optionNormal.setPosition((size.width/10) * 9, (size.height/10) * 3);
 		
 		for(var i=0; i<this._menus.length; i++)
 			this.addChild(this._menus[i][0]);
@@ -101,10 +100,12 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 			//player1		
 			case cc.KEY.left:
 				this._curMenu--;
+				this.buttonSound("move");
 				this._changeMenu();
 				break;
 			case cc.KEY.right:
 				this._curMenu++;
+				this.buttonSound("move");
 				this._changeMenu();
 				break;
 			case cc.KEY.ctrl:
@@ -113,6 +114,8 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 					case 0:
 						break;
 					case 1:
+						this.buttonSound("select");
+						this.playBgmSound("off");
 						classes.GameController.getInstance().setCurScene(classes.scenes.DuelGameScene.getInstance());
 						break;
 					case 2:
@@ -123,6 +126,19 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 						break;
 				}
 				break;
+		}
+	},
+	playBgmSound: function(str){
+		if(str == "on") this._mainSoundID = cc.AudioEngine.getInstance().playMusic(bgm_mainBGM,true);
+		else cc.AudioEngine.getInstance().stopMusic(this._mainSoundID);
+	},
+	
+	buttonSound: function(str){
+		if(str == "move"){
+			cc.AudioEngine.getInstance().playEffect(se_buttonMove);
+		}
+		else{
+			cc.AudioEngine.getInstance().playEffect(se_buttonSelect);
 		}
 	}
 });
