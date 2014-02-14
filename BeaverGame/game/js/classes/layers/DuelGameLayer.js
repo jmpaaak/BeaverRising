@@ -97,7 +97,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								beaver.beDevil();
 								target.turnNormalAndRun();
 							}
-							else
+							else if(!beaver.getWillDevil() && !target.getWillDevil())
 							{
 								beaver.stun();
 								target.stun();
