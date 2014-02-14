@@ -859,6 +859,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getAngle: function () {
     	return this._currentAngle;
     },
+    setIsStart: function (bool) {
+		this._startFlag = bool;
+	},
     setStartFlag: function(bool){
     	this._startFlag = bool;
     },
@@ -941,7 +944,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			cc.AudioEngine.getInstance().playEffect(se_beaverGetShot);
 		}
     }
-
+	
 });
 
 

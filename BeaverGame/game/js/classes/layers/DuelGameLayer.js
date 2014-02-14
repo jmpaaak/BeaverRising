@@ -7,6 +7,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	_twigPopCount: 0,
 	destroyList: [],
 	_isStart: false,
+	_isEnd: false,
 	_devilOn: false,
 	_devilItemOn: false,
 	_turtleSoundOn: false,
@@ -256,16 +257,17 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 						case "Twig":
 						if(HomeFix.IsSensor())
 						{
-							Home.twigBecomeScore(target._tailIndex);
+							Home.addingPercent(target.getType());
 							if(Home._finalTailIndex == target._tailIndex)
 							{
-								var index = target.getBeaverID();
-								that._beavers[index].removeTailAtIndex(0);
-								that._beavers[index].settingOut(true);
 								//sound effect
 								if (BG.SOUND) {
 									cc.AudioEngine.getInstance().playEffect(se_houseBuilding);
 								}
+								var index = target.getBeaverID();
+								that._beavers[index].removeTailAtIndex(0);
+								that._beavers[index].settingOut(true);
+								Home.realAdding();
 							}
 						}
 						break;
@@ -341,10 +343,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	       this._beavers[i] = new classes.sprites.Beaver(this, i);
 	       
 
-	    this._baseCamp[0] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME1);
-	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH ,size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME2);
-	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME3);
-	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME4);
+	    this._baseCamp[1] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME1);
+	    this._baseCamp[2] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH ,size.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME2);
+	    this._baseCamp[3] = new classes.sprites.BaseCamp(this,cc.p(BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME3);
+	    this._baseCamp[4] = new classes.sprites.BaseCamp(this,cc.p(size.width - BG.GAME_UI.OUTTER_FRAME.WIDTH, BG.GAME_UI.OUTTER_FRAME.HEIGHT), BG.BASECAMP.HOME4);
 	   
 	    this._timer = new classes.sprites.TimerBoard(this);
 	    
@@ -442,10 +444,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	update: function(dt) {
 		if(this._timer.getTime() === 300)
 		{
-			this._baseCamp[0].setColor();
 			this._baseCamp[1].setColor();
 			this._baseCamp[2].setColor();
 			this._baseCamp[3].setColor();
+			this._baseCamp[4].setColor();
 			this._timer.setColor();
 		}
 		if(this._timer.getTime() === 30 && !this._timerWarningOn)
@@ -467,16 +469,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			this._timerWarningOn = true;
 		}
 		
-		if(this._timer.getTime() <= 0){			
-			if(!this.raceFinish){				
-				for (var i = 1; i < 5; i++) {
-					this._beavers[i].setStartFlag(false);
-				}
-				cc.AudioEngine.getInstance().stopEffect(this._timerSoundID);
-				cc.AudioEngine.getInstance().stopMusic(this._bgmID);
-				this.raceFinish = true; 
-				this._timer.timeOver(true);
-			}
+		//_isEnd: only for this
+		if(this._timer.getTime() === 0 && !this._isEnd) {
+    		cc.AudioEngine.getInstance().stopEffect(this._timerSoundID);
+			cc.AudioEngine.getInstance().stopMusic(this._bgmID);
+    		this.gameEnd();
+    		this._isEnd = true;
 		}
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
@@ -507,6 +505,11 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//Reset the array
 		this.destroyList.length = 0; 
 		
+
+		if(this._itemPopCount === 120) //every 2s (p=0.5) 
+			this._itemPopCount = 0, this.popItem(), this.popObstacle();
+		this._itemPopCount++;
+
 		
 		if(this._timer.getTime() <= this._timer.getTotalTime() - 3){
 			if(this._itemPopCount === 120) //every 2s (p=0.5) 
@@ -530,5 +533,22 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this._beavers[2].handleKeyDown(e);
 		this._beavers[3].handleKeyDown(e);
 		this._beavers[4].handleKeyDown(e);
+	},
+	gameEnd: function () {
+		var that = this;
+		this._isStart = false;
+        var over = cc.Sprite.create(s_Over);
+        over.setPosition(1920 / 2, 1080 / 2);
+        this.addChild(over, 5);
+		for(beav in this._beavers)
+			this._beavers[beav].setIsStart(false);
+		this.runAction(cc.Sequence.create(
+			cc.DelayTime.create(2.0),
+			cc.CallFunc.create(function () {
+				classes.GameController.getInstance().setCurScene(
+					new classes.scenes.DuelGameResultScene(that._baseCamp)
+				);
+			})
+		));
 	}
 });

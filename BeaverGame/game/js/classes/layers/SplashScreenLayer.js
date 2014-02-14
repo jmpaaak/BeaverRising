@@ -9,12 +9,6 @@ classes.layers.SplashScreenLayer = cc.LayerColor.extend({
 		this.setPosition(cc.p(0,0));
 		this.setColor(cc.c3b(255,255,255));
 		
-		//TESTING TITLE 
-		var label = cc.LabelTTF.create("SplashScreen Test:", "Marker Felt", 32);
-        this.addChild(label, 1);
-        label.setColor(cc.c3b(0, 255, 255));
-        label.setPosition(size.width / 2, size.height - 50);
-        
         this._screens[0] = cc.Sprite.create(s_SplashScreen1); // team name
         this._screens[1] = cc.Sprite.create(s_SplashScreen2); // media
         //this._screens[2] = cc.Sprite.create(s_SplashScreen3); // etc

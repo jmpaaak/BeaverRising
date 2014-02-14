@@ -1,16 +1,17 @@
 classes.sprites.ScoreBoard = cc.Sprite.extend({
-	_labelScore : 0,
-	_totalScore : 0,
-	_baseCampPos : null,
-	_spriteWidth_half : null,
-	_spriteWHeight_half : null,
+	_baseCamp: null,
+	_baseCampPos: null,
+	_spriteWidth_half: null,
+	_spriteWHeight_half: null,
 	
 	_bar: null,
 	_barSprite: null,
 	_percentage: 0,
-	ctor: function (layer,Pos,id) {
+	ctor: function (layer,home,id) {
         this._super();
-		this._baseCampPos = Pos;
+        this._baseCamp = home;
+		this._baseCampPos = home.getPosition();
+		var Pos = this._baseCampPos;
         this.initWithFile(s_ScoreBoard);
         
         this._spriteWidth_half = this.getTextureRect().width / 2;
@@ -53,33 +54,39 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
     },
 
     init : function () {
-    	this._labelScore = cc.LabelBMFont.create("Score :" + this._totalScore, s_Konqa32);
+    	this._labelScore = cc.LabelBMFont.create("Beaver Rising", s_Konqa32);
         this._labelScore.setPosition(this._spriteWidth_half, this._spriteHeight_half);
-        this.addChild(this._labelScore, 2);
-        this._barSprite = new cc.Sprite.create(s_Bar);
+        this._barSprite = new cc.Sprite.create(s_Bar[0]);
         this._bar = cc.ProgressTimer.create(this._barSprite);
         this._bar.setType(cc.PROGRESS_TIMER_TYPE_BAR);
+        this._bar.setMidpoint(cc.p(0,1));
+        this._bar.setBarChangeRate(cc.p(1,0));
         this._bar.setPosition(this._spriteWidth_half, this._spriteHeight_half);
-        // this._bar.barChangeRate = cc.p(0,this._barSprite.getTextureRect().height);
-        this._bar.midpoint = cc.p(0, this._barSprite.getTextureRect().height);
+        this._bar.addChild(this._labelScore, 300);
         this.addChild(this._bar, 2);
-        //this._labelScore.setColor(cc.c3(255,0,0));
     },
-
-	getScore : function(){
-			return this._totalScore;
-	},
-	addScore : function (num) { //TODO: CASES
+	realAdd: function (num) {
+		var scaleAction = cc.ScaleTo.create(0.1, 1.5);
+		var reScale = cc.ScaleTo.create(0.1, 1);
 		this._percentage += num;
+		if(this._percentage >= 100)
+		{
+			this._percentage = this._percentage - 100;
+			this._baseCamp.levelUp();
+			var lev = this._baseCamp.getLevel();
+			if(lev === 5) return; //TODO: game END
+			var newBar = cc.Sprite.create(s_Bar[lev]);
+			this._bar.setSprite(newBar);
+		}
 		this._bar.setPercentage(this._percentage);
-		this._totalScore+=num;
-    	this._labelScore.setString("Score :" + this._totalScore); 	
-	},
-	_subScore : function (num) {
-			this._totalScore-=num;
+    	this._labelScore.setString("COMPLETE " + this._percentage+"%");
+    	this._labelScore.runAction(cc.Sequence.create(
+    		scaleAction,
+    		reScale
+    	));
 	},
 	setColor: function () {		
-		this._labelScore.setColor(cc.c3(255,0,0));
+		this._labelScore.setColor(cc.c3(0,0,0));
 	}
 	
 });

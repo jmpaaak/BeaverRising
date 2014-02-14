@@ -126,7 +126,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 	       	cc.CallFunc.create(function () {
 	       		
 				cc.LoaderScene.preload(g_resources_game, function() {
-					cc.AudioEngine.getInstance().stopMusic(that._storySoundID,true);
+					cc.AudioEngine.getInstance().stopMusic(that._storySoundID);
 					controller.setCurScene(classes.scenes.MainMenuScene.getInstance());
 				}, this);
 				return;

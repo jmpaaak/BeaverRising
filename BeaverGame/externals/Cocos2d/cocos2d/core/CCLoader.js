@@ -407,7 +407,9 @@ cc.LoaderScene = cc.Scene.extend(/** @lends cc.LoaderScene# */{
     _bgLayer: null,
     _label: null,
     _winSize:null,
-
+    
+    action: null,
+	loadingSprite: null,
     /**
      * Constructor
      */
@@ -460,9 +462,9 @@ cc.LoaderScene = cc.Scene.extend(/** @lends cc.LoaderScene# */{
 			this._logo[i] = cc.SpriteFrame.createWithTexture(this._texture2d[i],cc.rect(0,0,1920,1080));
         }
 	        
-		var loadingSprite = cc.Sprite.createWithSpriteFrame(this._logo[1]);
-		loadingSprite.setPosition(centerPos);
-		this._bgLayer.addChild(loadingSprite, 10); 
+		this.loadingSprite = cc.Sprite.createWithSpriteFrame(this._logo[1]);
+		this.loadingSprite.setPosition(centerPos);
+		this._bgLayer.addChild(this.loadingSprite, 10); 
     
 	    var animFrames = [];
         for(var i = 1; i < 5 ; i++){
@@ -472,8 +474,7 @@ cc.LoaderScene = cc.Scene.extend(/** @lends cc.LoaderScene# */{
         var animation = cc.Animation.create(animFrames, 0.2);
         var animate = cc.Animate.create(animation);
         
-		var action = cc.RepeatForever.create(animate);
-        loadingSprite.runAction(action);
+		this.action = cc.RepeatForever.create(animate);
 	        
 	        
     },
@@ -505,6 +506,7 @@ cc.LoaderScene = cc.Scene.extend(/** @lends cc.LoaderScene# */{
         this.unschedule(this._startLoading);
         cc.Loader.preload(this.resources, this.selector, this.target);
         this.schedule(this._updatePercent);
+        this.loadingSprite.runAction(this.action);
     },
 
     _updatePercent: function () {

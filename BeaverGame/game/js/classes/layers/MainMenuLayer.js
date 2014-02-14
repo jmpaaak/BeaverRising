@@ -7,7 +7,6 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
 		this._super();
-		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
 		this.setColor(cc.c3b(255,255,255));
@@ -74,7 +73,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 		
 		return true;
 	},
-	_changeMenu: function(dt) {
+	_changeMenu: function() {
 		if(this._curMenu < 0) this._curMenu = this._menus.length-1;
 		if(this._curMenu > this._menus.length-1) this._curMenu = 0;
 		
@@ -98,17 +97,20 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 		switch(e)
 		{
 			//player1		
-			case cc.KEY.left:
+			case BG.EVENT.PLAYER1.LEFT[0]:
+			case BG.EVENT.PLAYER1.LEFT[1]:
 				this._curMenu--;
 				this.buttonSound("move");
 				this._changeMenu();
 				break;
-			case cc.KEY.right:
+			case BG.EVENT.PLAYER1.RIGHT[0]:
+			case BG.EVENT.PLAYER1.RIGHT[1]:
 				this._curMenu++;
 				this.buttonSound("move");
 				this._changeMenu();
 				break;
-			case cc.KEY.ctrl:
+			case BG.EVENT.PLAYER1.ITEM[0]:
+			case BG.EVENT.PLAYER1.ITEM[1]:
 				switch(this._curMenu)
 				{
 					case 0:
