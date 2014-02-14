@@ -3,7 +3,7 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
 	_timeLabel: null,
 	_curTime: 999, //init
 	_curLayer: null,
-	
+
 	ctor: function (layer) {
 		var size = cc.Director.getInstance().getWinSize();
         this._super();
@@ -11,6 +11,7 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
         this.initWithFile(s_TimerBoard);
        	this.setPosition(cc.p(size.width/2, size.height - (BG.GAME_UI.OUTTER_FRAME.HEIGHT / 2) -10 ) ); //TODO: -40
        	this._limitedTime = 30;
+
    		this._addTimeLabel();
         layer.addChild(this, 60);
         
@@ -23,6 +24,7 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
         this.addChild(this._timeLabel, 60);
     },
     _tick: function (dt) {
+
     	if(this._curTime === 0) return;
     	if(this._curLayer.getIsStart())
     	{
@@ -38,6 +40,9 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
     },
     getTime: function () {
     	return this._curTime;
+    },
+    getTotalTime: function(){
+    	return this._limitedTime;
     },
     setColor: function () {
         this._timeLabel.setColor(cc.c3(255,0,0));

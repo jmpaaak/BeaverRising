@@ -29,8 +29,8 @@ classes.layers.SplashScreenLayer = cc.LayerColor.extend({
 		{
 			if(this._curScreen === this._screens.length) 
 			{
-				cc.LoaderScene.preload(g_resources_game, function() {
-					controller.setCurScene(classes.scenes.MainMenuScene.getInstance());
+				cc.LoaderScene.preload(g_resources_story, function() {
+					controller.setCurScene(classes.scenes.StoryScene.getInstance());
 				}, this); 
 				return;
 			}

@@ -25,14 +25,17 @@ classes.sprites.Twig = cc.Sprite.extend({
         this.initDestroySprite();
         switch(type)
         {
+        	case BG.WOOD_TYPE.BOX:
+        		this.initWithSpriteFrameName("woodBox1.png");
+        		break;
         	case BG.WOOD_TYPE.SMALL:
-        		this.initWithSpriteFrameName("weak_001.png");
+        		this.initWithSpriteFrameName("woodSmall1.png");
         		break;
         	case BG.WOOD_TYPE.MEDIUM:
-        		this.initWithSpriteFrameName("Branch_001.png");
+        		this.initWithSpriteFrameName("woodMedium1.png");
         		break;
         	case BG.WOOD_TYPE.BIG:
-        		this.initWithSpriteFrameName("Branch_001.png");
+        		this.initWithSpriteFrameName("woodBig1.png");
         		break;
         }
 		this._shieldTex = cc.Sprite.create(s_Shield);
@@ -75,9 +78,6 @@ classes.sprites.Twig = cc.Sprite.extend({
         body.CreateFixture(fixtureDef);
         
         this._body = body;
-        var rand = 360*Math.random();
-        
-        this._body.SetAngle(rand);
     },
     _addTailTwig: function (world, p) {
     	var tex = this;
@@ -108,13 +108,27 @@ classes.sprites.Twig = cc.Sprite.extend({
         this._body = body;
     },
     initSprite: function () {
-    	if(this._type === BG.WOOD_TYPE.SMALL)
+    	if(this._type === BG.WOOD_TYPE.BOX)
+    	{
+	    	// create twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodBox);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "woodBox" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.5);
+	        this._initAction = cc.RepeatForever.create(cc.Animate.create(animation));
+		    this.runAction(this._initAction);
+        }
+    	else if(this._type === BG.WOOD_TYPE.SMALL)
     	{
 	    	// create twig sprite sheet
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodSmall);
 	        var animFrames = [];
 	        for(var i = 1; i < 5; i++) {
-	            var str = "weak_00" + i + ".png";
+	            var str = "woodSmall" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -127,8 +141,8 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        // create weak twig sprite sheet
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodMedium);
 	        var animFrames = [];
-	        for(var i = 1; i < 7; i++) {
-	            var str = "Branch_00" + i + ".png";
+	        for(var i = 1; i < 5; i++) {
+	            var str = "woodMedium" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -142,7 +156,7 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodBig);
 	        var animFrames = [];
 	        for(var i = 1; i < 7; i++) {
-	            var str = "Branch_00" + i + ".png";
+	            var str = "woodBig" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -152,13 +166,26 @@ classes.sprites.Twig = cc.Sprite.extend({
 	    }
     },
     initDestroySprite: function () {
-    	if(this._type === BG.WOOD_TYPE.SMALL)
+    	if(this._type === BG.WOOD_TYPE.BOX)
+    	{
+	    	// create broken twig sprite sheet
+	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodBox_Broken);
+	        var animFrames = [];
+	        for(var i = 1; i < 5; i++) {
+	            var str = "woodBox_Broken" + i + ".png";
+	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+	            animFrames.push(frame);
+	        }
+	        var animation = cc.Animation.create(animFrames, 0.2);
+	        this._destroyAction = cc.Repeat.create(cc.Animate.create(animation), 1);
+        }
+    	else if(this._type === BG.WOOD_TYPE.SMALL)
     	{
 	    	// create broken twig sprite sheet
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodSmall_Broken);
 	        var animFrames = [];
-	        for(var i = 1; i < 6; i++) {
-	            var str = "brokenWeak_00" + i + ".png";
+	        for(var i = 1; i < 5; i++) {
+	            var str = "woodSmall_Broken" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -171,7 +198,7 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodMedium_Broken);
 	        var animFrames = [];
 	        for(var i = 1; i < 5; i++) {
-	            var str = "brokenBranch_00" + i + ".png";
+	            var str = "woodMedium_Broken" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }
@@ -184,7 +211,7 @@ classes.sprites.Twig = cc.Sprite.extend({
 	        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_woodBig_Broken);
 	        var animFrames = [];
 	        for(var i = 1; i < 5; i++) {
-	            var str = "brokenBranch_00" + i + ".png";
+	            var str = "woodBig_Broken" + i + ".png";
 	            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 	            animFrames.push(frame);
 	        }

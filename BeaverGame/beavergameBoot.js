@@ -63,12 +63,15 @@
         	'game/js/classes/layers/MainMenuLayer.js',
         	'game/js/classes/layers/ReadyLayer.js',
         	'game/js/classes/layers/DuelGameResultLayer.js',
-        	
+        	'game/js/classes/layers/StoryLayer.js',
+	
         	'game/js/classes/scenes/scenes.js', //namespace
         	'game/js/classes/scenes/DuelGameScene.js',
         	'game/js/classes/scenes/SplashScreenScene.js',
         	'game/js/classes/scenes/MainMenuScene.js',
-        	'game/js/classes/scenes/DuelGameResultScene.js'
+        	'game/js/classes/scenes/DuelGameResultScene.js',
+        	'game/js/classes/scenes/StoryScene.js'
+
         	
         ]
     };

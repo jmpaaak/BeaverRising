@@ -47,16 +47,24 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _lightningOn : false,
     _shieldingOn : false,
     _isStun: false,
-    _goHomeFlag: false,
+    _returningHome: false,
     _willDevil: false,
     _isDevil: false,
     
     //meeting obstacles
 	_turtleCountFlag : false,
     //sprite
+   	_normalFileName: null,
+   	_cryFileName: null,
+   	_stunFileName: null,
     _curAction: null,
     _beaverInitAction: null,
-    _beaverDevilAction: null,
+    _beaverCryAction: null,
+    _beaverStunAction: null,
+    _devilAction: null,
+    _devilCryAction: null,
+    _devilStunAction: null,
+
     
     count: null,
 
@@ -92,30 +100,114 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     initSprite : function () {
     	// create beaver init sprite sheet
-        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaver1);
+    	var normalPlist = null;
+    	var cryPlist = null;
+    	var stunPlist = null;
+    	switch(this._id){
+			case BG.CATEGORY.PLAYER1:
+				normalPlist = p_beaver1p;
+				cryPlist = p_beaver1pCry;
+				stunPlist = p_beaver1pStun;
+				this._normalFileName = "beaver1p_normal";
+				this._cryFileName = "beaver1p_cry";
+				this._stunFileName = "beaver1p_stun";
+				break;
+			case BG.CATEGORY.PLAYER2:
+				normalPlist = p_beaver2p;
+				cryPlist = p_beaver2pCry;
+				stunPlist = p_beaver2pStun;
+				this._normalFileName = "beaver2p_normal";
+				this._cryFileName = "beaver2p_cry";
+				this._stunFileName = "beaver2p_stun";
+				break;
+			case BG.CATEGORY.PLAYER3:
+				normalPlist = p_beaver3p;
+				cryPlist = p_beaver3pCry;
+				stunPlist = p_beaver3pStun;
+				this._normalFileName = "beaver3p_normal";
+				this._cryFileName = "beaver3p_cry";
+				this._stunFileName = "beaver3p_stun";
+				break;
+			case BG.CATEGORY.PLAYER4:
+				normalPlist = p_beaver4p;
+				cryPlist = p_beaver4pCry;
+				stunPlist = p_beaver4pStun;
+				this._normalFileName = "beaver4p_normal";
+				this._cryFileName = "beaver4p_cry";
+				this._stunFileName = "beaver4p_stun";
+				break;
+    	}
+    	
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(normalPlist);
         var animFrames = [];
         for(var i = 1; i < 25; i++) {
-            var str = "beaver_normal" + i + ".png";
+            var str = this._normalFileName + i + ".png";
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
         var animation = cc.Animation.create(animFrames, 0.05);
         this._beaverInitAction = cc.RepeatForever.create(cc.Animate.create(animation));
-        
-        // create beaver devil sprite sheet
-        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaverDevil);
+        this.initWithSpriteFrameName(this._normalFileName+"1.png");
+        this.runAction(this._beaverInitAction);
+        this._curAction = this._beaverInitAction;
+
+
+        // create beaver crying sprite sheet ,starts at contact listener(bullet part)
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(cryPlist);
         var animFrames = [];
         for(var i = 1; i < 25; i++) {
-            var str = "beaver_devil" + i + ".png";
+            var str = this._cryFileName + i + ".png";
             var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
             animFrames.push(frame);
         }
         var animation = cc.Animation.create(animFrames, 0.05);
-        this._beaverDevilAction = cc.RepeatForever.create(cc.Animate.create(animation));
+        this._beaverCryAction = cc.RepeatForever.create(cc.Animate.create(animation));
         
-        this.initWithSpriteFrameName("beaver_normal1.png");
-        this.runAction(this._beaverInitAction);
-        this._curAction = this._beaverInitAction;
+        
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(stunPlist);
+        var animFrames = [];
+        for(var i = 1; i < 6; i++) {
+            var str = this._stunFileName + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+        var animation = cc.Animation.create(animFrames, 0.05);
+        this._beaverStunAction = cc.RepeatForever.create(cc.Animate.create(animation));
+        
+        // create beaver devil sprite sheet
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaverDevil);
+        var animFrames = [];
+        for(var i = 1; i < 9; i++) {
+            var str = "beaverDevil" + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+        var animation = cc.Animation.create(animFrames, 0.05);
+        this._devilAction = cc.RepeatForever.create(cc.Animate.create(animation));
+
+
+        // create beaver devil sprite sheet
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaverDevilCry);
+        var animFrames = [];
+        for(var i = 1; i < 6; i++) {
+            var str = "beaverDevil_cry" + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+        var animation = cc.Animation.create(animFrames, 0.05);
+        this._devilCryAction = cc.RepeatForever.create(cc.Animate.create(animation));
+
+        // create beaver devil sprite sheet
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(p_beaverDevilStun);
+        var animFrames = [];
+        for(var i = 1; i < 6; i++) {
+            var str = "beaverDevil_stun" + i + ".png";
+            var frame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+        var animation = cc.Animation.create(animFrames, 0.05);
+        this._devilStunAction = cc.RepeatForever.create(cc.Animate.create(animation));
+        
     },
     changeAction: function (str) {
     	this.stopAction(this._curAction);
@@ -125,11 +217,27 @@ classes.sprites.Beaver = cc.Sprite.extend({
     			this.runAction(this._beaverInitAction);
     			this._curAction = this._beaverInitAction;
     			break;
+    		case "cry":
+    			this.runAction(this._beaverCryAction);
+    			this._curAction = this._beaverCryAction;
+    			break;
+    		case "stun":
+    			this.runAction(this._beaverStunAction);
+    			this._curAction = this._beaverStunAction;
+    			break;
     		case "devil":
-    			this.runAction(this._beaverDevilAction);
-    			this._curAction = this._beaverDevilAction;
+    			this.runAction(this._devilAction);
+    			this._curAction = this._devilAction;
     			//this.initWithFile(s_Devil);
     			//this.runAction(this._beaverAddingAction); //TODO: Lightning, lostTail, stun  
+    			break;
+    		case "devilCry":
+    		    this.runAction(this._devilCryAction);
+    			this._curAction = this._devilCryAction;
+    			break;
+    		case "devilStun":
+    			this.runAction(this._devilStunAction);
+    			this._curAction = this._devilStunAction;
     			break;
     	}
 
@@ -162,7 +270,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		    this._twigs[this._twigs.length] = twig;
 		    this._curLayer.removeChild(twig);
 		    this._curLayer.destroyList.push(twig.getBody());
-	    	console.log("Beaver id: "+this._id+" get Twig("+twig.getType()+")");
 	    	twig = null;
 	    	
 	    	var willGetScore = cc.LabelBMFont.create("+" + this._twigs.length, s_Konqa32);
@@ -245,52 +352,95 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    {
 			this._isStun = true;
 			this._curVelocity = 0;
-			console.log("stun 2s beaver: " + this._id);
 			this.runAction(cc.Sequence.create(
-			//TODO: ADD SPRITE
-			cc.DelayTime.create(1.5, 5), cc.CallFunc.create(function() {
-				if(str === "manual") return;				
+			cc.CallFunc.create(function() {
+				this.stunSound();
+				if(this._isDevil) this.changeAction("devilStun");
+				else if(this._willDevil);
+				else this.changeAction("stun");
+			},this),
+			cc.DelayTime.create(3), 
+			cc.CallFunc.create(function() {
+				if(str === "manual") return;	
 				this._curVelocity = BG.BEAVER_SPEED.NORMAL;
-				this._isStun = false;
 				this._move(); 
+				if(!this._willDevil) this._isStun = false;
+				if(this._isDevil) this.changeAction("devil"); 
+				else this.changeAction("basic");
 			}, this))); 
 		 }
-		 
+    },
+    cryAction: function(){
+		this.runAction(cc.Sequence.create(
+			cc.CallFunc.create(function(){
+			if (this._isDevil)
+				this.changeAction("devilCry");
+			else
+				this.changeAction("cry");			
+			},this),
+			cc.DelayTime.create(2),
+			cc.CallFunc.create(function(){
+			if (this._isDevil)
+				this.changeAction("devil");
+			else
+				this.changeAction("basic");	
+			},this)
+			)); 
     },
     removeTailAtIndex: function (index) {
     	for(var at = index; at<this._twigs.length; at++)
     	{
-    		console.log("remove: "+at);
+    		// console.log("remove: "+at);
     		this._twigs[at].destroy();
     	}
     	this._twigs.splice(index, this._twigs.length-index);
     },
     returnToBase: function () {
-    	this._goHomeFlag = true;
-    	this.removeTailAtIndex(0);
-    },
+		if (!this._returningHome) {
+			this._returningHome = true;
+			this.removeTailAtIndex(0);
+			var that = this;
+			this.runAction(cc.Sequence.create(cc.CallFunc.create(function() {
+				that.cryingSound();
+				that._curVelocity = 0;
+				if(!that._isDevil) that.changeAction("cry");
+			}), cc.FadeOut.create(2), cc.CallFunc.create(function() {
+				that._body.SetPosition(that._homeInPoint);
+				that.removeTailAtIndex(0);
+				if(!that._isDevil) that.changeAction("basic");
+				that._returningHome = false;
+			}), cc.FadeIn.create(0.2)));
+
+		}
+
+		},
+
+    
     beDevil: function () {
     	this.stun("manual");
     	this._willDevil = true;
+		this.removeTailAtIndex(0);
     	var that = this;
-    	var devil = function(){that.initWithSpriteFrameName("beaver_devil1.png");};
-    	var normal = function(){that.initWithSpriteFrameName("beaver_normal1.png");};
+    	var devil = function(){that.initWithSpriteFrameName("beaverDevil1.png");};
+    	var normal = function(){that.initWithSpriteFrameName(that._normalFileName+"1.png");};
     	this.runAction(cc.Sequence.create(
-	  		cc.DelayTime.create(0.8), //
+    		cc.CallFunc.create(function(){
+    			that.stopAction(that._curAction);
+    		}),
 	  		cc.CallFunc.create(devil),
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.5), //
 	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.6), //
+	  		cc.DelayTime.create(0.4), //
 	  		cc.CallFunc.create(devil),
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.3),
 	  		cc.CallFunc.create(normal),
 	  		cc.DelayTime.create(0.3), //
 	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.2),
 	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.1), //
+	  		cc.DelayTime.create(0.2), //
 	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.2),
 	  		cc.CallFunc.create(normal),
 	  		cc.DelayTime.create(0.1),
 	  		cc.CallFunc.create(devil),
@@ -298,34 +448,31 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	  		cc.CallFunc.create(normal),
 	  		cc.DelayTime.create(0.1), //
 	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.05),
 	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.05),
 	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.05),
+	  		cc.CallFunc.create(normal),  		
+	  		cc.DelayTime.create(0.05),
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.05),
 	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.1),
+	  		cc.DelayTime.create(0.05),
 	  		cc.CallFunc.create(devil),
-	  		cc.DelayTime.create(0.1),
-	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.1), //
-	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.1),
-	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.1),
-	  		cc.CallFunc.create(that.changeAction("devil")),
 	  		cc.CallFunc.create(function () {
 	  			//for removing manual stun
+				that._isDevil = true;
+				that._willDevil = false;
+	  			that.changeAction("devil");
 		    	that._curVelocity = BG.BEAVER_SPEED.NORMAL;
 				that._isStun = false;
 				that._move();
-				that._isDevil = true;
-				that.removeTailAtIndex(0);
 	  		})
     	));
     },
     turnNormalAndRun: function () {
-    	if(this._willDevil && this._isDevil) 
+    	if(!this._willDevil && this._isDevil) 
     	{
     		this._willDevil = false; 
     		this._isDevil = false;
@@ -361,11 +508,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        	this._settingHomeOut();
 	        	this.count.moveAllowCount++;
 	        }
-	        else if(this._goHomeFlag)
-	        {
-	        	this._body.SetPosition(this._homeInPoint);
-				this._goHomeFlag = false;
-	        }
 	        else
 	        {
 	        	this._move();
@@ -393,8 +535,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
         
         //using lightning
         if(this._lightningOn) {
-        	
-        	if(this.count.lightningCount >= 30 && this.count.lightningCount < 40) {
+        	if(this._isHome || this._isStun || this._willDevil){
+        		this._lightningOn = false;
+        		this.count.lightningCount = 0;
+        		return;
+        		} 
+        	else if(this.count.lightningCount >= 30 && this.count.lightningCount < 40) {
         		this._curVelocity+= BG.BEAVER_SPEED.SUPERFAST;
         	}
         	else if(this.count.lightningCount >= 40) {
@@ -570,7 +716,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         }
     },
     _useItem: function () {
-    	if(this._itemList.length === 0 || this._isStun) return;
+    	if(this._itemList.length === 0 || this._isStun || this._willDevil) return;
     	var itemSound;
     	switch(this._itemList[0].getType())
     	{
@@ -631,7 +777,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			if(curAngle > 360) curAngle = 5;
 	        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180));
 	        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
-	        //console.log(" a: "+curAngle+" vx: "+curVector.x+" vy: "+curVector.y);
 	        this._vector = curVector;
 	        this._currentAngle = curAngle;
 	        this._body.SetLinearVelocity(this._vector);
@@ -653,12 +798,24 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    	{
 	    		if (!this._twigs[i].getIsStuck()) {
 					this._twigs[i].setIsStuck(true);
-					var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], this._twigs[i].getType(), true, this._id);
+					
+					var woodType = null;
+					
+					if(this._twigs.length <= BG.WOOD_LENGTH.MEDIUM){
+						woodType = BG.WOOD_TYPE.SMALL; 
+					}
+					else if(this._twigs.length > BG.WOOD_LENGTH.MEDIUM 
+						 && this._twigs.length < BG.WOOD_LENGTH.BIG ){
+						woodType = 	BG.WOOD_TYPE.MEDIUM; 
+					}
+					else{
+						woodType = 	BG.WOOD_TYPE.BIG;						
+					}
+					var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], woodType, true, this._id);
 					newTwig.setTailIndex(i);
 					this._twigs[i] = newTwig;
 				}
 				var p = this._positions[(i*2)+2];
-				// console.log(this._id+" "+p.x+" "+p.y);
 				this._twigs[i].getBody().SetPosition(p);
 				this._twigs[i].setRotate();
 	    	}
@@ -703,6 +860,9 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	return this._currentAngle;
     },
     setIsStart: function (bool) {
+		this._startFlag = bool;
+	},
+    setStartFlag: function(bool){
     	this._startFlag = bool;
     },
     getIsStart: function () {
@@ -720,7 +880,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getIsShielding: function () {
     	return this._isShielding;
     },
-
     settingIn : function(bool){
     	this._setInFlag = bool;
     },
@@ -730,17 +889,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getInFlag : function(){
     	return this._setInFlag;
     },
-    
     setIsHome : function(bool){
     	this._isHome = bool;
     },
     getIsHome : function(){
     	return this._isHome;
     },
-    
     _settingHomeIn : function () {
     	if(!this._isHome) this._isHome = true;
-    	if(this._lightningOn == true) this._lightningOn = false;
     	this._body.SetPosition(this._homeInPoint);
     	this._curVelocity = 0;
 	    var curVector = {x:0,y:0};
@@ -764,8 +920,29 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._body.SetLinearVelocity(this._vector);
     },
     meetingTurtle : function(){
-    	if(!this._isDevil) this._curVelocity = BG.BEAVER_SPEED.SLOW;
+    	if(this._isDevil || this._isStun) return; 
+    	this._curVelocity = BG.BEAVER_SPEED.SLOW;
     	this._turtleCountFlag = true;
+    },
+    
+    
+    
+    ///////////beaver sound function
+    
+    cryingSound : function() {
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_beaverOver);
+		}
+    },
+    stunSound : function() {			
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_beaverStun);
+		}
+    },
+    GetShotSound: function(){
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_beaverGetShot);
+		}
     }
 	
 });
