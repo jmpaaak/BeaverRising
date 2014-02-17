@@ -62,7 +62,7 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
         this._bar.setMidpoint(cc.p(0,1));
         this._bar.setBarChangeRate(cc.p(1,0));
         this._bar.setPosition(this._spriteWidth_half, this._spriteHeight_half);
-        this._bar.addChild(this._labelScore, 300);
+        this.addChild(this._labelScore, 300);
         this.addChild(this._bar, 2);
     },
 	realAdd: function (num) {

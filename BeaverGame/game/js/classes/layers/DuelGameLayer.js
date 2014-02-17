@@ -388,7 +388,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	},
 	popTwig: function() 
 	{
-		if (Math.random() <= 0.5) {
+		if (Math.random() <= 0.8) {
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();
@@ -442,7 +442,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	},
 	
 	update: function(dt) {
-		if(this._timer.getTime() === 300)
+		if(this._timer.getTime() === 299)
 		{
 			this._baseCamp[1].setColor();
 			this._baseCamp[2].setColor();
@@ -506,17 +506,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.destroyList.length = 0; 
 		
 
-		if(this._itemPopCount === 120) //every 2s (p=0.5) 
+		if(this._itemPopCount === 60) //every 2s (p=0.5) 
 			this._itemPopCount = 0, this.popItem(), this.popObstacle();
 		this._itemPopCount++;
 
 		
-		if(this._timer.getTime() <= this._timer.getTotalTime() - 3){
-			if(this._itemPopCount === 120) //every 2s (p=0.5) 
-				this._itemPopCount = 0, this.popItem(), this.popObstacle();
-			this._itemPopCount++;
-			
-			if(this._twigPopCount === 60) //every 2s (p=0.5) 
+		if(this._timer.getTime() <= this._timer.getTotalTime() - 3) {
+			if(this._twigPopCount === 30) //every 2s (p=0.5) 
 				this._twigPopCount = 0, this.popTwig();
 			this._twigPopCount++;		
 		}
