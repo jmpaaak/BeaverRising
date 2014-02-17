@@ -33,6 +33,11 @@ var s_story406 = "images/Story/406.png";
 //MainMenu
 var s_bgMainMenu = "images/mainmenu/bgMainMenu.png";
 var s_Title1 = "images/mainmenu/Title1.png";
+
+var s_creditsBoard =  "images/mainmenu/creditsBoard.png";
+var s_credits =  "images/mainmenu/credits.png";
+
+
 var s_Button_SinglePlay_Normal = "images/mainmenu/Button_SinglePlay_Normal.png";
 var s_Button_MultiPlay_Normal = "images/mainmenu/Button_MultiPlay_Normal.png";
 var s_Button_HowToPlay_Normal = "images/mainmenu/Button_HowToPlay_Normal.png";
@@ -243,6 +248,11 @@ var g_resources_game = [
 	{src:s_Button_Credit_Normal},
 	{src:s_Button_Option_Normal},
 	{src:s_TempMenu},//TODO:REMOVE
+	
+	//credit board
+	{src:s_creditsBoard},
+	{src:s_credits},
+	
     //image
 	{src:s_bgReady},
 	{src:s_bgStart},

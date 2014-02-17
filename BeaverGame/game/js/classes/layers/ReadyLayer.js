@@ -19,7 +19,7 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 		this.addChild(this._bgReady, 2);
 
 		this._bgReady.runAction(cc.Sequence.create(
-			cc.FadeOut.create(2.0),
+			cc.FadeOut.create(4.0),
 			cc.CallFunc.create(function() {
 				if (BG.SOUND) {
 					cc.AudioEngine.getInstance().playEffect(se_gameStart);

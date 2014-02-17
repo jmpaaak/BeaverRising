@@ -20,7 +20,7 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         	small: 0,
         	medium: 0,
         	big: 0
-        }
+        };
       	this.initWithFile(s_BaseCamp[0]);
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
@@ -163,9 +163,14 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 				this._addFlag = false;
 			}
 		}
-	}
+	},
 
-	
+	//sound
+	houseBuildingSound: function(){
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_houseBuilding);
+		}
+	}
 	
 	
 });

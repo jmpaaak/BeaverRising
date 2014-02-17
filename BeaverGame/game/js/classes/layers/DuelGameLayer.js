@@ -77,20 +77,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							break;
 						case "Twig":
 							beaver.addTwig(target);
-							//sound effect
-							if (BG.SOUND) {
-								cc.AudioEngine.getInstance().playEffect(se_getTwig);
-							}
-
+							beaver.getTwigSound();
 							break;
 						case "Beaver":
 							if(beaver.getIsDevil())
 							{
 								target.beDevil();
-								//sound effect
-								if (BG.SOUND) {
-									cc.AudioEngine.getInstance().playEffect(se_beaverTagger);
-								}
+								beaver.taggerSound();
 								beaver.turnNormalAndRun();
 							}
 							else if(target.getIsDevil())
@@ -115,15 +108,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.stun();
 							target.destroy(that);
 
-							beaver.GetShotSound();
+							beaver.getShotSound();
 							beaver.cryAction();
 							break;
 						case "Item":
 							beaver.addItem(target);
-							//sound effect
-							if (BG.SOUND) {
-								cc.AudioEngine.getInstance().playEffect(se_getItem);
-							}
+							beaver.getItemSound();
 							break;
 						case "Twig":
 							if(!beaver.getIsHome())
@@ -131,9 +121,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								if((target.getBeaverID() == beaver.getID() && target.getTailIndex() == 0) ||
 								(target.getBeaverID() == beaver.getID() && target.getTailIndex() == 1)
 								) return;
-								//sound effect
-								beaver.cryAction();
-								beaver.cryingSound();
 								beaver.returnToBase();
 							}
 							break;
@@ -154,20 +141,13 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 										beaver.settingIn(true);
 									}
 									beaver.shielding();
-
-									//sound effect
-									if (BG.SOUND) {
-										cc.AudioEngine.getInstance().playEffect(se_enteringHome);
-									}
+									beaver.enterHomeSound();
 
 								}
 							}
 							break;
 						case "Turtle":
-							//sound effect
-							if(BG.SOUND){
-								cc.AudioEngine.getInstance().playEffect(se_beaverMeetTurtle);    	
-							}
+							beaver.meetTurtleSound();
 							beaver.meetingTurtle();
 							break;
 					}
@@ -211,7 +191,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								bullet.destroy(that);
 								
 								//beaver crying sprite on
-								that._beavers[i].GetShotSound(); 
+								that._beavers[i].getShotSound(); 
 								that._beavers[i].cryAction();
 							}
 							else
@@ -261,9 +241,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							if(Home._finalTailIndex == target._tailIndex)
 							{
 								//sound effect
-								if (BG.SOUND) {
-									cc.AudioEngine.getInstance().playEffect(se_houseBuilding);
-								}
+								Home.houseBuildingSound();
 								var index = target.getBeaverID();
 								that._beavers[index].removeTailAtIndex(0);
 								that._beavers[index].settingOut(true);
@@ -283,12 +261,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         this.world = new b2World(new b2Vec2(0, 0), true); //no gravity
         this.world.SetContinuousPhysics(true);
 		this.world.SetContactListener(contactListener);
-		
-		//TESTING TITLE 
-		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
-        this.addChild(label, 1); //z === 1 : UI
-        label.setColor(cc.c3(0, 0, 255));
-        label.setPosition(size.width / 2, size.height - 50);
         
 		var fixDef = new b2FixtureDef;
         fixDef.density = 0;
@@ -386,7 +358,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			}
 		}
 	},
-	popTwig: function() 
+	popTwig: function () 
 	{
 		if (Math.random() <= 0.8) {
 			var size = cc.Director.getInstance().getWinSize();
@@ -399,7 +371,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			new classes.sprites.Twig(this, cc.p(x, y), BG.WOOD_TYPE.BOX, false); //TODO: CHANGE
 		}
 	},
-	popObstacle: function(){
+	popObstacle: function () {
 		if (Math.random() <= 0.3) {
 			if(this.turtleCount >= 2) return;
 			else{
@@ -437,12 +409,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	setDevilOn: function (bool) {
 		this._devilOn = bool;
 	},
-	setTurtleSound: function(bool){
+	setTurtleSound: function (bool) {
 		this._turtleSoundOn = bool;
 	},
-	
 	update: function(dt) {
-		if(this._timer.getTime() === 299)
+
+		if(!this._isStart)
 		{
 			this._baseCamp[1].setColor();
 			this._baseCamp[2].setColor();
@@ -450,6 +422,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			this._baseCamp[4].setColor();
 			this._timer.setColor();
 		}
+
 		if(this._timer.getTime() === 30 && !this._timerWarningOn)
 		{
 			var that = this;
@@ -504,15 +477,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		}
 		//Reset the array
 		this.destroyList.length = 0; 
-		
 
-		if(this._itemPopCount === 60) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem(), this.popObstacle();
-		this._itemPopCount++;
-
-		
 		if(this._timer.getTime() <= this._timer.getTotalTime() - 3) {
-			if(this._twigPopCount === 30) //every 2s (p=0.5) 
+			if(this._itemPopCount === 120) //every 2s (p=0.5) 
+				this._itemPopCount = 0, this.popItem(), this.popObstacle();
+			this._itemPopCount++;
+			if(this._twigPopCount === 60) //every 2s (p=0.5) 
 				this._twigPopCount = 0, this.popTwig();
 			this._twigPopCount++;		
 		}
@@ -541,6 +511,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.runAction(cc.Sequence.create(
 			cc.DelayTime.create(2.0),
 			cc.CallFunc.create(function () {
+				cc.AudioEngine.end();
 				classes.GameController.getInstance().setCurScene(
 					new classes.scenes.DuelGameResultScene(that._baseCamp)
 				);

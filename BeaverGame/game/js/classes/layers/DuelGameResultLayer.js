@@ -34,10 +34,10 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 		
 		this._resultBoard = cc.Sprite.create(s_ResultBoard);
 		this._resultBoard.setPosition(size.width/2-100, size.height/2); //TODO: SET POINT!!!
-		var gold = cc.Sprite.create(s_Trophy_Gold),
-			silver = cc.Sprite.create(s_Trophy_Silver),
-			bronze = cc.Sprite.create(s_Trophy_Bronze);
-		this._trophy = [gold, silver, bronze];
+		// var gold = cc.Sprite.create(s_Trophy_Gold),
+			// silver = cc.Sprite.create(s_Trophy_Silver),
+			// bronze = cc.Sprite.create(s_Trophy_Bronze);
+		// this._trophy = [gold, silver, bronze];
 		
 		var decoBeaver = cc.Sprite.create(s_DecoBeaver);
 		decoBeaver.setPosition(size.width*7.5/9, size.height/4);
@@ -278,12 +278,20 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 						this._scoreLabel[i].setString(""+this._score[i]);
 						this._woodCountLabel[i][2].setString(""+this._curWoodCount[i].big);
 					}
-				}	
+				}
 			}
 		}
 	},
 	_giveTrophy: function () {
 		this._score.sort(function(a,b){return b-a});
+		for(var i=0; i<this._scoreLabel.length; i++)
+		{
+			for(var j=0; j<this._scoreLabel.length; j++)
+			{
+				
+			}
+			i++;
+		}
 		console.log(this._score[0]+" "+this._score[1]+" "+this._score[2]);
 		for(var i=1; i<this._score.length; i++)
 		{
@@ -293,33 +301,37 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 			 	switch(i)
 			 	{
 			 		case 1:
-			 			this._trophy[0].setPosition(this._pos1p[3].x, this._pos1p[3].y);
-			 			this.addChild(this._trophy[0], 5);
-			 			this._trophy[0].runAction(cc.Sequence.create(
-			 				cc.ScaleTo.create(2, 0.5),
-			 				cc.ScaleTo.create(1, 0.1)
+			 			var gold = cc.Sprite.create(s_Trophy_Gold);
+			 			gold.setPosition(this._pos1p[3].x, this._pos1p[3].y);
+			 			this.addChild(gold, 5);
+			 			gold.runAction(cc.Sequence.create(
+			 				cc.ScaleTo.create(0.5, 2),
+			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 2: 
-			 			this._trophy[0].setPosition(this._pos2p[3].x, this._pos2p[3].y);
-			 			this.addChild(this._trophy[0], 5);
-			 			this._trophy[0].runAction(cc.Sequence.create(
+			 			var gold = cc.Sprite.create(s_Trophy_Gold);
+			 			gold.setPosition(this._pos2p[3].x, this._pos2p[3].y);
+			 			this.addChild(gold, 5);
+			 			gold.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 3: 
-			 			this._trophy[0].setPosition(this._pos3p[3].x, this._pos3p[3].y);
-			 			this.addChild(this._trophy[0], 5);
-			 			this._trophy[0].runAction(cc.Sequence.create(
+			 			var gold = cc.Sprite.create(s_Trophy_Gold);
+			 			gold.setPosition(this._pos3p[3].x, this._pos3p[3].y);
+			 			this.addChild(gold, 5);
+			 			gold.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 4: 
-			 			this._trophy[0].setPosition(this._pos4p[3].x, this._pos4p[3].y);
-			 			this.addChild(this._trophy[0], 5);
-			 			this._trophy[0].runAction(cc.Sequence.create(
+			 			var gold = cc.Sprite.create(s_Trophy_Gold);
+			 			gold.setPosition(this._pos4p[3].x, this._pos4p[3].y);
+			 			this.addChild(gold, 5);
+			 			gold.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
@@ -331,33 +343,37 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 			 	switch(i)
 			 	{
 			 		case 1: 
-			 			this._trophy[1].setPosition(this._pos1p[3].x, this._pos1p[3].y);
-			 			this.addChild(this._trophy[1], 5);
-			 			this._trophy[1].runAction(cc.Sequence.create(
+			 			var silver = cc.Sprite.create(s_Trophy_Silver);
+			 			silver.setPosition(this._pos1p[3].x, this._pos1p[3].y);
+			 			this.addChild(silver, 5);
+			 			silver.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 2: 
-			 			this._trophy[1].setPosition(this._pos2p[3].x, this._pos2p[3].y);
-			 			this.addChild(this._trophy[1], 5);
-			 			this._trophy[1].runAction(cc.Sequence.create(
+			 			var silver = cc.Sprite.create(s_Trophy_Silver);
+			 			silver.setPosition(this._pos2p[3].x, this._pos2p[3].y);
+			 			this.addChild(silver, 5);
+			 			silver.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 3: 
-			 			this._trophy[1].setPosition(this._pos3p[3].x, this._pos3p[3].y);
-			 			this.addChild(this._trophy[1], 5);
-			 			this._trophy[1].runAction(cc.Sequence.create(
+			 			var silver = cc.Sprite.create(s_Trophy_Silver);
+			 			silver.setPosition(this._pos3p[3].x, this._pos3p[3].y);
+			 			this.addChild(silver, 5);
+			 			silver.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 4: 
-			 			this._trophy[1].setPosition(this._pos4p[3].x, this._pos4p[3].y);
-			 			this.addChild(this._trophy[1], 5);
-			 			this._trophy[1].runAction(cc.Sequence.create(
+			 			var silver = cc.Sprite.create(s_Trophy_Silver);
+			 			silver.setPosition(this._pos4p[3].x, this._pos4p[3].y);
+			 			this.addChild(silver, 5);
+			 			silver.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
@@ -369,33 +385,37 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 			 	switch(i)
 			 	{
 			 		case 1: 
-			 			this._trophy[2].setPosition(this._pos1p[3].x, this._pos1p[3].y);
-			 			this.addChild(this._trophy[2], 5);
-			 			this._trophy[2].runAction(cc.Sequence.create(
+			 			var bronze = cc.Sprite.create(s_Trophy_Bronze);
+			 			bronze.setPosition(this._pos1p[3].x, this._pos1p[3].y);
+			 			this.addChild(bronze, 5);
+			 			bronze.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 2: 
-			 			this._trophy[2].setPosition(this._pos2p[3].x, this._pos2p[3].y);
-			 			this.addChild(this._trophy[2], 5);
-			 			this._trophy[2].runAction(cc.Sequence.create(
+			 			var bronze = cc.Sprite.create(s_Trophy_Bronze);
+			 			bronze.setPosition(this._pos2p[3].x, this._pos2p[3].y);
+			 			this.addChild(bronze, 5);
+			 			bronze.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 3: 
-			 			this._trophy[2].setPosition(this._pos3p[3].x, this._pos3p[3].y);
-			 			this.addChild(this._trophy[2], 5);
-			 			this._trophy[2].runAction(cc.Sequence.create(
+			 			var bronze = cc.Sprite.create(s_Trophy_Bronze);
+			 			bronze.setPosition(this._pos3p[3].x, this._pos3p[3].y);
+			 			this.addChild(bronze, 5);
+			 			bronze.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));
 			 			break;
 			 		case 4: 
-			 			this._trophy[2].setPosition(this._pos4p[3].x, this._pos4p[3].y);
-			 			this.addChild(this._trophy[2], 5);
-			 			this._trophy[2].runAction(cc.Sequence.create(
+			 			var bronze = cc.Sprite.create(s_Trophy_Bronze);
+			 			bronze.setPosition(this._pos4p[3].x, this._pos4p[3].y);
+			 			this.addChild(bronze, 5);
+			 			bronze.runAction(cc.Sequence.create(
 			 				cc.ScaleTo.create(0.5, 2),
 			 				cc.ScaleTo.create(0.1, 1)
 			 			));

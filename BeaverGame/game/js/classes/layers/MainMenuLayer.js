@@ -4,6 +4,8 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 	_menus: null,
 	_curMenu: 0,
 	_mainSoundID: null,
+	_creditBoard: null,
+
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
 		this._super();
@@ -123,12 +125,20 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 					case 2:
 						break;
 					case 3:
+						//credit button
+						this.setKeyboardEnabled(false);
+						this._creditBoard = new classes.layers.CreditsLayer(this);
+						this.addChild(this._creditBoard, 0);
 						break;
 					case 4:
 						break;
 				}
 				break;
 		}
+	},
+	removeCredit: function(){
+		this.removeChild(this._creditBoard);
+		this.setKeyboardEnabled(true);
 	},
 	playBgmSound: function(str){
 		if(str == "on") this._mainSoundID = cc.AudioEngine.getInstance().playMusic(bgm_mainBGM,true);
