@@ -98,7 +98,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								beaver.beDevil();
 								target.turnNormalAndRun();
 							}
-							else
+							else if(!beaver.getWillDevil() && !target.getWillDevil())
 							{
 								beaver.stun();
 								target.stun();
@@ -283,12 +283,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         this.world = new b2World(new b2Vec2(0, 0), true); //no gravity
         this.world.SetContinuousPhysics(true);
 		this.world.SetContactListener(contactListener);
-		
-		//TESTING TITLE 
-		var label = cc.LabelTTF.create("Beaver Moving Test", "Marker Felt", 32);
-        this.addChild(label, 1); //z === 1 : UI
-        label.setColor(cc.c3(0, 0, 255));
-        label.setPosition(size.width / 2, size.height - 50);
         
 		var fixDef = new b2FixtureDef;
         fixDef.density = 0;
@@ -386,7 +380,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			}
 		}
 	},
-	popTwig: function() 
+	popTwig: function () 
 	{
 		if (Math.random() <= 0.5) {
 			var size = cc.Director.getInstance().getWinSize();
@@ -399,7 +393,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			new classes.sprites.Twig(this, cc.p(x, y), BG.WOOD_TYPE.BOX, false); //TODO: CHANGE
 		}
 	},
-	popObstacle: function(){
+	popObstacle: function () {
 		if (Math.random() <= 0.3) {
 			if(this.turtleCount >= 2) return;
 			else{
@@ -437,12 +431,12 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	setDevilOn: function (bool) {
 		this._devilOn = bool;
 	},
-	setTurtleSound: function(bool){
+	setTurtleSound: function (bool) {
 		this._turtleSoundOn = bool;
 	},
-	
 	update: function(dt) {
-		if(this._timer.getTime() === 300)
+		
+		if(!this._isStart)
 		{
 			this._baseCamp[1].setColor();
 			this._baseCamp[2].setColor();
@@ -450,6 +444,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			this._baseCamp[4].setColor();
 			this._timer.setColor();
 		}
+
 		if(this._timer.getTime() === 30 && !this._timerWarningOn)
 		{
 			var that = this;
@@ -511,7 +506,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this._itemPopCount++;
 
 		
-		if(this._timer.getTime() <= this._timer.getTotalTime() - 3){
+		if(this._timer.getTime() <= this._timer.getTotalTime() - 3) {
 			if(this._itemPopCount === 120) //every 2s (p=0.5) 
 				this._itemPopCount = 0, this.popItem(), this.popObstacle();
 			this._itemPopCount++;
@@ -545,6 +540,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.runAction(cc.Sequence.create(
 			cc.DelayTime.create(2.0),
 			cc.CallFunc.create(function () {
+				cc.AudioEngine.end();
 				classes.GameController.getInstance().setCurScene(
 					new classes.scenes.DuelGameResultScene(that._baseCamp)
 				);
