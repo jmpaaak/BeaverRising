@@ -3,12 +3,20 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
     _story4Sprite: null,
     _curAction : null,
 	_storySoundID : null,
+	_skipLabel: null,
+	_colorSetCount: 0,
 	
-	init : function(){
+	init : function() {
 		this._super();
 		this._storySoundID = cc.AudioEngine.getInstance().playMusic(bgm_storyBGM,true);
 		var size = cc.Director.getInstance().getWinSize();
 		var controller = classes.GameController.getInstance();
+		this.setKeyboardEnabled(true);
+		this._skipLabel = cc.LabelBMFont.create("TOUCH 'ITEM' TO SKIP !!", s_Konqa32);
+		this._skipLabel.setScale(2.0);
+        this._skipLabel.setPosition(size.width*7/9, size.height*9/10); 
+		this._skipLabel.setOpacity(0);
+        this.addChild(this._skipLabel, 10);
 		
 		var story1_texture = [];
 		story1_texture[0] = cc.TextureCache.getInstance().addImage(s_story101);
@@ -100,7 +108,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 	       	//story2
 	       	cc.CallFunc.create(function () {
 	       		that._story1Sprite.initWithSpriteFrame(story2FirstFrame);
-	       		}),	       	
+	       	}),	       	
         	cc.FadeIn.create(1),
         	animateStory2,
         	animateStory2,
@@ -110,7 +118,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 	       	//story3
 	       	cc.CallFunc.create(function () {
 	       		that._story1Sprite.initWithSpriteFrame(story3FirstFrame);
-	       		}),	   
+	       	}),	   
         	cc.FadeIn.create(1),
         	animateStory3,
 	       	cc.FadeOut.create(1),
@@ -118,7 +126,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         	//story4
 	       	cc.CallFunc.create(function () {
 	       		that._story1Sprite.initWithSpriteFrame(story4FirstFrame);
-	       		}),
+	       	}),
         	cc.FadeIn.create(1),
 	       	animateStory4,
 	       	cc.FadeOut.create(2),
@@ -132,8 +140,37 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 				return;
 	       		})
         ));
-   
-       }
+   		
+   		this.schedule(this._skipLabelUpdate, 0.8);
+
+	},
+	_skipLabelUpdate: function () {
+		this._skipLabel.setColor(cc.c3(0,0,0));
+		if(this._colorSetCount >= 2)
+		{
+			if(this._skipLabel.getOpacity() === 255)
+			{
+				this._skipLabel.setOpacity(0);
+			}
+			else if(this._skipLabel.getOpacity() === 0)
+			{
+				this._skipLabel.setOpacity(255);
+			}
+		}
+		else
+		{
+			this._colorSetCount++;
+		}
+	},
+	onKeyDown: function (e) {
+		switch(e)
+		{
+			case BG.EVENT.PLAYER1.ITEM[0]:
+			case BG.EVENT.PLAYER1.ITEM[1]:	
+				classes.GameController.getInstance().setCurScene(classes.scenes.MainMenuScene.getInstance());
+				break;
+		}
+	}
 
 
 });

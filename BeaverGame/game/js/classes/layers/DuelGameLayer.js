@@ -500,12 +500,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		//Reset the array
 		this.destroyList.length = 0; 
 		
-
-		if(this._itemPopCount === 120) //every 2s (p=0.5) 
-			this._itemPopCount = 0, this.popItem(), this.popObstacle();
-		this._itemPopCount++;
-
-		
 		if(this._timer.getTime() <= this._timer.getTotalTime() - 3) {
 			if(this._itemPopCount === 120) //every 2s (p=0.5) 
 				this._itemPopCount = 0, this.popItem(), this.popObstacle();
@@ -513,7 +507,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			
 			if(this._twigPopCount === 60) //every 2s (p=0.5) 
 				this._twigPopCount = 0, this.popTwig();
-			this._twigPopCount++;		
+			this._twigPopCount++;
 		}
 		
 	},
