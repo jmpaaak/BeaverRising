@@ -5,6 +5,9 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 	_curMenu: 0,
 	_mainSoundID: null,
 	_creditBoard: null,
+	_howToPlayBoard: null,
+	_singlePlayBoard: null,
+	_settingBoard: null,
 
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
@@ -116,28 +119,57 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 				switch(this._curMenu)
 				{
 					case 0:
+						//single
+						this.buttonSound("select");
+						this.setKeyboardEnabled(false);
+						this._singlePlayBoard = new classes.layers.SinglePlay(this);
+						this.addChild(this._singlePlayBoard, 0);
 						break;
 					case 1:
+						//multi
 						this.buttonSound("select");
 						this.playBgmSound("off");
 						classes.GameController.getInstance().setCurScene(classes.scenes.DuelGameScene.getInstance());
 						break;
 					case 2:
+						//howtoPlay
+						this.buttonSound("select");
+						this.setKeyboardEnabled(false);
+						this._howToPlayBoard = new classes.layers.HowToPlayLayer(this);
+						this.addChild(this._howToPlayBoard, 0);
 						break;
 					case 3:
 						//credit button
+						this.buttonSound("select");
 						this.setKeyboardEnabled(false);
 						this._creditBoard = new classes.layers.CreditsLayer(this);
 						this.addChild(this._creditBoard, 0);
 						break;
 					case 4:
+						//setting button
+						this.buttonSound("select");
+						this.setKeyboardEnabled(false);
+						this._settingBoard = new classes.layers.SettingLayer(this);
+						this.addChild(this._settingBoard, 0);
 						break;
 				}
 				break;
 		}
 	},
+	removeSinglePlay: function(){
+		this.removeChild(this._singlePlayBoard);
+		this.setKeyboardEnabled(true);
+	},
 	removeCredit: function(){
 		this.removeChild(this._creditBoard);
+		this.setKeyboardEnabled(true);
+	},
+	removeHowToPlay: function(){
+		this.removeChild(this._howToPlayBoard);
+		this.setKeyboardEnabled(true);
+	},
+	removeSetting: function(){
+		this.removeChild(this._settingBoard);
 		this.setKeyboardEnabled(true);
 	},
 	playBgmSound: function(str){

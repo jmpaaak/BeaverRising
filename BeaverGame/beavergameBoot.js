@@ -65,6 +65,9 @@
         	'game/js/classes/layers/DuelGameResultLayer.js',
         	'game/js/classes/layers/StoryLayer.js',
 	        'game/js/classes/layers/CreditsLayer.js',
+	        'game/js/classes/layers/HowToPlayLayer.js',
+	        'game/js/classes/layers/SinglePlay.js',
+	        'game/js/classes/layers/SettingLayer.js',
 
 
         	'game/js/classes/scenes/scenes.js', //namespace

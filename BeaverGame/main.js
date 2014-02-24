@@ -78,12 +78,18 @@ var cocos2dApp = cc.Application.extend({
         director.setAnimationInterval(1.0 / this.config['frameRate']);
         
         //load only Menu, Splash sreen resources
-        cc.Loader.preload([g_resources_game],function () {
+        cc.Loader.preload([g_resources_splash],function () {
+        	cc.AudioEngine.getInstance().setResPath("game/resources/sounds");
+        	for(var i in g_resources_music){        		
+			cc.AudioEngine.getInstance().preloadMusic(g_resources_music[i]);
+        	}
+        	for(var i in g_resources_effect){
+	        cc.AudioEngine.getInstance().preloadEffect(g_resources_effect[i]);
+	        }
             director.runWithScene(this.startScene()); //director.replaceScene(this.startScene());
         }, this);
-
         return true;
     }
 });
 
-var myApp = new cocos2dApp(classes.scenes.MainMenuScene.getInstance);  //classes.scenes.DuelGameScene.getInstance
+var myApp = new cocos2dApp(classes.scenes.SplashScreenScene.getInstance);  //classes.scenes.DuelGameScene.getInstance

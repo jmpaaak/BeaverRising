@@ -12,6 +12,9 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	_woodCount: null,
 	_prePercent: 0,
 	_addedPercent: 0,
+	_effectFlag: false,	
+	_effectCount: 0,
+	
 	ctor: function (layer, p, id) {
         this._super();
         this._id = id;
@@ -140,13 +143,23 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 		));
 	},
 	levelUp: function(){
-			this._homeLevel++;
 			if(this._homeLevel === 5) 
 			{
 				this._curLayer.gameEnd();
 				return;
 			}
-			this.initWithFile(s_BaseCamp[this._homeLevel]);
+			this._effectFlag = true;
+			this.runAction(cc.Sequence.create(
+				cc.CallFunc.create(function(){
+					this.initWithFile(s_BaseCamp_white[this._homeLevel]);
+				},this),
+				cc.ScaleTo.create(1, 1.1),
+				cc.CallFunc.create(function(){
+					this._homeLevel++;
+					this.initWithFile(s_BaseCamp[this._homeLevel]);
+				},this),
+				cc.ScaleTo.create(1.0, 1.0)
+    		));
 	},
 	setColor: function () {
 		this._scoreBoard.setColor();
@@ -163,6 +176,28 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 				this._addFlag = false;
 			}
 		}
+		
+		if(this._effectFlag){
+			if(this._effectCount <= 120) {
+				var homeEffect = cc.Sprite.create(s_homeEffect);
+				var randomPosX = (Math.floor(Math.random() * 1000) % this.getTextureRect().width);
+				var randomPosY = (Math.floor(Math.random() * 1000) % this.getTextureRect().height);
+				homeEffect.setPosition(randomPosX, randomPosY);
+				this.addChild(homeEffect);
+				var delay = cc.DelayTime.create(0.2);
+				var action1 = cc.FadeIn.create(0.1);
+				var action1Back = action1.reverse();
+				var removehomeEffect = cc.CallFunc.create(function() {
+					this.removeChild(homeEffect, true);
+				}, this);
+				homeEffect.runAction(cc.Sequence.create(action1, delay, action1Back, removehomeEffect));
+				this._effectCount++;
+			}
+			else{
+				this._effectCount = 0;
+				this._effectFlag = false;
+			}
+			}
 	},
 
 	//sound
