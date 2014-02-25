@@ -185,81 +185,71 @@ var s_TempMenu = "images/temp.png";//TODO:REMOVE
 //var s_BaseCamp3 = "BaseCamp3.png";
 //var s_BaseCamp4 = "BaseCamp4.png";
 
-//sound
-	//BGM
-var bgm_mainBGM = "bgm/mainBGM.mp3";
-var bgm_gameBGM = "bgm/gameBGM.mp3";
-var bgm_storyBGM = "bgm/storyBGM.mp3";
+
+
+
+var soundPath = "game/resources/sounds/";
+/**
+ * SOUND OBJECT
+ * 
+ * 	Using example
+ * 		classes.SoundBox.getInstance().playSound(str, bool);
+ * 		@param {String} sound object's prop
+ * 		@param {bool} loop
+ */
+var g_resources_sound = {
+    //BGM
+	bgm_mainBGM: "bgm/mainBGM.mp3",
+	bgm_gameBGM: "bgm/gameBGM.mp3",
+	bgm_storyBGM: "bgm/storyBGM.mp3",
+	
 	//button Sound
-var se_buttonMove = "etc/button_move.mp3";
-var se_buttonSelect = "etc/button_select.mp3";
+	se_buttonMove: "etc/button_move.mp3",
+	se_buttonSelect: "etc/button_select.mp3",
+	
 	//effectSound
-var se_beaverGetShot = "effectSound/beaverGetShot.mp3";
-var se_beaverMeetTurtle = "effectSound/beaverMeetTurtle.mp3";
-var se_beaverOver = "effectSound/beaverOver.mp3";
-var se_beaverStart = "effectSound/beaverStart.mp3";
-var se_beaverStun = "effectSound/beaverStun.mp3";
-var se_beaverTagger = "effectSound/beaverTagger.mp3";
-var se_breakTwig = "effectSound/breakTwig.mp3";
-var se_crocsComing = "effectSound/crocsComing.mp3";
-var se_enteringHome = "effectSound/enteringHome.mp3";
-var se_gameResult = "effectSound/gameResult.mp3";
-var se_gameStart = "effectSound/gameStart.mp3";
-var se_getItem = "effectSound/getItem.mp3";
-var se_getTwig = "effectSound/getTwig.mp3";
-var se_houseBuilding = "effectSound/houseBuilding.mp3";
-var se_itemDevil = "effectSound/itemDevil.mp3"; //TODO : not item yet
-var se_itemLightning = "effectSound/itemLightning.mp3";
-var se_itemPopUp = "effectSound/itemPopUp.mp3";
-var se_itemShield = "effectSound/itemShield.mp3";
-var se_itemShooting = "effectSound/itemShooting.mp3";
-var se_itemThunder = "effectSound/itemThunder.mp3"; //TODO : not item yet
-var se_timeRunShort = "effectSound/timeRunShort.mp3";
-var se_timeShortMessage = "effectSound/timeShortMessage.mp3";
-var se_turtleComing = "effectSound/turtleComing.mp3";
-//var se_ = "sounds/effectSound/.wav";
+	se_beaverGetShot: "effectSound/beaverGetShot.mp3",
+	se_beaverMeetTurtle: "effectSound/beaverMeetTurtle.mp3",
+	se_beaverOver: "effectSound/beaverOver.mp3",
+	se_beaverStart: "effectSound/beaverStart.mp3",
+	se_beaverStun: "effectSound/beaverStun.mp3",
+	se_beaverTagger: "effectSound/beaverTagger.mp3",
+	se_breakTwig: "effectSound/breakTwig.mp3",
+	se_crocsComing: "effectSound/crocsComing.mp3",
+	se_enteringHome: "effectSound/enteringHome.mp3",
+	se_gameResult: "effectSound/gameResult.mp3",
+	se_gameStart: "effectSound/gameStart.mp3",
+	se_getItem: "effectSound/getItem.mp3",
+	se_getTwig: "effectSound/getTwig.mp3",
+	se_houseBuilding: "effectSound/houseBuilding.mp3",
+	//se_itemDevil: "effectSound/itemDevil.mp3", //TODO : not item yet
+	se_itemLightning: "effectSound/itemLightning.mp3",
+	se_itemPopUp: "effectSound/itemPopUp.mp3",
+	se_itemShield: "effectSound/itemShield.mp3",
+	se_itemShooting: "effectSound/itemShooting.mp3",
+	//se_itemThunder: "effectSound/itemThunder.mp3", //TODO : not item yet
+	se_timeRunShort: "effectSound/timeRunShort.mp3",
+	se_timeShortMessage: "effectSound/timeShortMessage.mp3",
+	se_turtleComing: "effectSound/turtleComing.mp3"
+};
 
 
+
+
+
+/**
+ * IMAGE ARRAYS
+ */
 var g_resources_splash = [
 	{src:s_SplashScreen1},
 	{src:s_SplashScreen2}
 ];
 
-var g_resources_music = [
-    //bgm
-	bgm_gameBGM,
-	bgm_mainBGM,
-	bgm_storyBGM
-];
-var g_resources_effect = [
-	//button sound
-	se_buttonMove,
-	se_buttonSelect,
-    //effect
-	se_beaverGetShot,
-	se_beaverMeetTurtle,
-	se_beaverOver,
-	se_beaverStart,
-	se_beaverStun, 
-	se_beaverTagger,
-	se_breakTwig,
-	se_crocsComing,
-	se_enteringHome,
-	se_gameResult,
-	se_gameStart,
-	se_getItem,
-	se_getTwig,
-	se_houseBuilding,
-	se_itemLightning,
-	se_itemPopUp,
-	se_itemShield,
-	se_itemShooting,
-	se_timeRunShort,
-	se_timeShortMessage,
-	se_turtleComing
-];
 
 var g_resources_story = [
+	//fnt
+	{src:s_Konqa32},
+	
 	{src:s_story101},
 	{src:s_story102},
 	{src:s_story103},
@@ -418,8 +408,6 @@ var g_resources_game = [
     {src:p_woodBig_Broken},
 
 	{src:p_fishMotion},
-    //fnt
-	{src:s_Konqa32},
 	
     //tmx
 

@@ -272,9 +272,10 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		    this._curLayer.destroyList.push(twig.getBody());
 	    	twig = null;
 	    	
-	    	var willGetScore = cc.LabelBMFont.create("+" + this._twigs.length, s_Konqa32);
-	    	if(this._twigs.length >= 5) willGetScore.setColor(cc.c3(255,0,0));
-	    	else willGetScore.setColor(cc.c3(255,255,255));
+	    	var willGetScore = cc.LabelBMFont.create("COMBO " + this._twigs.length, s_Konqa32);
+	    	if(this._twigs.length >= 6 && this._twigs.length < 16) willGetScore.setColor(cc.c3(255,0,0)), willGetScore.setScale(1.2);
+	    	else if(this._twigs.length >= 16) willGetScore.setColor(cc.c3(0,34,102)), willGetScore.setScale(2.0);
+	    	else willGetScore.setColor(cc.c3(217,65,140));
 	        willGetScore.setPosition(this._curPos.x*PTM_RATIO, this._curPos.y*PTM_RATIO+20);
 	        this._curLayer.addChild(willGetScore,2);
 	        //Actions
@@ -933,8 +934,6 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	this._curVelocity = BG.BEAVER_SPEED.SLOW;
     	this._turtleCountFlag = true;
     },
-    
-    
     
     ///////////beaver sound function
     

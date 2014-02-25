@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<project name="Javascript compress project" basedir="." default="compile_Canvas">
+
+    <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask"
+             classpath="${basedir}/../tools/compiler/compiler.jar"/>
+
+    <target name="compile_Canvas">
+        <jscomp compilationLevel="simple" warning="quiet"
+                debug="false" output="../lib/Cocos2d-html5-v2.2.2.min.js">
+                <!--sourceMapOutputFile="sourcemap"
+                sourceMapFormat="V3">-->
+            <externs dir="${basedir}">
+                <file name="core/cocos2d_externs.js"/>
+            </externs>
+            <sources dir="${basedir}">
+                <file name="core/platform/CCClass.js"/>
+                <file name="core/cocoa/CCGeometry.js"/>
+                <file name="core/platform/Sys.js"/>
+                <file name="core/platform/CCConfig.js"/>
+                <file name="core/platform/miniFramework.js"/>
+                <file name="core/platform/CCCommon.js"/>
+                <file name="core/platform/CCMacro.js"/>
+                <file name="core/platform/CCFileUtils.js"/>
+                <file name="core/platform/CCTypes.js"/>
+                <file name="core/platform/CCEGLView.js"/>
+                <file name="core/platform/CCScreen.js"/>
+                <file name="core/platform/CCVisibleRect.js"/>
+                <file name="core/cocoa/CCNS.js"/>
+                <file name="core/cocoa/CCAffineTransform.js"/>
+                <file name="core/support/CCPointExtension.js"/>
+                <file name="core/support/CCVertex.js"/>
+                <file name="core/support/TransformUtils.js"/>
+                <file name="core/base_nodes/CCNode.js"/>
+                <file name="core/base_nodes/CCAtlasNode.js"/>
+                <file name="core/textures/CCTexture2D.js"/>
+                <file name="core/textures/CCTextureCache.js"/>
+                <file name="core/textures/CCTextureAtlas.js"/>
+                <file name="core/scenes_nodes/CCScene.js"/>
+                <file name="core/layers_nodes/CCLayer.js"/>
+                <file name="core/sprite_nodes/CCSprite.js"/>
+                <file name="core/sprite_nodes/CCAnimation.js"/>
+                <file name="core/sprite_nodes/CCAnimationCache.js"/>
+                <file name="core/sprite_nodes/CCSpriteFrame.js"/>
+                <file name="core/sprite_nodes/CCSpriteFrameCache.js"/>
+                <file name="core/sprite_nodes/CCSpriteBatchNode.js"/>
+                <file name="core/CCConfiguration.js"/>
+                <file name="core/CCDirector.js"/>
+                <file name="core/CCCamera.js"/>
+                <file name="core/CCScheduler.js"/>
+                <file name="core/CCLoader.js"/>
+                <file name="core/CCDrawingPrimitives.js"/>
+                <file name="core/platform/CCApplication.js"/>
+                <file name="core/platform/CCSAXParser.js"/>
+                <file name="core/platform/AppControl.js"/>
+                <file name="core/labelTTF/CCLabelTTF.js"/>
+                <file name="core/CCActionManager.js"/>
+                <file name="render_texture/CCRenderTexture.js"/>
+                <file name="clipping_nodes/CCClippingNode.js"/>
+                <file name="actions/CCAction.js"/>
+                <file name="actions/CCActionInterval.js"/>
+                <file name="actions/CCActionInstant.js"/>
+                <file name="actions/CCActionCamera.js"/>
+                <file name="actions/CCActionEase.js"/>
+                <file name="actions/CCActionCatmullRom.js"/>
+                <file name="actions/CCActionTween.js"/>
+                <file name="progress_timer/CCProgressTimer.js"/>
+                <file name="progress_timer/CCActionProgressTimer.js"/>
+                <file name="label_nodes/CCLabelAtlas.js"/>
+                <file name="label_nodes/CCLabelBMFont.js"/>
+                <file name="keyboard_dispatcher/CCKeyboardDelegate.js"/>
+                <file name="keyboard_dispatcher/CCKeyboardDispatcher.js"/>
+                <file name="audio/SimpleAudioEngine.js"/>
+                <file name="CCUserDefault.js"/>
+                <file name="CCImage.js"/>
+                <file name="jsloader.js"/>
+            </sources>
+        </jscomp>
+    </target>
+</project>

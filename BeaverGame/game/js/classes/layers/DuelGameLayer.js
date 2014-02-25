@@ -29,8 +29,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
         gameFrame.setPosition(size.width / 2 , size.height / 2);		
 		this.addChild(gameFrame,50);
 		// Frame creation finish
-		
-		this.setTouchEnabled(true);
 		this.setKeyboardEnabled(true);
 		this.setPosition(cc.p(0,0));
 		//this.scheduleUpdate(); //update 60fps in Layer
@@ -484,7 +482,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 			this._itemPopCount++;
 			if(this._twigPopCount === 60) //every 2s (p=0.5) 
 				this._twigPopCount = 0, this.popTwig();
-			this._twigPopCount++;		
+			this._twigPopCount++;
 		}
 		
 	},
@@ -511,7 +509,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.runAction(cc.Sequence.create(
 			cc.DelayTime.create(2.0),
 			cc.CallFunc.create(function () {
-				cc.AudioEngine.end();
+				//sounds all stop
+				cc.AudioEngine.getInstance().stopMusic();
+       			cc.AudioEngine.getInstance().stopAllEffects();
+       			
 				classes.GameController.getInstance().setCurScene(
 					new classes.scenes.DuelGameResultScene(that._baseCamp)
 				);
