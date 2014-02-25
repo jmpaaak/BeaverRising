@@ -1,0 +1,23 @@
+*
+{
+	padding: 0;
+	margin: 0;
+	border: 0;
+	
+}
+
+/* Layout */
+body
+{
+	background-color : blue;
+	width: 960px;
+	height: 540px;
+}
+
+#button1
+{
+	background-color : white;
+	width: 540px;
+	height: 120px;
+	position: absolute;
+}

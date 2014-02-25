@@ -33,6 +33,27 @@ var s_story406 = "images/Story/406.png";
 //MainMenu
 var s_bgMainMenu = "images/mainmenu/bgMainMenu.png";
 var s_Title1 = "images/mainmenu/Title1.png";
+
+var s_creditsBoard =  "images/mainmenu/creditsBoard.png";
+var s_credits =  "images/mainmenu/credits.png";
+
+var s_singlePlay = "images/singlePlay.png"; //TODO : will be deleted after making single play
+
+var s_howToPlay = [];
+s_howToPlay[0] =  "images/HowToPlay/HowToPlay1.png";
+s_howToPlay[1] =  "images/HowToPlay/HowToPlay2.png";
+
+var s_setting_board = "images/mainmenu/menu_setting.png";
+var s_setting_sound = "images/mainmenu/setting_sound.png";
+var s_setting_sound_select = "images/mainmenu/setting_sound_select.png";
+var s_setting_resetData = "images/mainmenu/setting_resetData.png";
+var s_setting_resetData_select = "images/mainmenu/setting_resetData_select.png";
+var s_setting_soundOn = "images/mainmenu/soundOn.png";
+var s_setting_soundOff = "images/mainmenu/soundOff.png";
+var s_setting_exit = "images/mainmenu/setting_exit.png";
+var s_setting_exit_select = "images/mainmenu/setting_exit_select.png";
+
+
 var s_Button_SinglePlay_Normal = "images/mainmenu/Button_SinglePlay_Normal.png";
 var s_Button_MultiPlay_Normal = "images/mainmenu/Button_MultiPlay_Normal.png";
 var s_Button_HowToPlay_Normal = "images/mainmenu/Button_HowToPlay_Normal.png";
@@ -99,19 +120,20 @@ var s_ScoreBoard = "images/ScoreBoard.png";
 
 var s_BaseCamp = [];
 // var s_BaseCamp_White = [];
-s_BaseCamp[0] = "images/BaseCamp1.png";
-s_BaseCamp[1] = "images/BaseCamp2.png";
-s_BaseCamp[2] = "images/BaseCamp3.png";
-s_BaseCamp[3] = "images/BaseCamp4.png";
-s_BaseCamp[4] = "images/BaseCamp5.png";
-s_BaseCamp[5] = "images/BaseCamp6.png";
+s_BaseCamp[0] = "images/Home/BaseCamp1.png";
+s_BaseCamp[1] = "images/Home/BaseCamp2.png";
+s_BaseCamp[2] = "images/Home/BaseCamp3.png";
+s_BaseCamp[3] = "images/Home/BaseCamp4.png";
+s_BaseCamp[4] = "images/Home/BaseCamp5.png";
+s_BaseCamp[5] = "images/Home/BaseCamp6.png";
+var s_BaseCamp_white = [];
+s_BaseCamp_white[0] = "images/Home/BaseCamp1_white.png";
+s_BaseCamp_white[1] = "images/Home/BaseCamp2_white.png";
+s_BaseCamp_white[2] = "images/Home/BaseCamp3_white.png";
+s_BaseCamp_white[3] = "images/Home/BaseCamp4_white.png";
+s_BaseCamp_white[4] = "images/Home/BaseCamp5_white.png";
 
-// s_BaseCamp_White[0] = "images/BaseCamp1_White.png";
-// s_BaseCamp_White[1] = "images/BaseCamp2_White.png";
-// s_BaseCamp_White[2] = "images/BaseCamp3_White.png";
-// s_BaseCamp_White[3] = "images/BaseCamp4_White.png";
-// s_BaseCamp_White[4] = "images/BaseCamp5_White.png";
-// s_BaseCamp_White[5] = "images/BaseCamp6_White.png";
+var s_homeEffect = "images/Home/homeEffect.png";
 
 var s_ResultBoard = "images/ResultBoard.png";
 var s_ResultRect = "images/ResultRect.png";
@@ -164,47 +186,71 @@ var s_TempMenu = "images/temp.png";//TODO:REMOVE
 //var s_BaseCamp3 = "BaseCamp3.png";
 //var s_BaseCamp4 = "BaseCamp4.png";
 
-//sound
-	//BGM
-var bgm_mainBGM = "game/resources/sounds/bgm/mainBGM.mp3";
-var bgm_gameBGM = "game/resources/sounds/bgm/gameBGM.mp3";
-var bgm_storyBGM = "game/resources/sounds/bgm/storyBGM.mp3";
+
+
+
+var soundPath = "game/resources/sounds/";
+/**
+ * SOUND OBJECT
+ * 
+ * 	Using example
+ * 		classes.SoundBox.getInstance().playSound(str, bool);
+ * 		@param {String} sound object's prop
+ * 		@param {bool} loop
+ */
+var g_resources_sound = {
+    //BGM
+	bgm_mainBGM: "bgm/mainBGM.mp3",
+	bgm_gameBGM: "bgm/gameBGM.mp3",
+	bgm_storyBGM: "bgm/storyBGM.mp3",
+	
 	//button Sound
-var se_buttonMove = "game/resources/sounds/etc/button_move.mp3";
-var se_buttonSelect = "game/resources/sounds/etc/button_select.mp3";
+	se_buttonMove: "etc/button_move.mp3",
+	se_buttonSelect: "etc/button_select.mp3",
+	
 	//effectSound
-var se_beaverGetShot = "game/resources/sounds/effectSound/beaverGetShot.mp3";
-var se_beaverMeetTurtle = "game/resources/sounds/effectSound/beaverMeetTurtle.mp3";
-var se_beaverOver = "game/resources/sounds/effectSound/beaverOver.mp3";
-var se_beaverStart = "game/resources/sounds/effectSound/beaverStart.mp3";
-var se_beaverStun = "game/resources/sounds/effectSound/beaverStun.mp3";
-var se_beaverTagger = "game/resources/sounds/effectSound/beaverTagger.mp3";
-var se_breakTwig = "game/resources/sounds/effectSound/breakTwig.mp3";
-var se_crocsComing = "game/resources/sounds/effectSound/crocsComing.mp3";
-var se_enteringHome = "game/resources/sounds/effectSound/enteringHome.mp3";
-var se_gameResult = "game/resources/sounds/effectSound/gameResult.mp3";
-var se_gameStart = "game/resources/sounds/effectSound/gameStart.mp3";
-var se_getItem = "game/resources/sounds/effectSound/getItem.mp3";
-var se_getTwig = "game/resources/sounds/effectSound/getTwig.mp3";
-var se_houseBuilding = "game/resources/sounds/effectSound/houseBuilding.mp3";
-var se_itemDevil = "game/resources/sounds/effectSound/itemDevil.mp3"; //TODO : not item yet
-var se_itemLightning = "game/resources/sounds/effectSound/itemLightning.mp3";
-var se_itemPopUp = "game/resources/sounds/effectSound/itemPopUp.mp3";
-var se_itemShield = "game/resources/sounds/effectSound/itemShield.mp3";
-var se_itemShooting = "game/resources/sounds/effectSound/itemShooting.mp3";
-var se_itemThunder = "game/resources/sounds/effectSound/itemThunder.mp3"; //TODO : not item yet
-var se_timeRunShort = "game/resources/sounds/effectSound/timeRunShort.mp3";
-var se_timeShortMessage = "game/resources/sounds/effectSound/timeShortMessage.mp3";
-var se_turtleComing = "game/resources/sounds/effectSound/turtleComing.mp3";
-//var se_ = "sounds/effectSound/.wav";
+	se_beaverGetShot: "effectSound/beaverGetShot.mp3",
+	se_beaverMeetTurtle: "effectSound/beaverMeetTurtle.mp3",
+	se_beaverOver: "effectSound/beaverOver.mp3",
+	se_beaverStart: "effectSound/beaverStart.mp3",
+	se_beaverStun: "effectSound/beaverStun.mp3",
+	se_beaverTagger: "effectSound/beaverTagger.mp3",
+	se_breakTwig: "effectSound/breakTwig.mp3",
+	se_crocsComing: "effectSound/crocsComing.mp3",
+	se_enteringHome: "effectSound/enteringHome.mp3",
+	se_gameResult: "effectSound/gameResult.mp3",
+	se_gameStart: "effectSound/gameStart.mp3",
+	se_getItem: "effectSound/getItem.mp3",
+	se_getTwig: "effectSound/getTwig.mp3",
+	se_houseBuilding: "effectSound/houseBuilding.mp3",
+	//se_itemDevil: "effectSound/itemDevil.mp3", //TODO : not item yet
+	se_itemLightning: "effectSound/itemLightning.mp3",
+	se_itemPopUp: "effectSound/itemPopUp.mp3",
+	se_itemShield: "effectSound/itemShield.mp3",
+	se_itemShooting: "effectSound/itemShooting.mp3",
+	//se_itemThunder: "effectSound/itemThunder.mp3", //TODO : not item yet
+	se_timeRunShort: "effectSound/timeRunShort.mp3",
+	se_timeShortMessage: "effectSound/timeShortMessage.mp3",
+	se_turtleComing: "effectSound/turtleComing.mp3"
+};
 
 
+
+
+
+/**
+ * IMAGE ARRAYS
+ */
 var g_resources_splash = [
 	{src:s_SplashScreen1},
 	{src:s_SplashScreen2}
 ];
 
+
 var g_resources_story = [
+	//fnt
+	{src:s_Konqa32},
+	
 	{src:s_story101},
 	{src:s_story102},
 	{src:s_story103},
@@ -243,6 +289,29 @@ var g_resources_game = [
 	{src:s_Button_Credit_Normal},
 	{src:s_Button_Option_Normal},
 	{src:s_TempMenu},//TODO:REMOVE
+	
+	//credit board
+	{src:s_creditsBoard},
+	{src:s_credits},
+	
+	// single play coming hometown
+	{src:s_singlePlay},
+	
+	//HowtoPlay 
+	{src:s_howToPlay[0]},
+	{src:s_howToPlay[1]},
+	
+	//setting sound
+	{src:s_setting_board},
+	{src:s_setting_sound},
+	{src:s_setting_resetData},
+	{src:s_setting_sound_select},
+	{src:s_setting_resetData_select},
+	{src:s_setting_soundOn},
+	{src:s_setting_soundOff},
+	{src:s_setting_exit},
+	{src:s_setting_exit_select},
+	
     //image
 	{src:s_bgReady},
 	{src:s_bgStart},
@@ -277,6 +346,15 @@ var g_resources_game = [
 	{src:s_BaseCamp[3]},
 	{src:s_BaseCamp[4]},
 	{src:s_BaseCamp[5]},
+
+	{src:s_BaseCamp_white[0]},
+	{src:s_BaseCamp_white[1]},
+	{src:s_BaseCamp_white[2]},
+	{src:s_BaseCamp_white[3]},
+	{src:s_BaseCamp_white[4]},
+	
+	{src:s_homeEffect},
+	
 	{src:s_Bar[0]},
 	{src:s_Bar[1]},
 	{src:s_Bar[2]},
@@ -332,42 +410,11 @@ var g_resources_game = [
     {src:p_woodBig_Broken},
 
 	{src:p_fishMotion},
-    //fnt
-	{src:s_Konqa32},
 	
     //tmx
 
-    //bgm
-	{src:bgm_gameBGM},
-	{src:bgm_mainBGM},
-	{src:bgm_storyBGM},
-	//button sound
-	{src:se_buttonMove},
-	{src:se_buttonSelect},
-    //effect
-	{src:se_beaverGetShot},
-	{src:se_beaverMeetTurtle},
-	{src:se_beaverOver},
-	{src:se_beaverStart},
-	{src:se_beaverStun}, 
-	{src:se_beaverTagger},
-	{src:se_breakTwig},
-	{src:se_crocsComing},
-	{src:se_enteringHome},
-	{src:se_gameResult},
-	{src:se_gameStart},
-	{src:se_getItem},
-	{src:se_getTwig},
-	{src:se_houseBuilding},
-	{src:se_itemLightning},
-	{src:se_itemPopUp},
-	{src:se_itemShield},
-	{src:se_itemShooting},
-	{src:se_timeRunShort},
-	{src:se_timeShortMessage},
-	{src:se_turtleComing},
-    {src:s_DecoBeaver},
     //result layer
+    {src:s_DecoBeaver},
     {src:s_ResultBoard},
     {src:s_ResultRect}
 ];

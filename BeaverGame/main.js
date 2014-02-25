@@ -43,29 +43,7 @@ var cocos2dApp = cc.Application.extend({
 
         searchPaths.push("game/resources");
         cc.FileUtils.getInstance().setSearchPaths(searchPaths);
-
-        // var platform = cc.Application.getInstance().getTargetPlatform();
-        // if (platform == cc.TARGET_PLATFORM.MOBILE_BROWSER) {
-            // resDirOrders.push("HD");
-        // }
-        // else if (platform == cc.TARGET_PLATFORM.PC_BROWSER) {
-            // if (screenSize.height >= 600) { //real height!!
-                // resDirOrders.push("HD");
-            // }
-            // else {
-                // // resourceSize = cc.size(320, 480);
-                // // designSize = cc.size(320, 480);
-                // resDirOrders.push("Normal");
-            // }
-        // }
-        // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
-
-
-
-		// var resourceSize = cc.size(1920, 1080);
-		// var designSize = cc.size(960, 540);
-		// director.setContentScaleFactor(resourceSize.width / designSize.width);
-		//cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
+        cc.AudioEngine.getInstance().setResPath("game/resources/sounds");
 
         cc.EGLView.getInstance().setDesignResolutionSize(1920, 1080, cc.RESOLUTION_POLICY.SHOW_ALL);
         cc.EGLView.getInstance().resizeWithBrowserSize(true);
@@ -77,11 +55,12 @@ var cocos2dApp = cc.Application.extend({
         
         director.setAnimationInterval(1.0 / this.config['frameRate']);
         
-        //load only Menu, Splash sreen resources
-        cc.Loader.preload([g_resources_game],function () {
-            director.runWithScene(this.startScene()); //director.replaceScene(this.startScene());
+        //Load Splash sreen resources & All sounds
+        cc.Loader.preload(g_resources_splash, function () {
+        	classes.SoundBox.getInstance().preload(g_resources_sound);
+            director.runWithScene(this.startScene());
         }, this);
-
+        
         return true;
     }
 });

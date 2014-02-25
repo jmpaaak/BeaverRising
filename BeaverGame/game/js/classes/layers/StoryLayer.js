@@ -2,13 +2,12 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
     _story4Action: null,
     _story4Sprite: null,
     _curAction : null,
-	_storySoundID : null,
 	_skipLabel: null,
 	_colorSetCount: 0,
 	
 	init : function() {
 		this._super();
-		this._storySoundID = cc.AudioEngine.getInstance().playMusic(bgm_storyBGM,true);
+		classes.SoundBox.getInstance().play("bgm_storyBGM", true);
 		var size = cc.Director.getInstance().getWinSize();
 		var controller = classes.GameController.getInstance();
 		this.setKeyboardEnabled(true);
@@ -131,10 +130,9 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 	       	animateStory4,
 	       	cc.FadeOut.create(2),
 	       	//goToMainMenu
-	       	cc.CallFunc.create(function () {
-	       		
+	       	cc.CallFunc.create(function () {  		
 				cc.LoaderScene.preload(g_resources_game, function() {
-					cc.AudioEngine.getInstance().stopMusic(that._storySoundID);
+					classes.SoundBox.getInstance().pause("bgm_storyBGM");
 					controller.setCurScene(classes.scenes.MainMenuScene.getInstance());
 				}, this);
 				return;
@@ -166,8 +164,11 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 		switch(e)
 		{
 			case BG.EVENT.PLAYER1.ITEM[0]:
-			case BG.EVENT.PLAYER1.ITEM[1]:	
-				classes.GameController.getInstance().setCurScene(classes.scenes.MainMenuScene.getInstance());
+			case BG.EVENT.PLAYER1.ITEM[1]:
+				cc.LoaderScene.preload(g_resources_game, function() {
+					classes.SoundBox.getInstance().pause("bgm_storyBGM");
+					classes.GameController.getInstance().setCurScene(classes.scenes.MainMenuScene.getInstance());
+				}, this);
 				break;
 		}
 	}

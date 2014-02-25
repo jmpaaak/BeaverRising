@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		
+		<title>Beaver</title>
+		<meta name="viewport" content="user-scalable=no" />
+	    <meta name="apple-mobile-web-app-capable" content="yes"/>
+	    <meta name="full-screen" content="yes"/>
+	    <meta name="screen-orientation" content="portrait"/>
+	    <meta name="x5-fullscreen" content="true"/>
+	    <meta name="360-fullscreen" content="true"/>
+    
+		
+		<!-- TODO : Common API -->
+		<script type="text/javascript" language="javascript" src="app/library/jquery.js"></script>
+		<script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
+		<script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
+        <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
+
+		<!-- TODO : Javascript code -->
+		<script language="javascript" type="text/javascript" src="app/javascript/Main.js"></script>
+		<script language="javascript" type="text/javascript" src="app/javascript/Event.js"></script>
+		<script src="app/javascript/Convergence.js"></script>
+
+		<!-- TODO : Style sheets code -->
+		<link rel="stylesheet" href="app/stylesheets/Main.css" type="text/css">
+
+		<!-- TODO: Plugins -->
+
+	</head>
+
+	<body onload="Main.onLoad();" onunload="Main.onUnload();">
+		
+		<canvas id="gameCanvas"></canvas>
+		<script src="beavergameBoot.js"></script>
+		<!-- Dummy anchor as focus for key events -->
+		<a href="javascript:void(0);" id="anchor" onkeydown="Main.keyDown();"></a>
+		<div id="button1"></div>
+		
+		<div id="text"></div>
+		<!-- TODO: your code here -->
+	</body>
+</html>

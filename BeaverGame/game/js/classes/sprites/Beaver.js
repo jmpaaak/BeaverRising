@@ -50,7 +50,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
     _returningHome: false,
     _willDevil: false,
     _isDevil: false,
-    
+
     //meeting obstacles
 	_turtleCountFlag : false,
     //sprite
@@ -398,10 +398,12 @@ classes.sprites.Beaver = cc.Sprite.extend({
     returnToBase: function () {
 		if (!this._returningHome) {
 			this._returningHome = true;
+			this._isHome = true; // avoiding repeating crying sound when beaver is hit by many twigs. 
+			this.cryingSound();
+			this.cryAction(); 
 			this.removeTailAtIndex(0);
 			var that = this;
 			this.runAction(cc.Sequence.create(cc.CallFunc.create(function() {
-				that.cryingSound();
 				that._curVelocity = 0;
 				if(!that._isDevil) that.changeAction("cry");
 			}), cc.FadeOut.create(2), cc.CallFunc.create(function() {
@@ -409,6 +411,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 				that.removeTailAtIndex(0);
 				if(!that._isDevil) that.changeAction("basic");
 				that._returningHome = false;
+				that._isHome = false; // avoiding repeating crying sound when beaver is hit by many twigs. 
 			}), cc.FadeIn.create(0.2)));
 		}
 
@@ -441,24 +444,32 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	  		cc.CallFunc.create(devil),	  		
 	  		cc.DelayTime.create(0.2),
 	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.2),
+	  		cc.CallFunc.create(devil),
+	  		cc.DelayTime.create(0.2),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1), //
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(devil),	  		
+	  		cc.DelayTime.create(0.1),
+	  		cc.CallFunc.create(normal),
 	  		cc.DelayTime.create(0.1),
 	  		cc.CallFunc.create(devil),
 	  		cc.DelayTime.create(0.1),
 	  		cc.CallFunc.create(normal),
 	  		cc.DelayTime.create(0.1), //
 	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.05),
+	  		cc.DelayTime.create(0.1),
 	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.05),
+	  		cc.DelayTime.create(0.1),
 	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.05),
-	  		cc.CallFunc.create(normal),  		
-	  		cc.DelayTime.create(0.05),
-	  		cc.CallFunc.create(devil),	  		
-	  		cc.DelayTime.create(0.05),
-	  		cc.CallFunc.create(normal),
-	  		cc.DelayTime.create(0.05),
-	  		cc.CallFunc.create(devil),
 	  		cc.CallFunc.create(function () {
 	  			//for removing manual stun
 				that._isDevil = true;
@@ -936,11 +947,38 @@ classes.sprites.Beaver = cc.Sprite.extend({
 			cc.AudioEngine.getInstance().playEffect(se_beaverStun);
 		}
     },
-    GetShotSound: function(){
+    getShotSound: function(){
 		if (BG.SOUND) {
 			cc.AudioEngine.getInstance().playEffect(se_beaverGetShot);
 		}
-    }
+    },
+    taggerSound: function(){
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_beaverTagger);
+		}
+    },
+	getTwigSound: function() {
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_getTwig);
+		}
+	},
+	getItemSound: function() {
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_getItem);
+		}
+	},
+	enterHomeSound: function(){
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_enteringHome);
+		}
+	},
+	meetTurtleSound: function() {
+		if (BG.SOUND) {
+			cc.AudioEngine.getInstance().playEffect(se_beaverMeetTurtle);
+		}
+	}
+
+
 	
 });
 
