@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>128</integer>
+		<integer>64</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -16,95 +16,95 @@
 			<key>x</key>
 			<integer>35</integer>
 			<key>y</key>
-			<integer>81</integer>
+			<integer>21</integer>
 			<key>width</key>
-			<integer>33</integer>
+			<integer>16</integer>
 			<key>height</key>
-			<integer>39</integer>
+			<integer>19</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>33</integer>
+			<integer>17</integer>
 			<key>originalHeight</key>
-			<integer>39</integer>
+			<integer>20</integer>
 		</dict>
 		<key>woodBig2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>35</integer>
+			<integer>18</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>21</integer>
 			<key>width</key>
-			<integer>33</integer>
+			<integer>16</integer>
 			<key>height</key>
-			<integer>39</integer>
+			<integer>19</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>33</integer>
+			<integer>17</integer>
 			<key>originalHeight</key>
-			<integer>39</integer>
+			<integer>20</integer>
 		</dict>
 		<key>woodBig3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>35</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>21</integer>
 			<key>width</key>
-			<integer>33</integer>
+			<integer>16</integer>
 			<key>height</key>
-			<integer>39</integer>
+			<integer>19</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>33</integer>
+			<integer>17</integer>
 			<key>originalHeight</key>
-			<integer>39</integer>
+			<integer>20</integer>
 		</dict>
 		<key>woodBig4.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>35</integer>
 			<key>y</key>
-			<integer>81</integer>
+			<integer>1</integer>
 			<key>width</key>
-			<integer>33</integer>
+			<integer>16</integer>
 			<key>height</key>
-			<integer>38</integer>
+			<integer>19</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>33</integer>
+			<integer>17</integer>
 			<key>originalHeight</key>
-			<integer>38</integer>
+			<integer>20</integer>
 		</dict>
 		<key>woodBig5.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>18</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
-			<integer>33</integer>
+			<integer>16</integer>
 			<key>height</key>
-			<integer>39</integer>
+			<integer>19</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>33</integer>
+			<integer>17</integer>
 			<key>originalHeight</key>
-			<integer>39</integer>
+			<integer>20</integer>
 		</dict>
 		<key>woodBig6.png</key>
 		<dict>
@@ -113,17 +113,17 @@
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>33</integer>
+			<integer>16</integer>
 			<key>height</key>
-			<integer>39</integer>
+			<integer>19</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>33</integer>
+			<integer>17</integer>
 			<key>originalHeight</key>
-			<integer>39</integer>
+			<integer>20</integer>
 		</dict>
 	</dict>
 </dict>

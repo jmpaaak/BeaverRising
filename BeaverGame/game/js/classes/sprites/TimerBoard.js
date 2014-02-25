@@ -21,7 +21,7 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
 
     },
     _addTimeLabel: function () {
-    	this._timeLabel = cc.LabelBMFont.create(""+ this._limitedTime, s_Konqa32);
+    	this._timeLabel = cc.LabelBMFont.create(""+ this._limitedTime, s_Konqa32, 200);
         this._timeLabel.setPosition(this.getTextureRect().width / 2 , this.getTextureRect().height / 2);
         this.addChild(this._timeLabel, 60);
     },

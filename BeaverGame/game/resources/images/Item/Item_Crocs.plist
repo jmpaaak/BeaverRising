@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>128</integer>
 		<key>height</key>
-		<integer>256</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -16,76 +16,76 @@
 			<key>x</key>
 			<integer>1</integer>
 			<key>y</key>
-			<integer>118</integer>
+			<integer>1</integer>
 			<key>width</key>
-			<integer>100</integer>
+			<integer>70</integer>
 			<key>height</key>
-			<integer>36</integer>
+			<integer>25</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>100</integer>
+			<integer>70</integer>
 			<key>originalHeight</key>
-			<integer>36</integer>
+			<integer>25</integer>
 		</dict>
 		<key>crocs2.png</key>
 		<dict>
 			<key>x</key>
 			<integer>1</integer>
 			<key>y</key>
-			<integer>80</integer>
+			<integer>27</integer>
 			<key>width</key>
-			<integer>100</integer>
+			<integer>70</integer>
 			<key>height</key>
-			<integer>37</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>100</integer>
+			<integer>70</integer>
 			<key>originalHeight</key>
-			<integer>37</integer>
+			<integer>27</integer>
 		</dict>
 		<key>crocs3.png</key>
 		<dict>
 			<key>x</key>
 			<integer>1</integer>
 			<key>y</key>
-			<integer>39</integer>
+			<integer>55</integer>
 			<key>width</key>
-			<integer>99</integer>
+			<integer>70</integer>
 			<key>height</key>
-			<integer>40</integer>
+			<integer>29</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>99</integer>
+			<integer>70</integer>
 			<key>originalHeight</key>
-			<integer>40</integer>
+			<integer>29</integer>
 		</dict>
 		<key>crocs4.png</key>
 		<dict>
 			<key>x</key>
 			<integer>1</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>85</integer>
 			<key>width</key>
-			<integer>100</integer>
+			<integer>70</integer>
 			<key>height</key>
-			<integer>37</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>100</integer>
+			<integer>70</integer>
 			<key>originalHeight</key>
-			<integer>37</integer>
+			<integer>27</integer>
 		</dict>
 	</dict>
 </dict>

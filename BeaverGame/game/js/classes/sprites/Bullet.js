@@ -8,12 +8,14 @@ classes.sprites.Bullet = cc.Sprite.extend({
     _curPos: null,
     _curLayer: null,
     _isOut: false,
+    _size: null,
     
     //actions
     _bombAction: null,
     _fishAction: null,
     ctor: function (layer, p, beaver) {
         this._super();
+        this._size = cc.Director.getInstance().getWinSize();
         this.initWithFile(s_Item_Bullet);
         this._id = beaver.getID();
         this._vector = beaver.getVector();
@@ -23,7 +25,7 @@ classes.sprites.Bullet = cc.Sprite.extend({
         this._curPos = this._body.GetPosition();
         this._curLayer = layer;
         this.initSprite();
-        this._velocity = 4;
+        this._velocity = 3;
         this.schedule(this.update, 1/30);
     },
     initSprite: function(){
@@ -100,7 +102,7 @@ classes.sprites.Bullet = cc.Sprite.extend({
     },
     update: function () {
     	//case of getting out of screen
-        if((this._curPos.y * PTM_RATIO) > 1080)
+        if((this._curPos.y * PTM_RATIO) > this._size.height)
         {
 	    	this._isOut = true;
 			this.destroy(this._curLayer);
@@ -110,7 +112,7 @@ classes.sprites.Bullet = cc.Sprite.extend({
 	    	this._isOut = true;
         	this.destroy(this._curLayer);
         }
-        else if((this._curPos.x * PTM_RATIO) > 1920)
+        else if((this._curPos.x * PTM_RATIO) > this._size.width)
         {
 	    	this._isOut = true;
         	this.destroy(this._curLayer);

@@ -54,12 +54,12 @@ classes.sprites.Obstacle = cc.Sprite.extend({
         var turtleChoice = Math.floor((Math.random()*10 % 2));
         if(turtleChoice == 0) //fast turtle
         {
-        	this._turtleSpeed = 5;
+        	this._turtleSpeed = 3;
         	this._animationSpeed = 0.05;
         }
         else
         {
-        	this._turtleSpeed = 3;
+        	this._turtleSpeed = 1;
         	this._animationSpeed = 0.15;
         }
         

@@ -31,12 +31,12 @@ BG.SOUND = true;
 //game UI size
 BG.GAME_UI = {
 	OUTTER_FRAME: {
-		WIDTH : 30,
-		HEIGHT : 70
+		WIDTH : 15,
+		HEIGHT : 35
 	},
 	INNER_FRAME : {
-		WIDTH : 1860,
-		HEIGHT : 940
+		WIDTH : 930,
+		HEIGHT : 470
 	},
 	
 };
@@ -55,10 +55,10 @@ BG.OBSTACLE = {
 };
 
 BG.BEAVER_SPEED ={
-	SLOW : 5,
-	NORMAL :9,
-	FAST : 10,
-	SUPERFAST : 30
+	SLOW : 2,
+	NORMAL :4,
+	FAST : 7,
+	SUPERFAST : 15
 };
 
 //branch types

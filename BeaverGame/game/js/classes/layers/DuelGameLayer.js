@@ -504,7 +504,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		var that = this;
 		this._isStart = false;
         var over = cc.Sprite.create(s_Over);
-        over.setPosition(1920 / 2, 1080 / 2);
+        over.setPosition(960 / 2, 540 / 2);
         this.addChild(over, 5);
 		for(beav in this._beavers)
 			this._beavers[beav].setIsStart(false);

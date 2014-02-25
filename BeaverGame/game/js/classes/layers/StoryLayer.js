@@ -45,7 +45,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 8; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story1_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story1_texture[i],cc.rect(0,0,size.width,size.height));
 	        animFrames.push(frame[i]);    	
 		}
 		this._story1Sprite = cc.Sprite.createWithSpriteFrame(frame[0]);
@@ -59,7 +59,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 4; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story2_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story2_texture[i],cc.rect(0,0,size.width,size.height));
 	        animFrames.push(frame[i]);    	
 		}
         var animation = cc.Animation.create(animFrames, 0.5);
@@ -70,7 +70,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 5; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story3_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story3_texture[i],cc.rect(0,0,size.width,size.height));
 	        animFrames.push(frame[i]);    	
 		}
         var animation = cc.Animation.create(animFrames, 2);
@@ -81,7 +81,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 6; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story4_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story4_texture[i],cc.rect(0,0,size.width,size.height));
 	        animFrames.push(frame[i]);    	
 		}
         var animation = cc.Animation.create(animFrames, 2);

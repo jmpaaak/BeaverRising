@@ -78,7 +78,6 @@ var s_Trophy_Bronze = "images/Trophy_Bronze.png";
 
 //GameLayer
 var s_Mask = "images/Mask.png";
-var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
 var s_bgStart = "images/bgStart.png";
 
@@ -325,7 +324,6 @@ var g_resources_game = [
     //image
 	{src:s_bgReady},
 	{src:s_bgStart},
-	{src:s_bgDuelGameLayer},
 	{src:s_Mask},
 	
 	{src:s_gameFrame},

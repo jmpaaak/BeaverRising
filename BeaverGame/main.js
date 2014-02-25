@@ -67,7 +67,7 @@ var cocos2dApp = cc.Application.extend({
 		// director.setContentScaleFactor(resourceSize.width / designSize.width);
 		//cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL); 
 
-        cc.EGLView.getInstance().setDesignResolutionSize(1920, 1080, cc.RESOLUTION_POLICY.SHOW_ALL);
+        cc.EGLView.getInstance().setDesignResolutionSize(960, 540, cc.RESOLUTION_POLICY.SHOW_ALL);
         cc.EGLView.getInstance().resizeWithBrowserSize(true);
         
         // turn on display FPS
@@ -78,7 +78,7 @@ var cocos2dApp = cc.Application.extend({
         director.setAnimationInterval(1.0 / this.config['frameRate']);
         
         //load only Menu, Splash sreen resources
-        cc.Loader.preload([g_resources_splash],function () {
+        cc.Loader.preload([g_resources_game],function () {
         	cc.AudioEngine.getInstance().setResPath("game/resources/sounds");
         	for(var i in g_resources_music){        		
 			cc.AudioEngine.getInstance().preloadMusic(g_resources_music[i]);
@@ -92,4 +92,4 @@ var cocos2dApp = cc.Application.extend({
     }
 });
 
-var myApp = new cocos2dApp(classes.scenes.SplashScreenScene.getInstance);  //classes.scenes.DuelGameScene.getInstance
+var myApp = new cocos2dApp(classes.scenes.DuelGameScene.getInstance);  //classes.scenes.DuelGameScene.getInstance

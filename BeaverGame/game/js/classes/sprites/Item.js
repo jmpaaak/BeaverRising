@@ -76,25 +76,25 @@ classes.sprites.Item = cc.Sprite.extend({
 				tex.setPosition(p.x, BG.GAME_UI.INNER_FRAME.HEIGHT);
 				x = p.x;
 				y = BG.GAME_UI.INNER_FRAME.HEIGHT;
-				this._velocity = cc.p(0, -4);
+				this._velocity = cc.p(0, -2);
 				break;
 			case 2:
 				tex.setPosition(p.x, BG.GAME_UI.OUTTER_FRAME.HEIGHT);
 				x = p.x;
 				y = BG.GAME_UI.OUTTER_FRAME.HEIGHT;
-				this._velocity = cc.p(0, 4);
+				this._velocity = cc.p(0, 2);
 				break;
 			case 3:
 				tex.setPosition(BG.GAME_UI.OUTTER_FRAME.WIDTH, p.y);
 				x = BG.GAME_UI.OUTTER_FRAME.WIDTH;
 				y = p.y;
-				this._velocity = cc.p(4, 0);
+				this._velocity = cc.p(2, 0);
 				break;
 			case 4:
 				tex.setPosition(BG.GAME_UI.INNER_FRAME.WIDTH, p.y);
 				x = BG.GAME_UI.INNER_FRAME.WIDTH;
 				y = p.y;
-				this._velocity = cc.p(-4, 0);
+				this._velocity = cc.p(-2, 0);
 				break;
 		}
 
@@ -119,8 +119,9 @@ classes.sprites.Item = cc.Sprite.extend({
 		fixtureDef.friction = 0;
 		fixtureDef.isSensor = true;
 		body.CreateFixture(fixtureDef);
-		body.SetLinearVelocity(this._velocity);
 		if(this._type == BG.ITEM_TYPE.DEVIL){
+			this._velocity.x*=2;
+			this._velocity.y*=2;
         switch(this._direction){
 	        	case 1:
 	        		this._startAngle = 90;
@@ -136,6 +137,7 @@ classes.sprites.Item = cc.Sprite.extend({
 	        	break;	
         }
 		}
+		body.SetLinearVelocity(this._velocity);
 		body.SetAngle(this._startAngle*(Math.PI/180));
 		this._body = body;
 	},
