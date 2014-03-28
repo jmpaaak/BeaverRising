@@ -5,106 +5,106 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
-		<key>height</key>
 		<integer>128</integer>
+		<key>height</key>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
 		<key>beaver4p_stun1.png</key>
 		<dict>
 			<key>x</key>
-			<integer>164</integer>
+			<integer>1</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>38</integer>
 			<key>height</key>
-			<integer>57</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>38</integer>
 			<key>originalHeight</key>
-			<integer>57</integer>
+			<integer>27</integer>
 		</dict>
 		<key>beaver4p_stun2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>84</integer>
+			<integer>40</integer>
 			<key>y</key>
-			<integer>59</integer>
+			<integer>1</integer>
 			<key>width</key>
-			<integer>79</integer>
+			<integer>38</integer>
 			<key>height</key>
-			<integer>57</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>79</integer>
+			<integer>38</integer>
 			<key>originalHeight</key>
-			<integer>57</integer>
+			<integer>27</integer>
 		</dict>
 		<key>beaver4p_stun3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>84</integer>
+			<integer>79</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>79</integer>
+			<integer>38</integer>
 			<key>height</key>
-			<integer>57</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>79</integer>
+			<integer>38</integer>
 			<key>originalHeight</key>
-			<integer>57</integer>
+			<integer>27</integer>
 		</dict>
 		<key>beaver4p_stun4.png</key>
 		<dict>
 			<key>x</key>
 			<integer>1</integer>
 			<key>y</key>
-			<integer>59</integer>
+			<integer>29</integer>
 			<key>width</key>
-			<integer>82</integer>
+			<integer>39</integer>
 			<key>height</key>
-			<integer>57</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>82</integer>
+			<integer>39</integer>
 			<key>originalHeight</key>
-			<integer>57</integer>
+			<integer>27</integer>
 		</dict>
 		<key>beaver4p_stun5.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>41</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>29</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>38</integer>
 			<key>height</key>
-			<integer>57</integer>
+			<integer>27</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>38</integer>
 			<key>originalHeight</key>
-			<integer>57</integer>
+			<integer>27</integer>
 		</dict>
 	</dict>
 </dict>

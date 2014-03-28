@@ -7,7 +7,7 @@ classes.SoundBox = cc.Class.extend({
 			var src = soundPath + argo[prop];
 			this._sounds[prop] = new Audio(src);
 			this._sounds[prop].preload = "none";
-			//this._sounds[prop].load();
+			//this._sounds[prop].load(); //error at TV
 			alert(prop+" is loaded!");
 		}
 	},
@@ -28,7 +28,7 @@ classes.SoundBox = cc.Class.extend({
  	 * @param {String} prop The sound obj's property
 	 */
 	pause: function (prop) {
-		//this._sounds[prop].pause(); //ERROR IN TV EMULATOR
+		this._sounds[prop].pause(); //ERROR IN TV EMULATOR
 		this._sounds[prop].currentTime = 0;
 	},
 	

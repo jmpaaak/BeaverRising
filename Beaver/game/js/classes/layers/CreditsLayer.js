@@ -8,13 +8,16 @@ classes.layers.CreditsLayer = cc.Layer.extend({
 		this._curLayer = layer;
 		this.setKeyboardEnabled(true);
 		var board = cc.Sprite.create(s_creditsBoard);
+		var mask = cc.Sprite.create(s_Mask);
 		board.setPosition(size.width / 2, size.height /2);
-		this.addChild(board);
+		mask.setPosition(size.width / 2, size.height /2);
+		this.addChild(mask, 0);
+		this.addChild(board, 1);
 		this.init();
 	},
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
-		var width = 700, height = 800;
+		var width = 400, height = 400;
 
    		// Create clipping node
         this._clipper = cc.ClippingNode.create();
@@ -22,7 +25,7 @@ classes.layers.CreditsLayer = cc.Layer.extend({
         this._clipper.setAnchorPoint(0.5, 0.5);
         this._clipper.setPosition(size.width / 2, size.height / 2);
         // Add to layer
-        this.addChild(this._clipper);
+        this.addChild(this._clipper, 2);
 
         // Draw a rectangle stencil with DrawNode
         var stencil = cc.DrawNode.create();
@@ -37,7 +40,7 @@ classes.layers.CreditsLayer = cc.Layer.extend({
         // Add content as a child of clipping node
         this._clipper.addChild(credits);
         credits.setPosition(width / 2, -(credits.getTextureRect().height / 2));
-		var actionTo = cc.MoveTo.create(20, cc.p(width / 2 , credits.getTextureRect().height));
+		var actionTo = cc.MoveTo.create(50, cc.p(width / 2 , credits.getTextureRect().height));
 		credits.runAction(actionTo);
 	},
 	onKeyUp: function() {

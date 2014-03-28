@@ -15,11 +15,13 @@ classes.layers.SettingLayer = cc.Layer.extend({
 		this._curLayer = layer;
 		this.setKeyboardEnabled(true);
 		this._changingStatus = "setting";
+		var mask = cc.Sprite.create(s_Mask);
+		mask.setPosition(this.size.width / 2, this.size.height /2);
+		this.addChild(mask, 0);
 		this._board = cc.Sprite.create(s_setting_board);
 		this._board.setPosition(this.size.width / 2, this.size.height /2);
-		this.addChild(this._board);
-		this.init();
-		
+		this.addChild(this._board, 1);
+		this.init();	
 	},
 	init: function() {
 		var sound = cc.Sprite.create(s_setting_sound);
@@ -89,76 +91,64 @@ classes.layers.SettingLayer = cc.Layer.extend({
 	onKeyDown: function(e) {
 		switch(e)
 		{
-		case BG.EVENT.PLAYER1.LEFT[0]:
-		case BG.EVENT.PLAYER1.LEFT[1]:
-			this.buttonSound("move");
-			switch(this._changingStatus){
-				case "setting":
-					this._curSetting--;
-					this.changeSetting();
-				break;
-				case "soundSetting": // left key_button in sound setting
-					this.changeSoundStatus();
-				break;
-				case "resetData": // left key_button in resetData
+			case BG.EVENT.PLAYER1.LEFT[0]:
+			case BG.EVENT.PLAYER1.LEFT[1]:
+				this.buttonSound("move");
+				switch(this._changingStatus){
+					case "setting":
+						this._curSetting--;
+						this.changeSetting();
+					break;
+					case "soundSetting": // left key_button in sound setting
+						this.changeSoundStatus();
+					break;
+					case "resetData": // left key_button in resetData
+						
+					break;
+					}
+			break;
+			
+			case BG.EVENT.PLAYER1.RIGHT[0]:
+			case BG.EVENT.PLAYER1.RIGHT[1]:
+				switch(this._changingStatus){
+					case "setting":
+						this._curSetting++;
+						this.changeSetting();
+					break;
+					case "soundSetting": // right key_button in sound setting
+						this.changeSoundStatus();
+					break;
+					case "resetData": // right key_button in resetData
+						
+					break;
+					}
+				break;		
+			case BG.EVENT.PLAYER1.ITEM[0]:
+			case BG.EVENT.PLAYER1.ITEM[1]:
+				if(this._changingStatus === "setting"){
+					switch(this._curSetting){
+						case 0: //soundSetting
+							this._changingStatus = "soundSetting";
+						break;
+						case 1: //reset data //TODO
+						break;
+						case 2: //exit
+							this.sellectSetting;
+							this._curLayer.removeSetting();
+							this.setKeyboardEnabled(false);
+						break;
+					}
+				}
+				else if(this._changingStatus === "soundSetting")
+				{
+					this._changingStatus = "setting"; // go to setting menu
+				}
+				else if(this._changingStatus === "resetData")
+				{
 					
-				break;
 				}
-		break;
-		
-		case BG.EVENT.PLAYER1.RIGHT[0]:
-		case BG.EVENT.PLAYER1.RIGHT[1]:
-			this.buttonSound("move");
-			switch(this._changingStatus){
-				case "setting":
-					this._curSetting++;
-					this.changeSetting();
-				break;
-				case "soundSetting": // right key_button in sound setting
-					this.changeSoundStatus();
-				break;
-				case "resetData": // right key_button in resetData
-					
-				break;
-				}
-		break;
-		
-		case BG.EVENT.PLAYER1.ITEM[0]:
-		case BG.EVENT.PLAYER1.ITEM[1]:
-			this.buttonSound("select");
-			if(this._changingStatus === "setting"){
-				switch(this._curSetting){
-					case 0: //soundSetting
-						this._changingStatus = "soundSetting";
-					break;
-					case 1: //reset data //TODO
-					break;
-					case 2: //exit
-						this.sellectSetting;
-						this._curLayer.removeSetting();
-						this.setKeyboardEnabled(false);
-					break;
-				}
-			}
-			else if(this._changingStatus === "soundSetting")
-			{
-				this._changingStatus = "setting"; // go to setting menu
-			}
-			else if(this._changingStatus === "resetData")
-			{
-				
-			}
-		break;
+			break;
 		}
 
-	},
-
-	buttonSound: function(str) {
-		if (str == "move") {
-			cc.AudioEngine.getInstance().playEffect(se_buttonMove);
-		} else {
-			cc.AudioEngine.getInstance().playEffect(se_buttonSelect);
-		}
 	}
-
 }); 

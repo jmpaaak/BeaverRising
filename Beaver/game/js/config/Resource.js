@@ -1,7 +1,10 @@
 //SplashScreen
 var s_SplashScreen1 = "images/BeaverGame_splashscreen.png";
 var s_SplashScreen2 = "images/DigitalMedia_splashscreen.png";
-//story
+//Connect
+var s_bgNotConnected = "images/bgNotConnected.png";
+var s_bgConnected = "images/bgConnected.png";
+//Story
 var s_story101 = "images/Story/101.png";
 var s_story102 = "images/Story/102.png";
 var s_story103 = "images/Story/103.png";
@@ -40,8 +43,18 @@ var s_credits =  "images/mainmenu/credits.png";
 var s_singlePlay = "images/singlePlay.png"; //TODO : will be deleted after making single play
 
 var s_howToPlay = [];
-s_howToPlay[0] =  "images/HowToPlay/HowToPlay1.png";
-s_howToPlay[1] =  "images/HowToPlay/HowToPlay2.png";
+s_howToPlay[0] = "images/HowToPlay/howtoplay0000.png";
+s_howToPlay[1] = "images/HowToPlay/howtoplay0001.png";
+s_howToPlay[2] = "images/HowToPlay/howtoplay0002.png";
+s_howToPlay[3] = "images/HowToPlay/howtoplay0003.png";
+s_howToPlay[4] = "images/HowToPlay/howtoplay0004.png";
+s_howToPlay[5] = "images/HowToPlay/howtoplay0005.png";
+s_howToPlay[6] = "images/HowToPlay/howtoplay0006.png";
+s_howToPlay[7] = "images/HowToPlay/howtoplay0007.png";
+s_howToPlay[8] = "images/HowToPlay/howtoplay0008.png";
+s_howToPlay[9] = "images/HowToPlay/howtoplay0009.png";
+s_howToPlay[10] = "images/HowToPlay/howtoplay0010.png";
+s_howToPlay[11] =  "images/HowToPlay/howtoplay0011.png";
 
 var s_setting_board = "images/mainmenu/menu_setting.png";
 var s_setting_sound = "images/mainmenu/setting_sound.png";
@@ -66,6 +79,12 @@ var s_Button_HowToPlay_Selected = "images/mainmenu/Button_HowToPlay_Selected.png
 var s_Button_Credit_Selected = "images/mainmenu/Button_Credit_Selected.png";
 var s_Button_Option_Selected = "images/mainmenu/Button_Option_Selected.png";
 
+var s_Connect1pImg = "images/mainmenu/Connect1pImg.png";
+var s_Connect2pImg = "images/mainmenu/Connect2pImg.png";
+var s_Connect3pImg = "images/mainmenu/Connect3pImg.png";
+var s_Connect4pImg = "images/mainmenu/Connect4pImg.png";
+
+//GameLayer
 var s_Restart_Normal = "images/Restart_Normal.png";
 var s_Restart_Selected = "images/Restart_Selected.png";
 var s_Home_Normal = "images/Home_Normal.png";
@@ -75,8 +94,6 @@ var s_Over = "images/GameOver.png";
 var s_Trophy_Gold = "images/Trophy_Gold.png";
 var s_Trophy_Silver = "images/Trophy_Silver.png";
 var s_Trophy_Bronze = "images/Trophy_Bronze.png";
-
-//GameLayer
 var s_Mask = "images/Mask.png";
 var s_bgDuelGameLayer = "images/bgDuelGameLayer.png";
 var s_bgReady = "images/bgReady.png";
@@ -120,6 +137,7 @@ var s_ScoreBoard = "images/ScoreBoard.png";
 
 var s_BaseCamp = [];
 // var s_BaseCamp_White = [];
+var s_StoneBaseCamp = "images/Home/StoneBaseCamp.png";
 s_BaseCamp[0] = "images/Home/BaseCamp1.png";
 s_BaseCamp[1] = "images/Home/BaseCamp2.png";
 s_BaseCamp[2] = "images/Home/BaseCamp3.png";
@@ -162,18 +180,6 @@ var s_TimerBoard = "images/TimerBoard.png";
 var bg_Water01 = "images/BG_water/sea001.png";
 var bg_Water02 = "images/BG_water/sea002.png";
 var bg_Water03 = "images/BG_water/sea003.png";
-var bg_Water04 = "images/BG_water/sea004.png";
-var bg_Water05 = "images/BG_water/sea005.png";
-var bg_Water06 = "images/BG_water/sea006.png";
-var bg_Water07 = "images/BG_water/sea007.png";
-var bg_Water08 = "images/BG_water/sea008.png";
-var bg_Water09 = "images/BG_water/sea009.png";
-var bg_Water10 = "images/BG_water/sea010.png";
-var bg_Water11 = "images/BG_water/sea011.png";
-var bg_Water12 = "images/BG_water/sea012.png";
-var bg_Water13 = "images/BG_water/sea013.png";
-var bg_Water14 = "images/BG_water/sea014.png";
-var bg_Water15 = "images/BG_water/sea015.png";
 
 //obstacle
 var p_turtle = "images/Obstacles/turtle.plist";
@@ -205,7 +211,7 @@ var g_resources_sound = {
 	bgm_storyBGM: "bgm/storyBGM.mp3",
 	
 	//effectSound
-	se_beaverOver: "effectSound/beaverOver.mp3",
+	se_gameResult: "effectSound/gameResult.mp3",
 	se_beaverStart: "effectSound/beaverStart.mp3",
 
 	se_gameResult: "effectSound/gameResult.mp3",
@@ -221,7 +227,9 @@ var g_resources_sound = {
  */
 var g_resources_splash = [
 	{src:s_SplashScreen1},
-	{src:s_SplashScreen2}
+	{src:s_SplashScreen2},
+	{src:s_bgNotConnected},
+	{src:s_bgConnected}
 ];
 
 
@@ -278,6 +286,16 @@ var g_resources_game = [
 	//HowtoPlay 
 	{src:s_howToPlay[0]},
 	{src:s_howToPlay[1]},
+	{src:s_howToPlay[2]},
+	{src:s_howToPlay[3]},
+	{src:s_howToPlay[4]},
+	{src:s_howToPlay[5]},
+	{src:s_howToPlay[6]},
+	{src:s_howToPlay[7]},
+	{src:s_howToPlay[8]},
+	{src:s_howToPlay[9]},
+	{src:s_howToPlay[10]},
+	{src:s_howToPlay[11]},
 	
 	//setting sound
 	{src:s_setting_board},
@@ -317,7 +335,8 @@ var g_resources_game = [
 	
 	{src:s_ScoreBoard},
 	{src:s_TimerBoard},
-
+	
+	{src:s_StoneBaseCamp},
 	{src:s_BaseCamp[0]},
 	{src:s_BaseCamp[1]},
 	{src:s_BaseCamp[2]},
@@ -343,18 +362,6 @@ var g_resources_game = [
 	{src:bg_Water01},
 	{src:bg_Water02},
 	{src:bg_Water03},
-	{src:bg_Water04},
-	{src:bg_Water05},
-	{src:bg_Water06},
-	{src:bg_Water07},
-	{src:bg_Water08},
-	{src:bg_Water09},
-	{src:bg_Water10},
-	{src:bg_Water11},
-	{src:bg_Water12},
-	{src:bg_Water13},
-	{src:bg_Water14},
-	{src:bg_Water15},
 	{src:s_Item_Devil},
 	{src:s_Over},
 

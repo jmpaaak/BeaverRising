@@ -16,23 +16,11 @@ classes.sprites.BG_Water = cc.Sprite.extend({
 		BG_texture[0] = cc.TextureCache.getInstance().addImage(bg_Water01);
 		BG_texture[1] = cc.TextureCache.getInstance().addImage(bg_Water02);
 		BG_texture[2] = cc.TextureCache.getInstance().addImage(bg_Water03);
-		BG_texture[3] = cc.TextureCache.getInstance().addImage(bg_Water04);
-		BG_texture[4] = cc.TextureCache.getInstance().addImage(bg_Water05);
-		BG_texture[5] = cc.TextureCache.getInstance().addImage(bg_Water06);
-		BG_texture[6] = cc.TextureCache.getInstance().addImage(bg_Water07);
-		BG_texture[7] = cc.TextureCache.getInstance().addImage(bg_Water08);
-		BG_texture[8] = cc.TextureCache.getInstance().addImage(bg_Water09);
-		BG_texture[9] = cc.TextureCache.getInstance().addImage(bg_Water10);
-		BG_texture[10] = cc.TextureCache.getInstance().addImage(bg_Water11);
-		BG_texture[11] = cc.TextureCache.getInstance().addImage(bg_Water12);
-		BG_texture[12] = cc.TextureCache.getInstance().addImage(bg_Water13);
-		BG_texture[13] = cc.TextureCache.getInstance().addImage(bg_Water14);
-		BG_texture[14] = cc.TextureCache.getInstance().addImage(bg_Water15);
 		
 		var frame = [];
-		for(var i =0; i < 15; i++)
+		for(var i =0; i < 3; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(BG_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(BG_texture[i],cc.rect(0,0,960,540));
 		}
 
 		this._bgSprite = cc.Sprite.createWithSpriteFrame(frame[0]);
@@ -40,7 +28,7 @@ classes.sprites.BG_Water = cc.Sprite.extend({
         this._curLayer.addChild(this._bgSprite);
 
         var animFrames = [];
-        for(var i = 0; i < 15 ; i++){
+        for(var i = 0; i < 3 ; i++){
 	        animFrames.push(frame[i]);    	
         }
         
@@ -49,7 +37,7 @@ classes.sprites.BG_Water = cc.Sprite.extend({
         
 		this._bgAction = cc.RepeatForever.create(animate);
 		
-        this._bgSprite.runAction(this._bgAction);
+       // this._bgSprite.runAction(this._bgAction);
 		
 
 	}

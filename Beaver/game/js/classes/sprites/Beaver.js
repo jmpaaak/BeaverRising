@@ -81,6 +81,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
   		this._twigs = [];
   		this._positions = [];
   		this._curPos = this._body.GetPosition();
+  		
         for(var i=0; i<100; i++)
         	this._positions[i] = cc.p(0,0);
         
@@ -95,7 +96,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         layer.addChild(this, 2); //z: 0
         
   		this._settingHomeIn();
-        this.schedule(this.update, 1/60);
+        this.schedule(this.update, 1/30);
         
     },
     initSprite : function () {
@@ -267,6 +268,14 @@ classes.sprites.Beaver = cc.Sprite.extend({
     addTwig: function(twig) {
     	if(!this._isDevil && !this._willDevil)
     	{
+
+			//TV MSG
+			var local_message = new Object();
+			local_message.sound = "eatTwig";
+			deviceInstance[this._id - 1].sendMessage(
+					JSON.stringify(local_message)
+			);
+
 		    this._twigs[this._twigs.length] = twig;
 		    this._curLayer.removeChild(twig);
 		    this._curLayer.destroyList.push(twig.getBody());
@@ -291,6 +300,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		else
 		{
 			twig.destroy();
+
+			//TV MSG
+			var local_message = new Object();
+			local_message.sound = "breakTwig";
+			deviceInstance[this._id - 1].sendMessage(
+					JSON.stringify(local_message)
+			);
 		}
     },
     addItem: function(item) {
@@ -303,6 +319,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
     	}
     	if(this._itemList.length === 2) return;
     	this._itemList[this._itemList.length] = item;
+    	
+    	//TV MSG
+    	var local_message = new Object();
+		local_message.event = "getitem";
+		local_message.type = item.getTypeName();
+		deviceInstance[this._id - 1].sendMessage(
+				JSON.stringify(local_message)
+		);
+		
     	item.destroy(this._curLayer);
     	console.log("Beaver id: "+this._id+" get Item("+item.getType()+")");
     	item = null;
@@ -351,6 +376,13 @@ classes.sprites.Beaver = cc.Sprite.extend({
     stun: function (str) {
 	    if(!this._isStun)
 	    {
+			//TV MSG
+			var local_message = new Object();
+			local_message.sound = "stun";
+			deviceInstance[this._id - 1].sendMessage(
+					JSON.stringify(local_message)
+			);
+
 			this._isStun = true;
 			this._curVelocity = 0;
 			this.runAction(cc.Sequence.create(
@@ -392,9 +424,25 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		// console.log("remove: "+at);
     		this._twigs[at].destroy();
     	}
+
+		//TV MSG
+    	var local_message = new Object();
+		local_message.sound = "breakTwig";
+		deviceInstance[this._id - 1].sendMessage(
+				JSON.stringify(local_message)
+		);
+
     	this._twigs.splice(index, this._twigs.length-index);
     },
     returnToBase: function () {
+
+		//TV MSG
+    	var local_message = new Object();
+		local_message.sound = "die";
+		deviceInstance[this._id - 1].sendMessage(
+				JSON.stringify(local_message)
+		);
+
 		if (!this._returningHome) {
 			this._returningHome = true;
 			this._isHome = true; // avoiding repeating crying sound when beaver is hit by many twigs. 
@@ -414,9 +462,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
 		}
 
 		},
-
-    
     beDevil: function () {
+
+		//TV MSG
+    	var local_message = new Object();
+		local_message.sound = "crocs";
+		deviceInstance[this._id - 1].sendMessage(
+				JSON.stringify(local_message)
+		);
+		
     	this.stun("manual");
     	this._willDevil = true;
 		this.removeTailAtIndex(0);
@@ -485,19 +539,15 @@ classes.sprites.Beaver = cc.Sprite.extend({
     		this._willDevil = false; 
     		this._isDevil = false;
     		this.changeAction("basic");
+    		
+    		//TV MSG
+        	var local_message = new Object();
+    		local_message.sound = "nocrocs";
+    		deviceInstance[this._id - 1].sendMessage(
+    				JSON.stringify(local_message)
+    		);
+    		
     	}
-    	// var curVector = this._vector;
-	    // var curAngle = this._body.GetAngle()+Math.PI;
-// 	    
-		// if(this._curVelocity == 0) this._curVelocity = BG.BEAVER_SPEED.NORMAL;
-	    // this._body.SetAngle(curAngle*(Math.PI/180));
-// 	    
-	    // curVector.x = this._curVelocity * Math.cos(-curAngle*(Math.PI/180));
-	    // curVector.y = this._curVelocity * Math.sin(-curAngle*(Math.PI/180));
-// 	    
-	    // this._vector = curVector;
-	    // this._currentAngle = curAngle;
-	    // this._body.SetLinearVelocity(this._vector);
     },
     update: function () {
     	if(this._startFlag)
@@ -605,19 +655,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
         	}
         	this.count.turtleCount++;
         }
- 	
-        if(this._id === 1)
-        {
-	        if (this._leftKeyDown || this._rightKeyDown)
-	        {
-	        }
-	    }
-	    else if(this._id === 2)
-	    {
-	    	if (this._qKeyDown || this._wKeyDown)
-	        {
-	        }
-	    }
+
         //case of getting out of screen
         if((this._curPos.y * PTM_RATIO) > this._winSize.height - BG.GAME_UI.OUTTER_FRAME.HEIGHT + 10)
         {
@@ -725,64 +763,71 @@ classes.sprites.Beaver = cc.Sprite.extend({
     },
     _useItem: function () {
     	if(this._itemList.length === 0 || this._isStun || this._willDevil) return;
-    	var itemSound;
     	switch(this._itemList[0].getType())
     	{
     		case BG.ITEM_TYPE.BULLET:
     			this._shoot();
-    			itemSound = se_itemShooting;
+				//TV MSG
+				var local_message = new Object();
+				local_message.sound = "shootFish";
+				deviceInstance[this._id - 1].sendMessage(
+						JSON.stringify(local_message)
+				);
     			break;
     		case BG.ITEM_TYPE.SHIELD:
     			this.shielding();
-    			itemSound = se_itemShield;
+				//TV MSG
+				var local_message = new Object();
+				local_message.sound = "shieldSound";
+				deviceInstance[this._id - 1].sendMessage(
+						JSON.stringify(local_message)
+				);
     			break;
     		case BG.ITEM_TYPE.LIGHTNING:
     			this._lightningOn = true;
-    			itemSound = se_itemLightning;
+				//TV MSG
+				var local_message = new Object();
+				local_message.sound = "lightning";
+				deviceInstance[this._id - 1].sendMessage(
+						JSON.stringify(local_message)
+				);
     			break;
     	}
-		//sound effect
-		if (BG.SOUND) {
-			cc.AudioEngine.getInstance().playEffect(itemSound);
-		}
-		
     	this._itemList.splice(0,1);
     },
     _move: function () {
 	    	if(!this._vector) this._vector = new cc.Point();
 	        var curVector = this._vector;
 	        var curAngle = this._currentAngle;
-	        
-	        if(this._id === 1)
+	        switch(this._id)
 	        {
-		        if(this._leftKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._rightKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._leftKeyUp);
-		        if(this._rightKeyUp);
-		    }
-		    else if(this._id === 2)
-		    {
-		    	if(this._qKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._wKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._qKeyUp);
-		        if(this._wKeyUp);
-		    }
-		    else if(this._id === 3)
-		    {
-		    	if(this._vKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._bKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._vKeyUp);
-		        if(this._bKeyUp);
-		    }
-		    else if(this._id === 4)
-		    {
-		    	if(this._iKeyDown) curAngle-=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._oKeyDown) curAngle+=5, this._body.SetAngle(curAngle*(Math.PI/180));
-		        if(this._iKeyUp);
-		        if(this._oKeyUp);
-		    }
-			if(curAngle < 0) curAngle = 355;
-			if(curAngle > 360) curAngle = 5;
+	        	case 1:
+	        		if(this._leftKeyDown) curAngle-=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._rightKeyDown) curAngle+=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._leftKeyUp);
+	        		if(this._rightKeyUp);
+	        		break;
+	        	case 2:
+	        		if(this._qKeyDown) curAngle-=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._wKeyDown) curAngle+=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._qKeyUp);
+	        		if(this._wKeyUp);	        		
+	        		break;
+	        	case 3:
+	        		if(this._vKeyDown) curAngle-=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._bKeyDown) curAngle+=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._vKeyUp);
+	        		if(this._bKeyUp);
+	        		break;
+	        	case 4:
+	        		if(this._iKeyDown) curAngle-=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._oKeyDown) curAngle+=10, this._body.SetAngle(curAngle*(Math.PI/180));
+	        		if(this._iKeyUp);
+	        		if(this._oKeyUp);
+	        		break;
+	        }
+			if(curAngle < 0) curAngle = 350;
+			else if(curAngle > 360) curAngle = 10;
 	        curVector.x = this._curVelocity*Math.cos(-curAngle*(Math.PI/180));
 	        curVector.y = this._curVelocity*Math.sin(-curAngle*(Math.PI/180));
 	        this._vector = curVector;
@@ -790,7 +835,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	        this._body.SetLinearVelocity(this._vector);
     },
     _showTwigs: function () {
-    	if(this.count.savePosCount >= 4 && !this._isStun)
+    	if(this.count.savePosCount >= 2 && !this._isStun)
 	    {
 
 			this._positions.unshift(cc.p(this._curPos.x, this._curPos.y));
@@ -819,7 +864,7 @@ classes.sprites.Beaver = cc.Sprite.extend({
 					else{
 						woodType = 	BG.WOOD_TYPE.BIG;						
 					}
-					var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*5)+4], woodType, true, this._id);
+					var newTwig = new classes.sprites.Twig(this._curLayer, this._positions[(i*2)+2], woodType, true, this._id);
 					newTwig.setTailIndex(i);
 					this._twigs[i] = newTwig;
 				}
@@ -903,7 +948,18 @@ classes.sprites.Beaver = cc.Sprite.extend({
     getIsHome : function () {
     	return this._isHome;
     },
+	getHomeInPoint: function () {
+		return this._homeInPoint;
+	},
     _settingHomeIn : function () {
+		
+		//TV MSG
+    	var local_message = new Object();
+		local_message.sound = "goHome";
+		deviceInstance[this._id - 1].sendMessage(
+				JSON.stringify(local_message)
+		);
+
     	if(!this._isHome) this._isHome = true;
     	this._body.SetPosition(this._homeInPoint);
     	this._curVelocity = 0;
@@ -928,8 +984,19 @@ classes.sprites.Beaver = cc.Sprite.extend({
 	    this._body.SetLinearVelocity(this._vector);
     },
     meetingTurtle : function () {
+
+		//TV MSG
+    	var local_message = new Object();
+		local_message.sound = "meetTurtle";
+		deviceInstance[this._id - 1].sendMessage(
+				JSON.stringify(local_message)
+		);
+
     	if(this._isDevil || this._isStun) return; 
     	this._curVelocity = BG.BEAVER_SPEED.SLOW;
     	this._turtleCountFlag = true;
     },
+	getBody: function () {
+		return this._body;
+	}
 });

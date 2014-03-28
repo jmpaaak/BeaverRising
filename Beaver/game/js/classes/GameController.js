@@ -3,6 +3,9 @@ classes.GameController = cc.Class.extend({
 	_scenes: [],
     _gameState: BG.GAME_STATE.SPLASH_SCREEN,
     _selectPlayMode: 0, //0: null
+	initCurScene: function (s) {
+		this._curScene = s;
+	},
     setCurScene: function(s) {
         if (this._curScene != s) {
             if (this._curScene !== null) {
@@ -18,7 +21,7 @@ classes.GameController = cc.Class.extend({
         return this._curScene;
     },
     pause:function() {
-    },
+    }
 });
 
 classes.GameController.getInstance = function() {

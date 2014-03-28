@@ -1,6 +1,8 @@
 classes.scenes.DuelGameResultScene = cc.Scene.extend({
+	name:null,
 	_houses: null,
 	ctor: function (houses) {
+		this.name = "duelgameresult";
 		this._super();
 		this._houses = houses;
 	},

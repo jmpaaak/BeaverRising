@@ -21,6 +21,9 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 	_curMenu: 0,
 	
 	ctor: function (houses) {
+		if (BG.SOUND) {
+			classes.SoundBox.getInstance().pause("bgm_gameBGM");
+		}
 		this._super();
 		this._houses = [];
 		this._houses = houses;
@@ -34,10 +37,6 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 		
 		this._resultBoard = cc.Sprite.create(s_ResultBoard);
 		this._resultBoard.setPosition(size.width/2-100, size.height/2); //TODO: SET POINT!!!
-		// var gold = cc.Sprite.create(s_Trophy_Gold),
-			// silver = cc.Sprite.create(s_Trophy_Silver),
-			// bronze = cc.Sprite.create(s_Trophy_Bronze);
-		// this._trophy = [gold, silver, bronze];
 		
 		var decoBeaver = cc.Sprite.create(s_DecoBeaver);
 		decoBeaver.setPosition(size.width*7.5/9, size.height/4);
@@ -46,7 +45,7 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 		
 		//only for save pos
 		var rect = cc.Sprite.create(s_ResultRect);
-		rect.setPosition(size.width/2-100, size.height/2); //TODO: SET POINT!!!
+		rect.setPosition(size.width/2-100 + 15, size.height/2 + 5); //TODO: SET POINT!!!
 		this._nextFlag = [null, false, false, false, false];
 		this._curWoodCount = [];
 		this._woodCount = [];
@@ -54,8 +53,8 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 		this._score = [];
 		this._scoreLabel = [];
 		this._posRect = rect.getTextureRect();
-		this._posRect.x = size.width/2 - 100 - this._posRect.width/2; //init x if u want change this changes
-		this._posRect.y = size.height/2 - this._posRect.height/2; //init y
+		this._posRect.x = size.width/2-100 + 15 - this._posRect.width/2; //init x if u want change this changes
+		this._posRect.y = size.height/2 + 5 - this._posRect.height/2; //init y
 		this._smallRect = {width:0, height:0}; //not used
 		this._smallRect.width = this._posRect.width/4;
 		this._smallRect.height = this._posRect.height/4;
@@ -63,10 +62,10 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 			y = this._posRect.y;
 		var w = this._posRect.width,
 			h = this._posRect.height;
-		this._pos1p = [cc.p(x+w/8,y+h*7/8), cc.p(x+w*3/8+35,y+h*7/8-12), cc.p(x+w*5/8,y+h*7/8), cc.p(x+w*7/8,y+h*7/8)];
-		this._pos2p = [cc.p(x+w/8,y+h*5/8), cc.p(x+w*3/8+35,y+h*5/8-12), cc.p(x+w*5/8,y+h*5/8), cc.p(x+w*7/8,y+h*5/8)];
-		this._pos3p = [cc.p(x+w/8,y+h*3/8), cc.p(x+w*3/8+35,y+h*3/8-12), cc.p(x+w*5/8,y+h*3/8), cc.p(x+w*7/8,y+h*3/8)];
-		this._pos4p = [cc.p(x+w/8,y+h/8), cc.p(x+w*3/8+35,y+h/8-12), cc.p(x+w*5/8,y+h/8), cc.p(x+w*7/8,y+h/8)];
+		this._pos1p = [cc.p(x+w/8,y+h*7/8), cc.p(x+w*3/8+10,y+h*7/8-13), cc.p(x+w*5/8,y+h*7/8), cc.p(x+w*7/8,y+h*7/8)];
+		this._pos2p = [cc.p(x+w/8,y+h*5/8), cc.p(x+w*3/8+10,y+h*5/8-13), cc.p(x+w*5/8,y+h*5/8), cc.p(x+w*7/8,y+h*5/8)];
+		this._pos3p = [cc.p(x+w/8,y+h*3/8), cc.p(x+w*3/8+10,y+h*3/8-13), cc.p(x+w*5/8,y+h*3/8), cc.p(x+w*7/8,y+h*3/8)];
+		this._pos4p = [cc.p(x+w/8,y+h/8), cc.p(x+w*3/8+10,y+h/8-13), cc.p(x+w*5/8,y+h/8), cc.p(x+w*7/8,y+h/8)];
 		
 		var mask = cc.Sprite.create(s_Mask);
         mask.setPosition(size.width / 2 , size.height / 2);	
@@ -90,6 +89,7 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 				{
 					case 0:
 						this._woodCountLabel[i][0] = cc.LabelBMFont.create(""+this._curWoodCount[i].small, s_Konqa32);
+						this._woodCountLabel[i][0].setScale(0.5);
 						this._woodCountLabel[i][0].setColor(cc.c3(0,0,0));
 						if(i === 1) this._woodCountLabel[i][0].setPosition(this._pos1p[1].x, this._pos1p[1].y-this._smallRect.height/3);
 						else if(i === 2) this._woodCountLabel[i][0].setPosition(this._pos2p[1].x, this._pos2p[1].y-this._smallRect.height/3);
@@ -100,6 +100,7 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 					case 1:
 						this._woodCountLabel[i][1] = cc.LabelBMFont.create(""+this._curWoodCount[i].medium, s_Konqa32);
 						this._woodCountLabel[i][1].setColor(cc.c3(0,0,0));
+						this._woodCountLabel[i][1].setScale(0.5);
 						if(i === 1) this._woodCountLabel[i][1].setPosition(this._pos1p[1].x, this._pos1p[1].y);
 						else if(i === 2) this._woodCountLabel[i][1].setPosition(this._pos2p[1].x, this._pos2p[1].y);
 						else if(i === 3) this._woodCountLabel[i][1].setPosition(this._pos3p[1].x, this._pos3p[1].y);
@@ -109,6 +110,7 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 					case 2:
 						this._woodCountLabel[i][2] = cc.LabelBMFont.create(""+this._curWoodCount[i].big, s_Konqa32);
 						this._woodCountLabel[i][2].setColor(cc.c3(0,0,0));
+						this._woodCountLabel[i][2].setScale(0.5);
 						if(i === 1) this._woodCountLabel[i][2].setPosition(this._pos1p[1].x, this._pos1p[1].y+this._smallRect.height/3);
 						else if(i === 2) this._woodCountLabel[i][2].setPosition(this._pos2p[1].x, this._pos2p[1].y+this._smallRect.height/3);
 						else if(i === 3) this._woodCountLabel[i][2].setPosition(this._pos3p[1].x, this._pos3p[1].y+this._smallRect.height/3);
@@ -120,22 +122,22 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 			
 			this._score[i] = 0;
 			this._scoreLabel[i] = cc.LabelBMFont.create(""+this._score[i], s_Konqa32);
-			this._scoreLabel[i].setScaleX(2);
-			this._scoreLabel[i].setScaleY(2);
+			this._scoreLabel[i].setScaleX(1);
+			this._scoreLabel[i].setScaleY(1);
 			this._scoreLabel[i].setColor(cc.c3(255,0,0));
 			switch(i)
 			{
         		case 1:
-        			this._scoreLabel[i].setPosition(this._pos1p[2].x, this._pos1p[2].y-50);
+        			this._scoreLabel[i].setPosition(this._pos1p[2].x, this._pos1p[2].y-30);
         			break;
         		case 2:
-        			this._scoreLabel[i].setPosition(this._pos2p[2].x, this._pos2p[2].y-50);
+        			this._scoreLabel[i].setPosition(this._pos2p[2].x, this._pos2p[2].y-30);
         			break;
         		case 3:
-        			this._scoreLabel[i].setPosition(this._pos3p[2].x, this._pos3p[2].y-50);
+        			this._scoreLabel[i].setPosition(this._pos3p[2].x, this._pos3p[2].y-30);
         			break;
         		case 4:
-        			this._scoreLabel[i].setPosition(this._pos4p[2].x, this._pos4p[2].y-50);
+        			this._scoreLabel[i].setPosition(this._pos4p[2].x, this._pos4p[2].y-30);
         			break;
         	}
 			this.addChild(this._scoreLabel[i], 3);
@@ -154,8 +156,8 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
         				[restartNormal, restartSelected]
         			  ];
 
-		homeNormal.setPosition(size.width*9/10, size.height*8/10);
-		restartNormal.setPosition(size.width*9/10, size.height*6/10);
+		homeNormal.setPosition(size.width*8.8/10, size.height*8.3/10);
+		restartNormal.setPosition(size.width*8.8/10, size.height*6/10);
 		
 		for(var i=0; i<this._menus.length; i++)
 			this.addChild(this._menus[i][0], 4);
@@ -465,6 +467,8 @@ classes.layers.DuelGameResultLayer = cc.Layer.extend({
 				{
 					case 0:
 						classes.GameController.getInstance().setCurScene(classes.scenes.MainMenuScene.getInstance());
+						var arr = classes.scenes.MainMenuScene.getInstance().getChildren();
+						arr[arr.length-1].playBgmSound("on");
 						break;
 					case 1:
 						classes.GameController.getInstance().setCurScene(new classes.scenes.DuelGameScene());

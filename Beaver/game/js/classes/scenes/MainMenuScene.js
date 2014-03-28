@@ -1,5 +1,7 @@
 classes.scenes.MainMenuScene = cc.Scene.extend({
+	name: null,
 	onEnter: function() {
+		this.name = "mainmenu";
 		this._super();
 		var layer = new classes.layers.MainMenuLayer();
 		layer.init();

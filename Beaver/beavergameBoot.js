@@ -30,7 +30,7 @@
         COCOS2D_DEBUG:0, //0 to turn debug off, 1 for basic debug, and 2 for full debug
         box2d:true,
         chipmunk:false,
-        showFPS:true,
+        showFPS:false,
         loadExtension:false,
         frameRate:60,
         renderMode:1,       //Choose of RenderMode: 0(default), 1(Canvas only), 2(WebGL only)
@@ -62,6 +62,7 @@
         	'game/js/classes/layers/layers.js', //namespace
         	'game/js/classes/layers/DuelGameLayer.js',
         	'game/js/classes/layers/SplashScreenLayer.js',
+        	'game/js/classes/layers/ConnectLayer.js',
         	'game/js/classes/layers/MainMenuLayer.js',
         	'game/js/classes/layers/ReadyLayer.js',
         	'game/js/classes/layers/DuelGameResultLayer.js',
@@ -70,6 +71,7 @@
 	        'game/js/classes/layers/HowToPlayLayer.js',
 	        'game/js/classes/layers/SinglePlay.js',
 	        'game/js/classes/layers/SettingLayer.js',
+	        'game/js/classes/layers/MultiConnectLayer.js',
 
 
         	'game/js/classes/scenes/scenes.js', //namespace
@@ -77,7 +79,8 @@
         	'game/js/classes/scenes/SplashScreenScene.js',
         	'game/js/classes/scenes/MainMenuScene.js',
         	'game/js/classes/scenes/DuelGameResultScene.js',
-        	'game/js/classes/scenes/StoryScene.js'
+        	'game/js/classes/scenes/StoryScene.js',
+        	'game/js/classes/scenes/ConnectScene.js'
 
         	
         ]

@@ -421,8 +421,8 @@ cc.LoaderScene = cc.Scene.extend(/** @lends cc.LoaderScene# */{
         cc.Scene.prototype.init.call(this);
 
         //logo
-        var logoWidth = 1920;
-        var logoHeight = 1080;
+        var logoWidth = 960;
+        var logoHeight = 540;
         var centerPos = cc.p(this._winSize.width / 2, this._winSize.height / 2);
         this._logoTexture = [];
 		for(var i=1; i<5; i++)
@@ -459,7 +459,7 @@ cc.LoaderScene = cc.Scene.extend(/** @lends cc.LoaderScene# */{
 	        this._texture2d[i] = new cc.Texture2D();
 	        this._texture2d[i].initWithElement(this._logoTexture[i]);
 	        this._texture2d[i].handleLoadedTexture();
-			this._logo[i] = cc.SpriteFrame.createWithTexture(this._texture2d[i],cc.rect(0,0,1920,1080));
+			this._logo[i] = cc.SpriteFrame.createWithTexture(this._texture2d[i],cc.rect(0,0,960,540));
         }
 	        
 		this.loadingSprite = cc.Sprite.createWithSpriteFrame(this._logo[1]);

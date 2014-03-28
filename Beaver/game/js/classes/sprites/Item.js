@@ -1,5 +1,6 @@
 classes.sprites.Item = cc.Sprite.extend({
-	name : "Item",
+	name: "Item",
+	_typeName: null,
 	_type : 0,
 	_direction : 0,
 	_body : null,
@@ -20,15 +21,19 @@ classes.sprites.Item = cc.Sprite.extend({
 		switch(type) {
 			case BG.ITEM_TYPE.BULLET:
 				this.initWithFile(s_Item_Bullet);
+				this._typeName = "bullet";
 				break;
 			case BG.ITEM_TYPE.SHIELD:
 				this.initWithFile(s_Item_Shield);
+				this._typeName = "shield";
 				break;
 			case BG.ITEM_TYPE.LIGHTNING:
 				this.initWithFile(s_Item_Lightning);
+				this._typeName = "speed";
 				break;
 			case BG.ITEM_TYPE.DEVIL:
 				this._curLayer.setDevilItemOn(true);
+				this._typeName = "devil";
 				this.initSprite();
 				this.loop = true;
 				break;
@@ -65,25 +70,25 @@ classes.sprites.Item = cc.Sprite.extend({
 				tex.setPosition(p.x, BG.GAME_UI.INNER_FRAME.HEIGHT);
 				x = p.x;
 				y = BG.GAME_UI.INNER_FRAME.HEIGHT;
-				this._velocity = cc.p(0, -4);
+				this._velocity = cc.p(0, -2);
 				break;
 			case 2:
 				tex.setPosition(p.x, BG.GAME_UI.OUTTER_FRAME.HEIGHT);
 				x = p.x;
 				y = BG.GAME_UI.OUTTER_FRAME.HEIGHT;
-				this._velocity = cc.p(0, 4);
+				this._velocity = cc.p(0, 2);
 				break;
 			case 3:
 				tex.setPosition(BG.GAME_UI.OUTTER_FRAME.WIDTH, p.y);
 				x = BG.GAME_UI.OUTTER_FRAME.WIDTH;
 				y = p.y;
-				this._velocity = cc.p(4, 0);
+				this._velocity = cc.p(2, 0);
 				break;
 			case 4:
 				tex.setPosition(BG.GAME_UI.INNER_FRAME.WIDTH, p.y);
 				x = BG.GAME_UI.INNER_FRAME.WIDTH;
 				y = p.y;
-				this._velocity = cc.p(-4, 0);
+				this._velocity = cc.p(-2, 0);
 				break;
 		}
 
@@ -134,10 +139,12 @@ classes.sprites.Item = cc.Sprite.extend({
 	getBody : function() {
 		return this._body;
 	},
+	getTypeName: function () {
+		return this._typeName;
+	},
 	destroy : function(layer) {
 		if (this._type === BG.ITEM_TYPE.DEVIL) {
 			if (this._isOut) this._curLayer.setDevilItemOn(false);
-			cc.AudioEngine.getInstance().stopEffect(this._itemSoundID);
 		}
 		layer.removeChild(this);
 		layer.destroyList.push(this._body);

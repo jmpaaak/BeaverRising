@@ -3,10 +3,10 @@
 	<cpname itemtype="string"></cpname>
 	<cplogo itemtype="string"></cplogo>
 	<cpauthjs itemtype="string"></cpauthjs>
-	<ThumbIcon itemtype="string">icon/sampleIcon_106_87.png</ThumbIcon>
-	<BigThumbIcon itemtype="string">icon/sampleIcon_115_95.png</BigThumbIcon>
-	<ListIcon itemtype="string">icon/sampleIcon_85_70.png</ListIcon>
-	<BigListIcon itemtype="string">icon/sampleIcon_95_78.png</BigListIcon>
+	<ThumbIcon itemtype="string">game/resources/icon/app_icon_106x87.png</ThumbIcon>
+	<BigThumbIcon itemtype="string">game/resources/icon/app_icon_115x95.png</BigThumbIcon>
+	<ListIcon itemtype="string">game/resources/icon/app_icon_85x70.png</ListIcon>
+	<BigListIcon itemtype="string">game/resources/icon/app_icon_95x78.png</BigListIcon>
 	<category itemtype="string"></category>
 	<autoUpdate itemtype="boolean">n</autoUpdate>
 	<ver itemtype="string">0.100</ver>

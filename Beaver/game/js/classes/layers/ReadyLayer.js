@@ -20,9 +20,9 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 
 		this._bgReady.runAction(cc.Sequence.create(
 			cc.CallFunc.create(function(){
-							if (BG.SOUND) {
-								classes.SoundBox.getInstance().play("bgm_gameBGM");
-							}
+				if (BG.SOUND) {
+					classes.SoundBox.getInstance().play("bgm_gameBGM", true);
+				}
 			}),
 			cc.DelayTime.create(4.5),
 			cc.CallFunc.create(function() {
@@ -35,6 +35,17 @@ classes.layers.ReadyLayer = cc.Layer.extend({
 						parent.removeChild(that);
 						var gameLayer = parent.getChildren();
 						gameLayer[0].start();
+
+						//TV MSG
+						var local_message = new Object();
+						local_message.sound = "start";
+						for(var i=0; i<deviceInstance.length; i++)
+						{
+							deviceInstance[i].sendMessage(
+								JSON.stringify(local_message)
+							);
+						}
+
 					})
 				));
 		}, this)));

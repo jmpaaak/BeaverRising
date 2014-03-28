@@ -1,6 +1,7 @@
 classes.layers.DuelGameLayer = cc.Layer.extend({
 	_beavers: [],
 	_baseCamp: [],
+	world: null,
 	_bgWater : null,
 	_timer: null,
 	_itemPopCount: 0,
@@ -98,9 +99,25 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 							beaver.removeTailAtIndex(0);
 							beaver.stun();
 							target.destroy(that);
-
-							beaver.getShotSound();
 							beaver.cryAction();
+							
+							//TV MSG
+							var local_message = new Object();
+							local_message.sound = "kkk";
+							var tindex = target.getID();
+							deviceInstance[tindex-1].sendMessage(
+								JSON.stringify(local_message)
+							);
+							
+							//TV MSG
+					    	var local_message = new Object();
+							local_message.sound = "cry";
+							var bindex = beaver.getID();
+							deviceInstance[bindex].sendMessage(
+									JSON.stringify(local_message)
+							);
+
+
 							break;
 						case "Item":
 							beaver.addItem(target);
@@ -179,6 +196,14 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 								
 								//beaver crying sprite on
 								that._beavers[i].cryAction();
+								
+								//TV MSG
+						    	var local_message = new Object();
+								local_message.sound = "cry";
+								deviceInstance[i-1].sendMessage(
+										JSON.stringify(local_message)
+								);
+								
 							}
 							else
 							{
@@ -263,10 +288,10 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
       
         fixDef.shape = new b2PolygonShape;
     
-		//this._bgWater = new classes.sprites.BG_Water(this);
+		this._bgWater = new classes.sprites.BG_Water(this);
 		
         //Adding Beavers
-        for(var i=1; i<5; i++)
+        for(var i=1; i<deviceInstance.length+1; i++)
 	       this._beavers[i] = new classes.sprites.Beaver(this, i);
 	       
 
@@ -279,7 +304,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	    
 		this.schedule(this.update, 1/60);
 		return true;
-
 	},
 	popItem: function() {
 		if(Math.random() <= 0.5)
@@ -311,11 +335,22 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					}
 					break;
 			}
+
+			//TV MSG
+			var local_message = new Object();
+			local_message.sound = "itemPop";
+			for(var i=0; i<deviceInstance.length; i++)
+			{
+				deviceInstance[i].sendMessage(
+					JSON.stringify(local_message)
+				);
+			}
+
 		}
 	},
 	popTwig: function () 
 	{
-		if (Math.random() <= 0.8) {
+		if (Math.random() <= 0.7) {
 			var size = cc.Director.getInstance().getWinSize();
 			do {
 				var randX = Math.random();
@@ -340,6 +375,16 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 					new classes.sprites.Obstacle(this, cc.p(x, y), BG.OBSTACLE.TURTLE);
 
 					this.turtleCount++;
+
+					//TV MSG
+					var local_message = new Object();
+					local_message.sound = "turtle";
+					for(var i=0; i<deviceInstance.length; i++)
+					{
+						deviceInstance[i].sendMessage(
+							JSON.stringify(local_message)
+						);
+					}
 			}
 		}
 	},
@@ -358,9 +403,6 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 	setDevilOn: function (bool) {
 		this._devilOn = bool;
 	},
-	setTurtleSound: function (bool) {
-		this._turtleSoundOn = bool;
-	},
 	update: function(dt) {
 
 		if(!this._isStart)
@@ -376,6 +418,17 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		{
 			var that = this;
 			this._timerWarningOn = true;
+
+			//TV MSG
+			var local_message = new Object();
+			local_message.sound = "timeLimit";
+			for(var i=0; i<deviceInstance.length; i++)
+			{
+				deviceInstance[i].sendMessage(
+					JSON.stringify(local_message)
+				);
+			}
+
 		}
 		
 		//_isEnd: only for this
@@ -413,7 +466,7 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		this.destroyList.length = 0; 
 
 		if(this._timer.getTime() <= this._timer.getTotalTime() - 3) {
-			if(this._itemPopCount === 120) //every 2s (p=0.5) 
+			if(this._itemPopCount === 60) //every 2s (p=0.5) 
 				this._itemPopCount = 0, this.popItem(), this.popObstacle();
 			this._itemPopCount++;
 			if(this._twigPopCount === 60) //every 2s (p=0.5) 
@@ -423,26 +476,51 @@ classes.layers.DuelGameLayer = cc.Layer.extend({
 		
 	},
 	onKeyUp: function(e) {
-		this._beavers[1].handleKeyUp(e);
-		this._beavers[2].handleKeyUp(e);
-		this._beavers[3].handleKeyUp(e);
-		this._beavers[4].handleKeyUp(e);
+		for(var i=1; i<deviceInstance.length+1; i++)
+		{
+			this._beavers[i].handleKeyUp(e);
+		}
 	},
 	onKeyDown: function(e) {
-		this._beavers[1].handleKeyDown(e);
-		this._beavers[2].handleKeyDown(e);
-		this._beavers[3].handleKeyDown(e);
-		this._beavers[4].handleKeyDown(e);
+		for(var i=1; i<deviceInstance.length+1; i++)
+		{
+			this._beavers[i].handleKeyDown(e);
+		}
+	},
+	removeBeaverWithID: function (i) {
+		var j = i+1;
+		this._beavers[j].removeTailAtIndex(0);
+		this.destroyList.push(this._beavers[j].getBody());
+		this.removeChild(this._beavers[j]);
+	},
+	addBeaverWithID: function (i) {
+		var j = i+1;
+		this._beavers[j].addBeaverWithCoords(this.world, this._beavers[j].getHomeInPoint());
+		this.addChild(this._beavers[j]);
 	},
 	gameEnd: function () {
+
+		//TV MSG
+		var local_message = new Object();
+		local_message.sound = "result";
+		for(var i=0; i<deviceInstance.length; i++)
+		{
+			deviceInstance[i].sendMessage(
+				JSON.stringify(local_message)
+			);
+		}
+
 		var that = this;
 		this._isStart = false;
         var over = cc.Sprite.create(s_Over);
-        over.setPosition(1920 / 2, 1080 / 2);
+        over.setPosition(960 / 2, 540 / 2);
         this.addChild(over, 5);
 		for(beav in this._beavers)
 			this._beavers[beav].setIsStart(false);
 		this.runAction(cc.Sequence.create(
+			cc.CallFunc.create(function () {
+				classes.SoundBox.getInstance().play("se_gameResult");
+			}),
 			cc.DelayTime.create(2.0),
 			cc.CallFunc.create(function () {			
 				classes.GameController.getInstance().setCurScene(

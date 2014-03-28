@@ -24,14 +24,19 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
         	medium: 0,
         	big: 0
         };
-      	this.initWithFile(s_BaseCamp[0]);
+        if(deviceInstance.length >= this._id)
+      		this.initWithFile(s_BaseCamp[0]);
+      	else
+      		this.initWithFile(s_StoneBaseCamp);
+      		        	
+
         this.filterGroup();
         this.addBaseCampWithType(layer.world, p);
         this._addWelcomeHome(layer.world, p);
         layer.addChild(this, 40);
         this._scoreBoard = new classes.sprites.ScoreBoard(this._curLayer,this,id);
         
-        this.schedule(this.update, 1/60);
+        this.schedule(this.update, 0.1);
     },
 	
 	addBaseCampWithType : function (world, p) {
@@ -148,6 +153,14 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 				this._curLayer.gameEnd();
 				return;
 			}
+
+			//TV MSG
+			var local_message = new Object();
+			local_message.sound = "upgrade";
+			deviceInstance[this._id-1].sendMessage(
+				JSON.stringify(local_message)
+			);
+
 			this._effectFlag = true;
 			this.runAction(cc.Sequence.create(
 				cc.CallFunc.create(function(){
@@ -167,17 +180,22 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 	update: function () {
 		if(this._addFlag)
 		{
-			this._scoreBoard.realAdd(1);
-			this._addedPercent += 1;
-			if(this._prePercent === this._addedPercent) 
+			if(this._prePercent <= this._addedPercent) 
 			{
 				this._prePercent = 0;
 				this._addedPercent = 0;
 				this._addFlag = false;
+				this._scoreBoard.realAddEnd();
+				return;
+			}
+			else
+			{
+				this._scoreBoard.realAdd(1);
+				this._addedPercent += 1;
 			}
 		}
 		
-		if(this._effectFlag){
+		if(this._effectFlag) {
 			if(this._effectCount <= 120) {
 				var homeEffect = cc.Sprite.create(s_homeEffect);
 				var randomPosX = (Math.floor(Math.random() * 1000) % this.getTextureRect().width);
@@ -193,10 +211,11 @@ classes.sprites.BaseCamp = cc.Sprite.extend({
 				homeEffect.runAction(cc.Sequence.create(action1, delay, action1Back, removehomeEffect));
 				this._effectCount++;
 			}
-			else{
+			else
+			{
 				this._effectCount = 0;
 				this._effectFlag = false;
 			}
-			}
+		}
 	}
 });

@@ -66,8 +66,7 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
         this.addChild(this._bar, 2);
     },
 	realAdd: function (num) {
-		var scaleAction = cc.ScaleTo.create(0.1, 1.5);
-		var reScale = cc.ScaleTo.create(0.1, 1);
+		var scaleAction = cc.ScaleTo.create(0.1, 0.8);
 		this._percentage += num;
 		if(this._percentage >= 100)
 		{
@@ -80,13 +79,15 @@ classes.sprites.ScoreBoard = cc.Sprite.extend({
 		}
 		this._bar.setPercentage(this._percentage);
     	this._labelScore.setString("COMPLETE " + this._percentage+"%");
-    	this._labelScore.runAction(cc.Sequence.create(
-    		scaleAction,
-    		reScale
-    	));
+    	this._labelScore.runAction(scaleAction);
+	},
+	realAddEnd: function () {
+		var reScale = cc.ScaleTo.create(0.1, 0.5);
+		this._labelScore.runAction(reScale);
 	},
 	setColor: function () {		
 		this._labelScore.setColor(cc.c3(0,0,0));
+		this._labelScore.setScale(0.5);
 	}
 	
 });

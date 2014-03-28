@@ -1,9 +1,7 @@
 var widgetAPI = new Common.API.Widget();
 var tvKey = new Common.API.TVKeyValue();
-
-var playerNumber=0;
-
-
+var players = [];
+var disconnectedDev = [];
 var Main = {
 		
 };
@@ -20,7 +18,6 @@ Main.onLoad = function() {
 	// >> Initializes custom device profile and gets available devices
 	convergence.getNServiceDevices(Main.onCustomObtained);
 
-	
 	this.button1=$("#button1");
 	this.button1.css("background-color","green");
 
@@ -75,57 +72,114 @@ Main.onDeviceStatusChange = function(sParam) {
 			+ sParam.deviceType + " ####");
 
 	switch (Number(sParam.eventType)) {
-	case convergence.MGR_EVENT_DEV_CONNECT: {
-		alert("#### onDeviceStatusChange - MGR_EVENT_DEV_CONNECT ####");
-		if (sParam.deviceType == convergence.DEV_SMART_DEVICE)
+		case convergence.MGR_EVENT_DEV_CONNECT:
+			if (sParam.deviceType == convergence.DEV_SMART_DEVICE)
+				alert("#### onDeviceStatusChange - MGR_EVENT_DEV_CONNECT ####");
+
+			if(classes.GameController.getInstance().getCurScene().name != "duelgame")
+			{
+				convergence.getNServiceDevices(Main.onNserviceDeviceObtained);
+			}
+			else 
+			{
+				convergence.getNServiceDevices(Main.obtainedInGame);
+			}
+
+			break;
+		case convergence.MGR_EVENT_DEV_DISCONNECT:
+			if (sParam.deviceType == convergence.DEV_SMART_DEVICE)
+				alert("#### onDeviceStatusChange - MGR_EVENT_DEV_DISCONNECT ####");
+
+			if(classes.GameController.getInstance().getCurScene().name != "duelgame")
+			{
+				convergence.getNServiceDevices(Main.onNserviceDeviceObtained);
+			}
+			else 
+			{
+				convergence.getNServiceDevices(Main.lostInGame);
+			}
+
+			break;
+		default: 
+			alert("#### onDeviceStatusChange - Unknown event ####");
 			break;
 	}
-	case convergence.MGR_EVENT_DEV_DISCONNECT: {
-		alert("#### onDeviceStatusChange - MGR_EVENT_DEV_DISCONNECT ####");
-		if (sParam.deviceType == convergence.DEV_SMART_DEVICE)
-			alert("#### onDeviceStatusChange - MGR_EVENT_DEV_DISCONNECT ####");
-		break;
-	}
-	default: {
-		alert("#### onDeviceStatusChange - Unknown event ####");
-		break;
-	}
-	}
-	convergence.getNServiceDevices(Main.onNserviceDeviceObtained);
 };
 
-Main.onNserviceDeviceObtained = function(customs) {
-	alert("#### onCustomObtained - found " + customs.length + " device(s) ####");
-	for ( var i = 0; i < customs.length; i++) {
-		if (customs[i] != null
-				&& customs[i].getType() == convergence.DEV_SMART_DEVICE) {
-			alert("#### onNserviceDeviceObtained - get device instance:" + i);
-			deviceInstance[i] = customs[i];
-			deviceInstance[i].registerDeviceCallback(Main.onDeviceEvent);
-			var local_message=new Object();
-			local_message.info="player";
-			local_message.order=i+"";
-			deviceInstance[i].sendMessage(
-					JSON.stringify(local_message)
-			);
+Main.onNserviceDeviceObtained = function (customs) {
+		alert("#### onCustomObtained - found " + customs.length + " device(s) ####");
+		for(var i = 0; i < customs.length; i++) {
+			if (customs[i] != null
+					&& customs[i].getType() == convergence.DEV_SMART_DEVICE) {
+				alert("#### onNserviceDeviceObtained - get device instance:" + i);
+				deviceInstance[i] = customs[i];
+				deviceInstance[i].registerDeviceCallback(Main.onDeviceEvent);
+				var local_message = new Object();
+				local_message.info="player";
+				local_message.order=i+"";
+				deviceInstance[i].sendMessage(
+						JSON.stringify(local_message)
+				);
+			}
+		}
+};
+
+Main.obtainedInGame = function (customs) { //TODO
+	for(var i=0; i<disconnectedDev.length; i++) {
+		var devIndex = disconnectedDev[i].index,
+			devInstance = disconnectedDev[i].instance;
+		for(var j=0; j<customs.length; j++)
+		{
+			if(devInstance == customs[j])
+			{
+				deviceInstance[devIndex] = customs[j];
+				deviceInstance[devIndex].registerDeviceCallback(Main.onDeviceEvent);
+				var local_message = new Object();
+				local_message.info="player";
+				local_message.order=devIndex+"";
+				deviceInstance[devIndex].sendMessage(
+						JSON.stringify(local_message)
+				);
+				var layers = classes.GameController.getInstance().getCurScene().getChildren();
+				layers[layers.length-1].addBeaverWithID(devIndex);
+			}
 		}
 	}
-}
+};
+
+Main.lostInGame = function (customs) {
+	for(var i=0; i<deviceInstance.length; i++) {
+		if(customs.length == 0) return;
+		var j=0;
+		while(deviceInstance[i] != customs[j])
+		{
+			if(j == customs.length-1)
+			{
+				var ddev = {};
+				ddev.index = i;
+				ddev.instance = deviceInstance[i];
+				disconnectedDev.push(ddev);
+				break;
+			}
+			j++;
+		}
+	}
+};
+
 Main.onDeviceEvent = function(sParam) {
 	switch (Number(sParam.eventType)) {
-	case convergence.DEV_EVENT_MESSAGE_RECEIVED:
-		alert("#### onDeviceEvent -1- DEV_EVENT_MESSAGE_RECEIVED:"
-				+ sParam.eventData.message);
-		// sParam.sEventData.sMessage1 -> message body; sParam.sEventData.sMessage2 -> context
-		Main.onMessageReceived(sParam.eventData.message,
-				sParam.eventData.context);
-		break;
-	case convergence.DEV_EVENT_JOINED_GROUP:
-		break;
-	case convergence.DEV_EVENT_LEFT_GROUP:
-		break;
-	default:
-		break;
+		case convergence.DEV_EVENT_MESSAGE_RECEIVED:
+//			alert("#### onDeviceEvent -1- DEV_EVENT_MESSAGE_RECEIVED:"
+//					+ sParam.eventData.message);
+			// sParam.sEventData.sMessage1 -> message body; sParam.sEventData.sMessage2 -> context
+			Main.onMessageReceived(sParam.eventData.message, sParam.eventData.context);
+			break;
+		case convergence.DEV_EVENT_JOINED_GROUP:
+			break;
+		case convergence.DEV_EVENT_LEFT_GROUP:
+			break;
+		default:
+			break;
 	}
 }
 
@@ -134,177 +188,122 @@ Main.onMessageReceived = function(message, context) {
 	// context -> message context (headers and etc)
 	
 	var temp = JSON.parse(message);
+
+//	this.button1.text(temp.event + " || " + temp.key);
 	
-	
-	this.button1.text(temp.event + "  || "  + temp.key);
-	
-	
-	
-	if(temp.player=="playerNumber"){
-		if(playerNumber==0){
-			
-			player1=temp.phoneNumber;
-			
-			playerNumber++;
-		//	customs.length=1;
+	if(temp.event == "disconnect") {
+		for(var i=0; i<players.length; i++)
+		{
+			alert("temp: "+temp.phoneNumber);
+			alert("play: "+players[i]);
+
+			if(players[i] == temp.phoneNumber && classes.GameController.getInstance().getCurScene().name == "duelgame")
+			{
+				var layers = classes.GameController.getInstance().getCurScene().getChildren();
+				layers[layers.length-1].removeBeaverWithID(i);
+			}
 		}
-		else if(playerNumber==1){
-			
-			player2=temp.phoneNumber;
-			
-			playerNumber++;
-		//	customs.length=2;
+	}
+
+	if(temp.player=="playerNumber") {
+		if(temp.order == "0") {
+			players[0] = temp.phoneNumber;
+			return;
 		}
-else if(playerNumber==2){
-			
-	player3=temp.phoneNumber;
-	
-	playerNumber++;
-	//customs.length=3;
+		if(temp.order == "1") {
+			players[1]=temp.phoneNumber;
+			return;
 		}
-else if(playerNumber==3){
-	
-	player4=temp.phoneNumber;
-	
-	playerNumber++;
-//	customs.length=4;
-}
-else{
-	
-}
+		if(temp.order == "2") {
+			players[2]=temp.phoneNumber;
+			return;
+		}
+		if(temp.order == "3") {
+			players[3]=temp.phoneNumber;
+			return;
+		}
 	}
 	
+	var arr = classes.GameController.getInstance().getCurScene().getChildren(),
+		target = arr[arr.length-1];
 	
 	if (temp.event == "key_down") {
-		
-		alert(player1);
-		alert(temp.phoneNumber);
-		alert(playerNumber);
-		
-		
 		if(temp.key=="item"){
-			if(temp.phoneNumber==player1){
-				var ev = new Event('keydown');
-				ev.keyCode = 38;
-				cc.canvas.dispatchEvent(ev);
-				alert("sendMessage");
+			if(temp.phoneNumber==players[0]){
+				target.onKeyDown(BG.EVENT.PLAYER1.ITEM[0]);
 			}
-			else if(temp.phoneNumber==player2){
-				var ev = new Event('keydown');
-				ev.keyCode = 69;
-				cc.canvas.dispatchEvent(ev);
-				alert("sendMessage");
+			else if(temp.phoneNumber==players[1]){
+				target.onKeyDown(BG.EVENT.PLAYER2.ITEM[0]);
 			}
-			else if(temp.phoneNumber==player3){
-				var ev = new Event('keydown');
-				ev.keyCode = 78;
-				cc.canvas.dispatchEvent(ev);
-				alert("sendMessage");
+			else if(temp.phoneNumber==players[2]){
+				target.onKeyDown(BG.EVENT.PLAYER3.ITEM[0]);
 			}
-			else if(temp.phoneNumber==player4){
-				var ev = new Event('keydown');
-				ev.keyCode = 80;
-				cc.canvas.dispatchEvent(ev);
-				alert("sendMessage");
+			else if(temp.phoneNumber==players[3]){
+				target.onKeyDown(BG.EVENT.PLAYER4.ITEM[0]);
 			}
 			else{}
 		}	
 		else if(temp.key=="right")
 		{
-			if(temp.phoneNumber==player1){
-				var ev = new Event('keydown');
-				ev.keyCode = 39;
-				cc.canvas.dispatchEvent(ev);
+			if(temp.phoneNumber==players[0]){
+				target.onKeyDown(BG.EVENT.PLAYER1.RIGHT[0]);
 			}
-			
-				else if(temp.phoneNumber==player2){
-				var ev = new Event('keydown');
-				ev.keyCode = 87;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[1]){
+				target.onKeyDown(BG.EVENT.PLAYER2.RIGHT[0]);
 			}
-			else if(temp.phoneNumber==player3){
-				var ev = new Event('keydown');
-				ev.keyCode = 66;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[2]){
+				target.onKeyDown(BG.EVENT.PLAYER3.RIGHT[0]);
 			}
-			else if(temp.phoneNumber==player4){
-				var ev = new Event('keydown');
-				ev.keyCode = 79;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[3]){
+				target.onKeyDown(BG.EVENT.PLAYER4.RIGHT[0]);
 			}
 			else{}	
 		}
-		else if(temp.key=="left"){
-			if(temp.phoneNumber==player1){
-				var ev = new Event('keydown');
-				ev.keyCode = 37;
-				cc.canvas.dispatchEvent(ev);
+		else if(temp.key=="left") {
+			if(temp.phoneNumber==players[0]){
+				target.onKeyDown(BG.EVENT.PLAYER1.LEFT[0]);
 			}
-			
-			else if(temp.phoneNumber==player2){
-				var ev = new Event('keydown');
-				ev.keyCode = 81;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[1]) {
+				target.onKeyDown(BG.EVENT.PLAYER2.LEFT[0]);
 			}
-			else if(temp.phoneNumber==player3){
-				var ev = new Event('keydown');
-				ev.keyCode = 86;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[2]) {
+				target.onKeyDown(BG.EVENT.PLAYER3.LEFT[0]);
 			}
-			else if(temp.phoneNumber==player4){
-				var ev = new Event('keydown');
-				ev.keyCode = 73;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[3]) {
+				target.onKeyDown(BG.EVENT.PLAYER4.LEFT[0]);
 			}
 			else{}
 		}
 	}
 	else if (temp.event == "key_up") {
 		if (temp.key == "right") {
-			if(temp.phoneNumber==player1){
-				var ev = new Event('keyup');
-				ev.keyCode = 39;
-				cc.canvas.dispatchEvent(ev);
+			if(temp.phoneNumber==players[0]){
+				target.onKeyUp(BG.EVENT.PLAYER1.RIGHT[0]);
 			}
 			
-			else if(temp.phoneNumber==player2){
-				var ev = new Event('keyup');
-				ev.keyCode = 87;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[1]){
+				target.onKeyUp(BG.EVENT.PLAYER2.RIGHT[0]);
 			}
-			else if(temp.phoneNumber==player3){
-				var ev = new Event('keyup');
-				ev.keyCode = 66;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[2]){
+				target.onKeyUp(BG.EVENT.PLAYER3.RIGHT[0]);
 			}
-			else if(temp.phoneNumber==player4){
-				var ev = new Event('keyup');
-				ev.keyCode = 79;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[3]){
+				target.onKeyUp(BG.EVENT.PLAYER4.RIGHT[0]);
 			}
 			else{}
 		}
 		else if (temp.key == "left") {
-			if(temp.phoneNumber==player1){
-				var ev = new Event('keyup');
-				ev.keyCode = 37;
-				cc.canvas.dispatchEvent(ev);
+			if(temp.phoneNumber==players[0]){
+				target.onKeyUp(BG.EVENT.PLAYER1.LEFT[0]);
 			}
-			
-			else if(temp.phoneNumber==player2){
-				var ev = new Event('keyup');
-				ev.keyCode = 81;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[1]){
+				target.onKeyUp(BG.EVENT.PLAYER2.LEFT[0]);
 			}
-			else if(temp.phoneNumber==player3){
-				var ev = new Event('keyup');
-				ev.keyCode = 86;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[2]){
+				target.onKeyUp(BG.EVENT.PLAYER3.LEFT[0]);
 			}
-			else if(temp.phoneNumber==player4){
-				var ev = new Event('keyup');
-				ev.keyCode = 73;
-				cc.canvas.dispatchEvent(ev);
+			else if(temp.phoneNumber==players[3]){
+				target.onKeyUp(BG.EVENT.PLAYER4.LEFT[0]);
 			}
 			else{}
 		}

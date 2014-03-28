@@ -12,7 +12,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
 		var controller = classes.GameController.getInstance();
 		this.setKeyboardEnabled(true);
 		this._skipLabel = cc.LabelBMFont.create("TOUCH 'ITEM' TO SKIP !!", s_Konqa32);
-		this._skipLabel.setScale(2.0);
+		this._skipLabel.setScale(1.0);
         this._skipLabel.setPosition(size.width*7/9, size.height*9/10); 
 		this._skipLabel.setOpacity(0);
         this.addChild(this._skipLabel, 10);
@@ -52,7 +52,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 8; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story1_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story1_texture[i],cc.rect(0,0,960,540));
 	        animFrames.push(frame[i]);    	
 		}
 		this._story1Sprite = cc.Sprite.createWithSpriteFrame(frame[0]);
@@ -66,7 +66,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 4; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story2_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story2_texture[i],cc.rect(0,0,960,540));
 	        animFrames.push(frame[i]);    	
 		}
         var animation = cc.Animation.create(animFrames, 0.5);
@@ -77,7 +77,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 5; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story3_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story3_texture[i],cc.rect(0,0,960,540));
 	        animFrames.push(frame[i]);    	
 		}
         var animation = cc.Animation.create(animFrames, 2);
@@ -88,7 +88,7 @@ classes.layers.StoryLayer = cc.LayerColor.extend({
         var animFrames = [];
 		for(var i =0; i < 6; i++)
 		{
-			frame[i] = cc.SpriteFrame.createWithTexture(story4_texture[i],cc.rect(0,0,1920,1080));
+			frame[i] = cc.SpriteFrame.createWithTexture(story4_texture[i],cc.rect(0,0,960,540));
 	        animFrames.push(frame[i]);    	
 		}
         var animation = cc.Animation.create(animFrames, 2);

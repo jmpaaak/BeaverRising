@@ -7,6 +7,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 	_howToPlayBoard: null,
 	_singlePlayBoard: null,
 	_settingBoard: null,
+	_connectBoard: null,
 
 	init: function() {
 		var size = cc.Director.getInstance().getWinSize();
@@ -15,12 +16,7 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 		this.setPosition(cc.p(0,0));
 		this.setColor(cc.c3b(255,255,255));
 		this.playBgmSound("on");
-		//TESTING TITLE
-		// var label = cc.LabelTTF.create("MainMenuScreen Test:", "Marker Felt", 32);
-        // this.addChild(label, 1);
-        // label.setColor(cc.c3b(255, 0, 255));
-        // label.setPosition(size.width / 2, size.height - 50);
-        
+
         this._bg = cc.Sprite.create(s_bgMainMenu);
         this._bg.setPosition(size.width/2, size.height/2);
         this.addChild(this._bg);
@@ -62,8 +58,8 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
         				[optionNormal, optionSelected]
         			  ];
 
-		singleGameNormal.setPosition((size.width/10) * 2, (size.height/10) * 3);
-		duelGameNormal.setPosition((size.width/10) * 5 - 50, (size.height/10) * 3);
+		singleGameNormal.setPosition((size.width/10) * 2 - 10, (size.height/10) * 3);
+		duelGameNormal.setPosition((size.width/10) * 5 - 30, (size.height/10) * 3);
 		howToPlayNormal.setPosition((size.width/10) * 7, (size.height/10) * 3);
 		creditNormal.setPosition((size.width/10) * 8, (size.height/10) * 5);
 		optionNormal.setPosition((size.width/10) * 9, (size.height/10) * 3);
@@ -119,48 +115,99 @@ classes.layers.MainMenuLayer = cc.LayerColor.extend({
 						//single
 						this.setKeyboardEnabled(false);
 						this._singlePlayBoard = new classes.layers.SinglePlay(this);
-						this.addChild(this._singlePlayBoard, 0);
+						this.getParent().addChild(this._singlePlayBoard, 1);
 						break;
 					case 1:
 						//multi
-						classes.GameController.getInstance().setCurScene(new classes.scenes.DuelGameScene());
+						this.setKeyboardEnabled(false);
+						this._connectBoard = new classes.layers.MultiConnectLayer(this);
+						this.getParent().addChild(this._connectBoard, 1);
 						break;
 					case 2:
 						//howtoPlay
 						this.setKeyboardEnabled(false);
 						this._howToPlayBoard = new classes.layers.HowToPlayLayer(this);
-						this.addChild(this._howToPlayBoard, 0);
+						this.getParent().addChild(this._howToPlayBoard, 1);
 						break;
 					case 3:
 						//credit button
 						this.setKeyboardEnabled(false);
 						this._creditBoard = new classes.layers.CreditsLayer(this);
-						this.addChild(this._creditBoard, 0);
+						this.getParent().addChild(this._creditBoard, 1);
 						break;
 					case 4:
 						//setting button
 						this.setKeyboardEnabled(false);
 						this._settingBoard = new classes.layers.SettingLayer(this);
-						this.addChild(this._settingBoard, 0);
+						this.getParent().addChild(this._settingBoard, 1);
 						break;
 				}
 				break;
 		}
 	},
 	removeSinglePlay: function(){
-		this.removeChild(this._singlePlayBoard);
+		this.getParent().removeChild(this._singlePlayBoard);
 		this.setKeyboardEnabled(true);
+		
+		
+		//TV MSG
+		var local_message = new Object();
+		local_message.sound = "itemPop";
+		for(var i=0; i<deviceInstance.length; i++)
+		{
+			deviceInstance[i].sendMessage(
+				JSON.stringify(local_message)
+			);
+		}
+		
 	},
 	removeCredit: function(){
-		this.removeChild(this._creditBoard);
+		this.getParent().removeChild(this._creditBoard);
 		this.setKeyboardEnabled(true);
+		
+		//TV MSG
+		var local_message = new Object();
+		local_message.sound = "itemPop";
+		for(var i=0; i<deviceInstance.length; i++)
+		{
+			deviceInstance[i].sendMessage(
+				JSON.stringify(local_message)
+			);
+		}
+		
 	},
 	removeHowToPlay: function(){
-		this.removeChild(this._howToPlayBoard);
+		this.getParent().removeChild(this._howToPlayBoard);
 		this.setKeyboardEnabled(true);
+		
+		//TV MSG
+		var local_message = new Object();
+		local_message.sound = "itemPop";
+		for(var i=0; i<deviceInstance.length; i++)
+		{
+			deviceInstance[i].sendMessage(
+				JSON.stringify(local_message)
+			);
+		}
+		
 	},
 	removeSetting: function(){
-		this.removeChild(this._settingBoard);
+		this.getParent().removeChild(this._settingBoard);
+		this.setKeyboardEnabled(true);
+		
+		//TV MSG
+		var local_message = new Object();
+		local_message.sound = "itemPop";
+		for(var i=0; i<deviceInstance.length; i++)
+		{
+			deviceInstance[i].sendMessage(
+				JSON.stringify(local_message)
+			);
+		}
+		
+	},
+	removeMultiConnect: function(){
+		this.getParent().removeChild(this._connectBoard);
 		this.setKeyboardEnabled(true);
 	},
 	playBgmSound: function(str){

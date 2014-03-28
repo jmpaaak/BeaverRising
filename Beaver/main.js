@@ -44,11 +44,11 @@ var cocos2dApp = cc.Application.extend({
         searchPaths.push("game/resources");
         cc.FileUtils.getInstance().setSearchPaths(searchPaths);
 
-        cc.EGLView.getInstance().setDesignResolutionSize(1920, 1080, cc.RESOLUTION_POLICY.SHOW_ALL);
+        cc.EGLView.getInstance().setDesignResolutionSize(960, 540, cc.RESOLUTION_POLICY.SHOW_ALL);
         cc.EGLView.getInstance().resizeWithBrowserSize(true);
         
         // turn on display FPS
-        //director.setDisplayStats(this.config['showFPS']);
+        director.setDisplayStats(this.config['showFPS']);
 
         // set FPS. the default value is 1.0/60 if you don't call this
         
@@ -58,6 +58,7 @@ var cocos2dApp = cc.Application.extend({
         cc.Loader.preload(g_resources_splash, function () {
         	classes.SoundBox.getInstance().preload(g_resources_sound);
             director.runWithScene(this.startScene());
+			classes.GameController.getInstance().initCurScene(classes.scenes.SplashScreenScene.getInstance());
         }, this);
         
         return true;

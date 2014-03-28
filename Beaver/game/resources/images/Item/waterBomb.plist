@@ -5,182 +5,182 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>1024</integer>
-		<key>height</key>
 		<integer>128</integer>
+		<key>height</key>
+		<integer>256</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
 		<key>waterBomb_001.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>52</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>143</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>height</key>
-			<integer>79</integer>
+			<integer>49</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>49</integer>
 		</dict>
 		<key>waterBomb_002.png</key>
 		<dict>
 			<key>x</key>
-			<integer>82</integer>
+			<integer>52</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>101</integer>
 			<key>width</key>
-			<integer>70</integer>
+			<integer>43</integer>
 			<key>height</key>
-			<integer>67</integer>
+			<integer>41</integer>
 			<key>offsetX</key>
-			<real>-1</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>43</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>41</integer>
 		</dict>
 		<key>waterBomb_003.png</key>
 		<dict>
 			<key>x</key>
-			<integer>153</integer>
+			<integer>52</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>52</integer>
 			<key>width</key>
-			<integer>75</integer>
+			<integer>47</integer>
 			<key>height</key>
-			<integer>77</integer>
+			<integer>48</integer>
 			<key>offsetX</key>
-			<real>-0.5</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>47</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>48</integer>
 		</dict>
 		<key>waterBomb_004.png</key>
 		<dict>
 			<key>x</key>
-			<integer>229</integer>
+			<integer>52</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>height</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>50</integer>
 		</dict>
 		<key>waterBomb_005.png</key>
 		<dict>
 			<key>x</key>
-			<integer>310</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>194</integer>
 			<key>width</key>
-			<integer>68</integer>
+			<integer>42</integer>
 			<key>height</key>
-			<integer>71</integer>
+			<integer>44</integer>
 			<key>offsetX</key>
-			<real>3</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>1.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>44</integer>
 		</dict>
 		<key>waterBomb_006.png</key>
 		<dict>
 			<key>x</key>
-			<integer>379</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>151</integer>
 			<key>width</key>
-			<integer>72</integer>
+			<integer>44</integer>
 			<key>height</key>
-			<integer>69</integer>
+			<integer>42</integer>
 			<key>offsetX</key>
-			<real>3</real>
+			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>44</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>42</integer>
 		</dict>
 		<key>waterBomb_007.png</key>
 		<dict>
 			<key>x</key>
-			<integer>452</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>101</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>height</key>
-			<integer>79</integer>
+			<integer>49</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>49</integer>
 		</dict>
 		<key>waterBomb_008.png</key>
 		<dict>
 			<key>x</key>
-			<integer>533</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>51</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>height</key>
-			<integer>79</integer>
+			<integer>49</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>49</integer>
 		</dict>
 		<key>waterBomb_009.png</key>
 		<dict>
 			<key>x</key>
-			<integer>614</integer>
+			<integer>1</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>height</key>
-			<integer>79</integer>
+			<integer>49</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>originalWidth</key>
-			<integer>80</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>80</integer>
+			<integer>49</integer>
 		</dict>
 	</dict>
 </dict>

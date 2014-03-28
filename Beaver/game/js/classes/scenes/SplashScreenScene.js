@@ -1,5 +1,7 @@
 classes.scenes.SplashScreenScene = cc.Scene.extend({
+	name:null,
 	onEnter: function() {
+		this.name = "splashscreen";
 		this._super();
 		var layer = new classes.layers.SplashScreenLayer();
 		layer.init();

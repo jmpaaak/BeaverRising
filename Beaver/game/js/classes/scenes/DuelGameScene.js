@@ -1,5 +1,7 @@
 classes.scenes.DuelGameScene = cc.Scene.extend({
+	name: null,
 	onEnter: function() {
+		this.name = "duelgame";
 		this._super();
 		var readyLayer = new classes.layers.ReadyLayer();
 		var gameLayer = new classes.layers.DuelGameLayer();

@@ -1,5 +1,7 @@
 classes.scenes.StoryScene = cc.Scene.extend({
+	name: null,
 	onEnter: function() {
+		this.name = "story";
 		this._super();
 		var layer = new classes.layers.StoryLayer();
 		layer.init();

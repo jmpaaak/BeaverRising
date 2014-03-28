@@ -10,10 +10,6 @@ classes.sprites.Obstacle = cc.Sprite.extend({
     _animationSpeed: null,
     //sprite
     _turtleInitAction: null,
-    
-    //sound
-
-
 	ctor: function (layer, p, type){
         this._super();
         this._type = type;
@@ -128,10 +124,6 @@ classes.sprites.Obstacle = cc.Sprite.extend({
 
     destroy: function (layer) {
     	this._curLayer.turtleCount--;
-    	if(this._curLayer.turtleCount <= 0 ){
-    		cc.AudioEngine.getInstance().stopEffect(this._curLayer._turtleSoundId);
-    		this._curLayer.setTurtleSound(false);
-    	}
     	layer.removeChild(this);
     	layer.destroyList.push(this._body);
     },

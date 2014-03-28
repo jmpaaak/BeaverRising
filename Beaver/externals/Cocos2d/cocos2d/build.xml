@@ -54,6 +54,7 @@
                 <file name="core/platform/AppControl.js"/>
                 <file name="core/labelTTF/CCLabelTTF.js"/>
                 <file name="core/CCActionManager.js"/>
+				<file name="shape_nodes/CCDrawNode.js"/>
                 <file name="render_texture/CCRenderTexture.js"/>
                 <file name="clipping_nodes/CCClippingNode.js"/>
                 <file name="actions/CCAction.js"/>

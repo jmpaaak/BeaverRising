@@ -11,13 +11,13 @@ classes.sprites.TimerBoard = cc.Sprite.extend({
         this._super();
         this._curLayer = layer;
         this.initWithFile(s_TimerBoard);
-       	this.setPosition(cc.p(size.width/2, size.height - (BG.GAME_UI.OUTTER_FRAME.HEIGHT / 2) -10 ) ); //TODO: -40
+       	this.setPosition(cc.p(size.width/2, size.height - (BG.GAME_UI.OUTTER_FRAME.HEIGHT / 2)-5));
        	this._limitedTime = 300;
 		this._totalTime = 300;
    		this._addTimeLabel();
         layer.addChild(this, 60);
         
-        this.schedule(this._tick, 1/60);
+        this.schedule(this._tick, 0.5);
 
     },
     _addTimeLabel: function () {

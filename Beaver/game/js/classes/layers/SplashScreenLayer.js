@@ -14,6 +14,7 @@ classes.layers.SplashScreenLayer = cc.LayerColor.extend({
         for(var s in this._screens)
         	this._screens[s].setPosition(size.width/2, size.height/2);
         
+        classes.SoundBox.getInstance().play("se_beaverStart");
         this._splash();
         
 		//this.scheduleUpdate(); //update 60fps in Layer
@@ -28,9 +29,7 @@ classes.layers.SplashScreenLayer = cc.LayerColor.extend({
 		{
 			if(this._curScreen === this._screens.length) 
 			{
-				cc.LoaderScene.preload(g_resources_story, function() {
-					controller.setCurScene(classes.scenes.StoryScene.getInstance());
-				}, this); 
+				controller.setCurScene(classes.scenes.ConnectScene.getInstance());
 				return;
 			}
 			this.addChild(this._screens[this._curScreen], 0);
@@ -40,12 +39,6 @@ classes.layers.SplashScreenLayer = cc.LayerColor.extend({
 				cc.FadeOut.create(2.0),
 				cc.CallFunc.create(function(){this._curScreen++, this._splash();}, this)
 		));
-	},
-	update: function(dt) {
-	},
-	onKeyUp: function() {
-	},
-	onKeyDown: function(e) {
 	}
 });
 

@@ -31,12 +31,12 @@ BG.SOUND = true;
 //game UI size
 BG.GAME_UI = {
 	OUTTER_FRAME: {
-		WIDTH : 30,
-		HEIGHT : 70
+		WIDTH : 15,
+		HEIGHT : 35
 	},
 	INNER_FRAME : {
-		WIDTH : 1860,
-		HEIGHT : 940
+		WIDTH : 930,
+		HEIGHT : 470
 	},
 	
 };
@@ -55,10 +55,10 @@ BG.OBSTACLE = {
 };
 
 BG.BEAVER_SPEED ={
-	SLOW : 5,
-	NORMAL :9,
-	FAST : 10,
-	SUPERFAST : 30
+	SLOW : 3,
+	NORMAL : 5,
+	FAST : 6,
+	SUPERFAST : 7
 };
 
 //branch types
@@ -75,9 +75,9 @@ BG.WOOD_LENGTH = {
 },
 
 BG.WOOD_PERCENT = {
-	SMA:20,
-	MED:20,
-	BIG:40
+	SMA:5,
+	MED:15,
+	BIG:30
 };
 
 BG.CATEGORY = {
